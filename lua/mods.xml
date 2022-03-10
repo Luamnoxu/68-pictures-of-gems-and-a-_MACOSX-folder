@@ -150,6 +150,20 @@
 		end}
 		setdefault{1,'HowAreWeDefiningMods'}
 
+
+
+	function hidecol(start, len, col, pn)
+        if type(col) == 'number' then
+            acc{start, 100, 'stealth'..col, 100, 'dark'..col, 100, 'hidenoteflash'..col, plr=pn}
+            acc{start+len, -100, 'stealth'..col, -100, 'dark'..col, -100, 'hidenoteflash'..col, plr=pn}
+        else 
+            for i,v in ipairs(col) do
+                acc{start, 100, 'stealth'..v, 100, 'dark'..v, 100, 'hidenoteflash'..v, plr=pn}
+                acc{start+len, -100, 'stealth'..v, -100, 'dark'..v, -100, 'hidenoteflash'..v, plr=pn}
+            end
+        end
+    end
+
 	--The concept of making a collab with noone knowing its a collab is still unbelievably funny and I REALLY want to get this done
 	--currently 15th january and my Goal is an April Fools release so well see how that goes
 	--its not 22nd january and I took a little break because ideas just werent flowing, taking it easier now and its quite relaxing
@@ -230,6 +244,8 @@ end
 	spammy_bg2:hidden(1)
 	gd_af:hidden(0)
 	end}
+	--Drawfunc stuff by Lada Priora
+	--love you priora
 	gd_af:hidden(1)
 
 --[[
@@ -410,9 +426,20 @@ end
 	for q=67,71,1 do
     ease{q,1,inverse,100,'x',10,'stealth',-100,'tinyx',314,'confusionzoffset'}
     end
+
+
+	set{71,100,'Dark0',100,'Dark1',100,'Stealth0',100,'Stealth1',plr=2}
+	set{71,100,'Dark3',100,'Dark2',100,'Stealth3',100,'Stealth2',plr=1}
+	set{71,100,'centerPlayfields'}
+	
 	for q=71,74.5,1 do
-    ease{q,1,inverse,100,'y',10,'stealth',100,'flip'}
+    ease{q,1,inverse,100,'y',10,'stealth',100,'flip',plr=1}
+	ease{q,1,inverse,-100,'y',10,'stealth',100,'flip',plr=2}
     end
+
+	set{74.5,0,'Dark0',0,'Dark1',0,'Stealth0',0,'Stealth1',plr=2}
+	set{74.5,0,'Dark3',0,'Dark2',0,'Stealth3',0,'Stealth2',plr=1}
+	set{74.5,00,'centerPlayfields'}
 	for q=75,93,1 do
     ease{q,1,inverse,100,'z',10,'stealth',100,'mini'}
     end
@@ -1219,17 +1246,7 @@ me(30+224,4,0,500,'y','len',inOutCubic)
         end
     end
 
-    function hidecol(start, len, col, pn)
-        if type(col) == 'number' then
-            acc{start, 100, 'stealth'..col, 100, 'dark'..col, 100, 'hidenoteflash'..col, plr=pn}
-            acc{start+len, -100, 'stealth'..col, -100, 'dark'..col, -100, 'hidenoteflash'..col, plr=pn}
-        else 
-            for i,v in ipairs(col) do
-                acc{start, 100, 'stealth'..v, 100, 'dark'..v, 100, 'hidenoteflash'..v, plr=pn}
-                acc{start+len, -100, 'stealth'..v, -100, 'dark'..v, -100, 'hidenoteflash'..v, plr=pn}
-            end
-        end
-    end
+    
 
 --CERING MODS==================================================================
 	CERING_OFFSET = 548
@@ -1250,7 +1267,7 @@ me(30+224,4,0,500,'y','len',inOutCubic)
 		set{CERING_OFFSET,
 			320,'cmod', 100,'overhead', 100,'approachtype', 100,'dizzyholds',
 			100,'modtimer', 100,'stealthpastreceptors', 0,'mini', 100,'disablemines',
-			100,'hidemines', 100,'halgun', 100,'zbuffer'
+			100,'hidemines', 100,'halgun', 100,'zbuffer',100,'centerPlayfields'
 		}
 	end
 	default(CERING_OFFSET)
@@ -1375,7 +1392,7 @@ me(30+224,4,0,500,'y','len',inOutCubic)
         ease{the+22, 1.5, expoo, s*360, 'blacksphere', plr=1}
 
     end
-
+	ease{574, 1, expoo, 100, 'centerPlayfields'}
     hidecol(CERING_OFFSET+11.5, 4.5, {0,1}, 2)
     hidecol(CERING_OFFSET+11.5, 4.5, {2,3}, 1)
     hidecol(CERING_OFFSET+27.5, 4.5, {0,1}, 1)
@@ -1385,9 +1402,11 @@ me(30+224,4,0,500,'y','len',inOutCubic)
     'parabolaz', 'rotationx', 'rotationy', 'rotationz'}}
     ease{CERING_OFFSET+23, 1, expoo, 300, 'zoomx', 0, 'zoomy', plr=1}
     reset{CERING_OFFSET+24, exclude={'blacksphere', 'centered2', 'movey', 'zoomz', 'drunk', 'drunkz',
-    'parabolaz', 'rotationx', 'rotationy', 'rotationz'}}
+    'parabolaz', 'rotationx', 'rotationy', 'rotationz','centerPlayfields'}}
+	set{CERING_OFFSET+24,220,'cmod'}
     
 	reset{588}
+	
 
 	set{591,2,'xmod',0,'cmod',-999999999,'cover',100,'dizzyholds'}
 	func{595,function() eva_bg
