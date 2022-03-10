@@ -228,8 +228,183 @@ end
 	spammy_bg:hidden(1)
 	spambox:hidden(1)
 	spammy_bg2:hidden(1)
+	gd_af:hidden(0)
+	end}
+	gd_af:hidden(1)
+
+--[[
+		<Layer File = gd/arrow.png Name = gd_arrow/>
+		<Layer File = gd/mist.png Name = gd_mist/>
+		<Layer File = gd/planks.png Name = gd_planks/>
+		<Layer File = gd/recticle.png Name = gd_recticle/>
+		<Layer File = gd/struct.png Name = gd_struct/>
+]]
+
+	local function inverseBounce(a)
+		if a < 0.5 then
+			return inCirc(a * 2)
+		else
+			return 1 - outCirc(a * 2 - 1)
+		end
+	end
+	
+	local function mixEase(e1, e2, point)
+		if not point then point = 0.5 end
+		return function(a)
+			if a < point then
+				return e1(a / point) * point
+			else
+				return e2((a - point) / (1 - point)) * (1 - point) + point
+			end
+		end
+	end
+
+	local gd_x = 0
+	local gd_y = 0
+	local gd_y_split = 0
+	local gd_z = 0
+	local gd_rot = 0
+	local gd_rot_split = 0
+	local gd_alpha = 0
+	local gd_scalex = 1
+	local gd_scaley = 1
+	local gd_plus_transition = 0
+
+	definemod {'gd_x', 'gd_y', 'gd_y_split', 'gd_z', 'gd_rot', 'gd_rot_split', 'gd_alpha', 'gd_scalex', 'gd_scaley', 'gd_plus_transition', function(x, y, ys, z, r, rs, a, sx, sy, t)
+		gd_x = x
+		gd_y = y
+		gd_y_split = ys
+		gd_z = z
+		gd_rot = r
+		gd_rot_split = rs
+		gd_alpha = a
+		gd_scalex = 1 + sx
+		gd_scaley = 1 + sy
+		gd_plus_transition = t
 	end}
 
+	gd_af:xy(scx, scy)
+	gd_af:SetDrawFunction(function()
+		for i = 1, 2 do
+			local size = 46
+			local padding = 0
+			local xpadding = 64
+			local a = (i == 1) and (gd_z % 1) or (1 - (gd_z % 1))
+			local zoom = (i == 1) and (1.1 - (gd_z % 1) * 0.1) or (1 - (gd_z % 1) * 0.1)
+
+			gd_planks:zoomto(size * zoom, size * zoom)
+
+			gd_planks:diffuse(0.7, 0.7, 0.9, gd_alpha * a * 1)
+
+			local truesize = (size + padding) * zoom
+			local half = math.ceil(scx / truesize) * truesize
+			local halfx = math.ceil(scx / (truesize + xpadding)) * (truesize + xpadding)
+
+			for x = -halfx, halfx, truesize + xpadding do
+				for y = -half, half, truesize do
+					local real_gd_y = (x >= 0) and (gd_y_split) or (-gd_y_split)
+					local real_gd_rot = (x >= 0) and (gd_rot_split) or (-gd_rot_split)
+					gd_planks:xy((x + (gd_x % 1) * (size + padding + xpadding)) * zoom, (y + (gd_y % 1) * (size + padding) + (real_gd_y % 1) * (size + padding)) * zoom)
+					gd_planks:Draw()
+				end
+			end
+		end
+
+		for i = 1, 2 do
+			local size = 48
+			local padding = 0
+			local a = (i == 1) and (gd_z % 1) or (1 - (gd_z % 1))
+			local zoom = (i == 1) and (1.1 - (gd_z % 1) * 0.1) or (1 - (gd_z % 1) * 0.1)
+
+			gd_struct:zoomto(size * zoom, size * zoom)
+
+			gd_struct:diffusealpha(gd_alpha * a * 0.5)
+
+			local truesize = (size + padding) * zoom
+			local half = math.ceil(scx / truesize) * truesize
+
+			for x = -half, half, truesize do
+				for y = -half, half, truesize do
+					local real_gd_y = (x >= 0) and (gd_y_split) or (-gd_y_split)
+					local real_gd_rot = (x >= 0) and (gd_rot_split) or (-gd_rot_split)
+					gd_struct:xy((x + (gd_x % 1) * (size + padding)) * zoom, (y + (gd_y % 1) * (size + padding) + (real_gd_y % 1) * (size + padding)) * zoom)
+					gd_struct:Draw()
+				end
+			end
+		end
+
+		for i = 1, 2 do
+			local size = 54
+			local padding = 0
+			local a = (i == 1) and (gd_z % 1) or (1 - (gd_z % 1))
+			local zoom = (i == 1) and (1.1 - (gd_z % 1) * 0.1) or (1 - (gd_z % 1) * 0.1)
+
+			gd_recticle:zoomto(size * zoom, size * zoom)
+
+			gd_recticle:diffusealpha(gd_alpha * a * 0.6)
+
+			local truesize = (size + padding) * zoom
+			local half = math.ceil(scx / truesize) * truesize
+
+			for x = -half, half, truesize do
+				for y = -half, half, truesize do
+					local real_gd_y = (x >= 0) and (gd_y_split) or (-gd_y_split)
+					local real_gd_rot = (x >= 0) and (gd_rot_split) or (-gd_rot_split)
+					gd_recticle:xy((x + (gd_x % 1) * (size + padding)) * zoom, (y + (gd_y % 1) * (size + padding) + (real_gd_y % 1) * (size + padding)) * zoom)
+					gd_recticle:Draw()
+				end
+			end
+		end
+
+		for i = 1, 2 do
+			local size = 48
+			local padding = 32
+			local a = (i == 1) and (gd_z % 1) or (1 - (gd_z % 1))
+			local zoom = (i == 1) and (1.15 - (gd_z % 1) * 0.15) or (1 - (gd_z % 1) * 0.2)
+
+			gd_arrow:zoomto(size * gd_scalex * zoom, size * gd_scaley * zoom)
+			gd_plus:zoomto(size * gd_scalex * zoom, size * gd_scaley * zoom)
+
+			gd_arrow:diffusealpha(gd_alpha * (1 - gd_plus_transition) * a * 0.9)
+			gd_plus:diffusealpha(gd_alpha * (gd_plus_transition) * a * 0.9)
+
+			local truesize = (size + padding) * zoom
+			local half = math.ceil(scx / truesize) * truesize
+
+			for x = -half, half, truesize do
+				for y = -half, half, truesize do
+					local real_gd_y = (x >= 0) and (gd_y_split) or (-gd_y_split)
+					local real_gd_rot = (x >= 0) and (gd_rot_split) or (-gd_rot_split)
+					gd_arrow:xy((x + (gd_x % 1) * (size + padding)) * zoom, (y + (gd_y % 1) * (size + padding) + (real_gd_y % 1) * (size + padding)) * zoom)
+					gd_arrow:rotationz(gd_rot + real_gd_rot)
+					gd_arrow:Draw()
+					gd_plus:xy((x + (gd_x % 1) * (size + padding)) * zoom, (y + (gd_y % 1) * (size + padding) + (real_gd_y % 1) * (size + padding)) * zoom)
+					gd_plus:rotationz(gd_rot + real_gd_rot)
+					gd_plus:Draw()
+				end
+			end
+		end
+	end)
+
+	set {64, 0, 'gd_alpha', -90, 'gd_rot'}
+	add {64, 3, outCirc, 1, 'gd_y', 1, 'gd_alpha'}
+
+	for b = 67, 70 do
+		add {b, 1, inOutCirc, 1, 'gd_x'}
+		ease {b, 1, inverseBounce, 0.5, 'gd_scalex'}
+	end
+	ease {70.5, 1, outCirc, 90, 'gd_rot_split'}
+	for b = 71, 74 do
+		add {b, 1, inOutCirc, 1, 'gd_y_split'}
+		ease {b, 1, inverseBounce, 0.5, 'gd_scaley'}
+	end
+	add {74, 1.5, mixEase(inCirc, outCirc, 0.33), 360, 'gd_rot'}
+	ease {74, 1, inOutCirc, 1, 'gd_plus_transition'}
+	for b = 75, 93 do
+		add {b, 1, inOutCirc, 1, 'gd_z'}
+	end
+	add {93.5, 2, outCirc, 360, 'gd_rot', 0.2, 'gd_z'}
+	ease {93.5, 2.5, outSine, 0, 'gd_alpha'}
 
 
 	for q=67,71,1 do
@@ -267,6 +442,9 @@ end
 
 
 	reset{100}
+	func {100, function()
+		gd_af:hidden(1)
+	end}
 
 
 
@@ -315,13 +493,6 @@ end
 	func{150,function()  mysprite:zoom(1.001) mysprite:rotationz(0) end}
 	
 	--oat funnies
-	local function inverseBounce(a)
-		if a < 0.5 then
-			return inCirc(a * 2)
-		else
-			return 1 - outCirc(a * 2 - 1)
-		end
-	end
 
 	ease {151+3.75, 0.5, inOutCirc, 100, 'tipsy',5,'fisheye'}
 	func{151+3.75,function()  mysprite:rotationz(0.08) end}
@@ -856,17 +1027,6 @@ me(30+224,4,0,500,'y','len',inOutCubic)
 			return -1
 		else
 			return 1
-		end
-	end
-	
-	local function mixEase(e1, e2, point)
-		if not point then point = 0.5 end
-		return function(a)
-			if a < point then
-				return e1(a / point) * point
-			else
-				return e2((a - point) / (1 - point)) * (1 - point) + point
-			end
 		end
 	end
 	
@@ -1451,6 +1611,14 @@ end)"Name=af Type="ActorFrame"><children>
 	<Layer File = "toriel.png" InitCommand = "stretchto,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y" Name="toriel" />
 	<Layer File = "walt.png" InitCommand = "stretchto,SCREEN_WIDTH*0.25,SCREEN_HEIGHT*0.25,SCREEN_WIDTH*0.75,SCREEN_HEIGHT*0.75;hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y" Name="walter" />
 	<Layer File = "clock/bg.png" InitCommand="stretchto,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y" Name = "cl_bg" />
+	<Layer Type = "ActorFrame" Name = "gd_af"><children>
+		<Layer File = "gd/arrow.png" Name = "gd_arrow"/>
+		<Layer File = "gd/mist.png" Name = "gd_mist"/>
+		<Layer File = "gd/planks.png" Name = "gd_planks"/>
+		<Layer File = "gd/recticle.png" Name = "gd_recticle"/>
+		<Layer File = "gd/struct.png" Name = "gd_struct"/>
+		<Layer File = "gd/plus.png" Name = "gd_plus"/>
+	</children></Layer>
 	<Layer Type = "Quad" Name = "bg" InitCommand="hidden,1" />
 	
 	<Layer Type = "ActorProxy" Name = "PC[1]" />
