@@ -16,6 +16,15 @@
 		end
 	})
 
+	function inOutFuckAround(x)
+		poop = (math.mod(math.tan(x^-2),math.tan(math.tan(-2)^2))+x)*math.sin(math.tan(x))^math.mod(x*2,x^-2)
+	return poop end
+
+	function source(x)
+    	poop = math.random((math.mod(math.tan(x^-2),math.tan(math.sin(GAMESTATE:GetSongBeat())))+x)*math.sin(math.pi/x)^math.mod(x*2,x^2),10)
+		print(poop)
+	return poop end
+
 	function with1param(fn, defaultparam1)
 		local function params(param1)
 			return function(x)

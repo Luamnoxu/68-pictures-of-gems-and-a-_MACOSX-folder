@@ -1123,7 +1123,7 @@ me(30+224,4,0,500,'y','len',inOutCubic)
         ease{the+7.5, 2.5, sinei, 20, 'rotationx', 500, 'zoomz'}
         for i = the+7.5, the+9.5, 0.5 do
             local a = s*alt(i-7.5-the, 0.5)
-			func{0,9999,function() print(a) end}
+			func{0,9999,function() print(GAMESTATE:GetSongBeat(), a) end}
             l = (i-7.5-the)*0.05
             ease{i-0.5+l, 1-l*2, expos, a*50*(i-7-the), 'drunk', a*50*(i-7-the), 'drunkz', a*-50*(i-7-the),
             'parabolaz', a*20*(i-7-the), 'rotationz', -a*10*(i-7-the), 'rotationy'}
