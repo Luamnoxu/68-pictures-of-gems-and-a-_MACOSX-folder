@@ -1072,22 +1072,33 @@ me(30+224,4,0,500,'y','len',inOutCubic)
     end
 
 --CERING MODS==================================================================
-	--fix beat 27!!! (minus offset)
-    P[1]:x(scx)
-    P[2]:x(scx)
-    af:fov(30)
+	CERING_OFFSET = 548
 	
-    CERING_OFFSET = 548
-	--setdefault{220,'cmod'}
-    set{548,
-        220,'cmod', 100,'overhead', 100,'approachtype', 100,'dizzyholds',
-        100,'modtimer', 100,'stealthpastreceptors', 0,'mini', 100,'disablemines',
-        100,'hidemines', 100,'halgun', 100,'zbuffer',100,'centerplayfields'
-    }
+	func{CERING_OFFSET, function()
+		P[1]:x(scx)
+		P[2]:x(scx)
+		af:fov(30)
+		plr = {1,2}
+	end}
 
+    -- set{CERING_OFFSET,
+        -- 320,'cmod', 100,'overhead', 100,'approachtype', 100,'dizzyholds',
+        -- 100,'modtimer', 100,'stealthpastreceptors', 0,'mini', 100,'disablemines',
+        -- 100,'hidemines', 100,'halgun', 100,'zbuffer', 1, 'xmod'
+    -- }
+	function default(beat)
+		set{CERING_OFFSET,
+			320,'cmod', 100,'overhead', 100,'approachtype', 100,'dizzyholds',
+			100,'modtimer', 100,'stealthpastreceptors', 0,'mini', 100,'disablemines',
+			100,'hidemines', 100,'halgun', 100,'zbuffer'
+		}
+	end
+	default(CERING_OFFSET)
+
+	set{CERING_OFFSET, 100, 'drunkspeed'}
+	
     for i = CERING_OFFSET, CERING_OFFSET+7.5, 0.5 do
         s = modulo(i-CERING_OFFSET, 4) >= 2 and 1 or -1
-		
         if modulo(i-CERING_OFFSET, 2) == 0 then
             set{i, 10*3, 'invert', s*10*3/2, 'alternate', -s*10*3/2, 'centered'}
             add{i, 1, flip(expoo), -50, 'tiny'}
@@ -1098,12 +1109,9 @@ me(30+224,4,0,500,'y','len',inOutCubic)
         end
     end
     set{CERING_OFFSET, 0, 'cmod', 100, 'stealth', -50, 'twirl', 100, 'dizzy', 100, 'wave'}
-    ease{CERING_OFFSET, 7.5, quarti, 220, 'cmod', 0, 'twirl', 0, 'dizzy'}
+    ease{CERING_OFFSET, 7.5, quarti, 320, 'cmod', 0, 'twirl', 0, 'dizzy'}
     ease{CERING_OFFSET, 8, expos, 0, 'stealth'}
     ease{CERING_OFFSET, 8, lin, 0, 'wave'}
-
-	
-	set{CERING_OFFSET+18, 220, 'cmod'}
 
     definemod{'blacksphere', function(x)
         local invert = 50 - 50 * cos(x * pi / 180)
@@ -1116,14 +1124,14 @@ me(30+224,4,0,500,'y','len',inOutCubic)
 	--CERiNG if the image wasnt specifically about the abject horror of my code you wouldve made it onto it
 	--I have no clue how to fix the alt() it is so crusty
 	--readable code not made to be read
-      for the = CERING_OFFSET, CERING_OFFSET+16, 16 do
+	--i'm surprised this is the only part plagued by random ass issues
+    for the = CERING_OFFSET, CERING_OFFSET+16, 16 do
         local s = -alt(the-CERING_OFFSET, 16)
         ease{the+7.5, 2.5, lin, 250*(320/144), 'centered2'}
         ease{the+7.5, 2.5, lin, -250*(320/144), 'movey'}
         ease{the+7.5, 2.5, sinei, 20, 'rotationx', 500, 'zoomz'}
         for i = the+7.5, the+9.5, 0.5 do
             local a = s*alt(i-7.5-the, 0.5)
-			func{0,9999,function() print(GAMESTATE:GetSongBeat(), a) end}
             l = (i-7.5-the)*0.05
             ease{i-0.5+l, 1-l*2, expos, a*50*(i-7-the), 'drunk', a*50*(i-7-the), 'drunkz', a*-50*(i-7-the),
             'parabolaz', a*20*(i-7-the), 'rotationz', -a*10*(i-7-the), 'rotationy'}
@@ -1131,7 +1139,7 @@ me(30+224,4,0,500,'y','len',inOutCubic)
         ease{the+10, 2, expoo, 0, 'centered2', 0, 'drunkz', 0, 'movey', 0, 'parabolaz',
         0, 'rotationy', 0, 'rotationx', 100, 'zoomz'}
 
-        add{the+9.5, 2.5, mix(expoi, expoo, 1/5), 300, 'cmod', 600-the*200/16, 'drunkspeed'}
+        add{the+9.5, 2.5, mix(expoi, expoo, 1/5), 300, 'cmod',  600-(the-CERING_OFFSET)*200/16, 'drunkspeed'}
         add{the+10.5, 2, sines, -300, 'cmod'}
         add{the+10, 1.5, pop, -300, 'tiny'}
         ease{the+9.5, 2.5, mix(expoi, expoo, 1/5), 400, 'drunk'}
@@ -1153,14 +1161,15 @@ me(30+224,4,0,500,'y','len',inOutCubic)
         end
         for i = the+11.5, the+15.5, 1 do
             local a = alt(i-11.5-the, 1)
-            ease{i-0.4, 0.8, expos, -a*30, 'skewy'}
-            ease{i-0.4, 0.8, expos, a*30, 'noteskewy'}
+            ease{i-0.4, 0.8, expos, -a*60, 'skewy'}
+            ease{i-0.4, 0.8, expos, a*60, 'noteskewy'}
         end
 
         reset{the+16, plr=2}
-        reset{the+16, 2, expoo, exclude='confusionzoffset', plr=1}
-        add{the+16, 1, expoo, s*0, 'movex', s*50, 'rotationy', 100, 'z', plr=1}
-        ease{the+17, 2, quarts, -s*0, 'movex', -s*50, 'rotationy', plr=1}
+        reset{the+16, 2, expoo, exclude={'confusionzoffset', 'cmod'}, plr=1}
+		default(the+16)
+        add{the+16, 1, expoo, s*250, 'movex', s*50, 'rotationy', 100, 'z', plr=1}
+        ease{the+17, 2, quarts, -s*250, 'movex', -s*50, 'rotationy', plr=1}
         ease{the+19, 2, expos, 0, 'movex', 0, 'rotationy', 0, 'z', plr=1}
 
         add{the+16, 1, expoo, s*2*ph, 'confusionzoffset', plr=1}
@@ -1172,13 +1181,13 @@ me(30+224,4,0,500,'y','len',inOutCubic)
         ease{the+18, 3, elasto.params(1,1.2), 0, 'blacksphere', plr=1}
         add{the+18.5, 1, expos, 100, 'invert', plr=1}{the+19, 1, expos, -100, 'invert', plr=1}
 
-        set{the+16, -s*500, 'movex', plr=2}
-        ease{the+16, 1, expoo, -s*0, 'movex', plr=2}
+        set{the+16, -s*750, 'movex', plr=2}
+        ease{the+16, 1, expoo, -s*250, 'movex', plr=2}
         ease{the+17, 1, expoi, -s*750, 'movex', plr=2}
         add{the+16.5, 1, expos, 100, 'flip', plr=2}{the+17, 1, expos, -100, 'flip', plr=2}
 
-        set{the+18, s*500, 'movex', plr=2}
-        ease{the+18, 1, expoo, s*0, 'movex', plr=2}
+        set{the+18, s*750, 'movex', plr=2}
+        ease{the+18, 1, expoo, s*250, 'movex', plr=2}
         ease{the+19, 1, expoi, s*750, 'movex', plr=2}
         add{the+18.5, 1, expos, 100, 'flip', plr=2}{the+19, 1, expos, -100, 'flip', plr=2}
 
@@ -1211,7 +1220,6 @@ me(30+224,4,0,500,'y','len',inOutCubic)
     hidecol(CERING_OFFSET+11.5, 4.5, {2,3}, 1)
     hidecol(CERING_OFFSET+27.5, 4.5, {0,1}, 1)
     hidecol(CERING_OFFSET+27.5, 4.5, {2,3}, 2)
-	set{CERING_OFFSET+27.5, 100, 'centerPlayfields'}
 
     reset{CERING_OFFSET+23, plr=2, exclude={'zoomx', 'zoomy', 'blacksphere', 'centered2', 'movey', 'zoomz', 'drunk', 'drunkz',
     'parabolaz', 'rotationx', 'rotationy', 'rotationz'}}
