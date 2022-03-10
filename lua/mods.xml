@@ -1116,14 +1116,13 @@ me(30+224,4,0,500,'y','len',inOutCubic)
 	--CERiNG if the image wasnt specifically about the abject horror of my code you wouldve made it onto it
 	--I have no clue how to fix the alt() it is so crusty
 	--readable code not made to be read
-    for the = CERING_OFFSET, CERING_OFFSET+16, 16 do
-        local s = -alt(the-CERING_OFFSET,16)
-		
-        ease{the+7.5, 2.5, lin, 250*(220/144), 'centered2'}
-        ease{the+7.5, 2.5, lin, -250*(220/144), 'movey'}
+      for the = CERING_OFFSET, CERING_OFFSET+16, 16 do
+        local s = -alt(the-CERING_OFFSET, 16)
+        ease{the+7.5, 2.5, lin, 250*(320/144), 'centered2'}
+        ease{the+7.5, 2.5, lin, -250*(320/144), 'movey'}
         ease{the+7.5, 2.5, sinei, 20, 'rotationx', 500, 'zoomz'}
         for i = the+7.5, the+9.5, 0.5 do
-            local a = s
+            local a = s*alt(i-7.5-the, 0.5)
 			func{0,9999,function() print(a) end}
             l = (i-7.5-the)*0.05
             ease{i-0.5+l, 1-l*2, expos, a*50*(i-7-the), 'drunk', a*50*(i-7-the), 'drunkz', a*-50*(i-7-the),
