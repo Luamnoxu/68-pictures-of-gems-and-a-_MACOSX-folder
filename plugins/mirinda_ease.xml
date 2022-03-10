@@ -1,0 +1,403 @@
+<!--
+
+  mirinda_ease.xml - a plugin to help with easing in the Mirin template, part of the Mirinda project
+
+  Copyright (C) 2021 Jill "oatmealine"
+
+  This program is free software: you can redistribute it and/or modify it under
+  the terms of the GNU Affero General Public License as published by the Free
+  Software Foundation, either version 3 of the License, or (at your option)
+  any later version.
+
+  This program is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+  FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more
+  details.
+
+  You should have received a copy of the GNU Affero General Public License along
+  with this program. If not, see <https://www.gnu.org/licenses/>.
+
+  Source: https://gitdab.com/oat/mirinda/
+
+-->
+
+<Plugin LoadCommand="%xero(function(self)
+--[[
+
++ - tested, implemented, works fine
+/ - implemented, but not tested
+- - not implemented, not tested
+? - needs more testing
+
+
+-- c2l
+
++c2l(start, ending, trunc) -- makes a chart2lua of a segment and uses that
+-- start: start beat
+-- ending: ending beat
+-- trunc: whether to include the notes at beat (ending)
+
+/c2l(notedata) -- uses an existing chart2lua
+-- notedata: notitg format notedata, like the automatically generated notedata from 'save area to lua'
+
+
+-- beat
+
++beat(table) -- raw beat input
+-- table: beat table of every beat to fire on
+
+
+-- forl
+
++forl(start, ending, add) -- acts as a for loop
+-- start, ending and add act like arguments to a for loop
+
+
+-- ways to interact with a beatobj
+
++beatobj:wiggle([perc], mod) -- wiggles a mod back and forth
+-beatobj:sharpwiggle([perc], mod) -- wiggle(), but the ease is aligned with the start
++beatobj:bounce([perc], mod) -- bounces a mod up and down
++beatobj:onoff([perc], mod) -- turns a mod on and off
++  beatobj:wiggle0([perc], mod)
+-beatobj:sharponoff([perc], mod) -- onoff(), but the ease is aligned with the start
+-  beatobj:sharpwiggle0([perc], mod)
++beatobj:kick([perc], mod) -- does a createReverse() version of the mod, for making kicks
++  beatobj:reverse([perc], mod)
++beatobk:velocitymap([perc], mod) -- kick(), but without aligning the ease at 0
++beatobk:velocitymapwiggle([perc], mod) -- velocitymap(), but it inverts each time
+/beatobj:temp([perc], mod) -- does a createTemp() version of the mod
++beatobj:addm([perc], mod) -- adds a mod value every beat, useful for offsets
+-- perc: mod percentage, defaults to 100
+-- mod: mod name
+
++beatobj:f(function(beat, i, off, len) end) -- for custom mods, runs a function for each beat
+-- beat: guess
+-- i: index of beat
+-- off: offset, is equal to i%2*2-1
+-- len: length until next beat
+
++beatobj:ease(ease) -- sets an ease function for trailing functions to use
+-- ease: ease function
++beatobj:align(a) -- aligns all ease functions with the snapping/fastest point at a
+-- a: snapping point
+
++beatobj:mixease(ease1, ease2, a) -- does :ease(mixEase(ease1, ease2, a)) and :align(a)
+-- ease1: in easing function
+-- ease2: out easing function
+-- a: snapping point
+
++beatobj:setl(a) -- sets a to the length of each ease
+-- a: length
+
++beatobj:add(beatobj) -- merges another beatobj table
+-- beatobj: the merged beatobj
+
++beatobj:clone(beat) -- clones the beat timings from the first beat onward to the beat
+-- beat: the beat to copy the rhythm to
+
+-beatobj:forclone(start, ending, add) -- clone(), but as a for loop
+-- start, ending and add act like arguments to a for loop
+
++beatobj:filter(filterfunc) -- filters the beatobj with a filter function, return true to keep the element and false to discard it
+-- filterfunc(value, index): the filter function
+
++beatobj:filtermines() -- remove all mines from the c2l
+
+?beatobj:merge() -- merge beats that are on the same beat and column
++beatobj:aggressivemerge() -- merge beats that are on the same beat
+
+/beatobj:offset(b) -- offset each beat by b beats
+-beatobj:setstart(b) -- offset each beat so that the first beat is on b
+]]
+
+  local function copyTable(datatable)
+    local tblRes = {}
+    if type(datatable) == 'table' then
+      for k,v in pairs(datatable) do tblRes[k]=copyTable(v) end
+    else
+      tblRes=datatable
+    end
+    return tblRes
+  end
+  
+  function mixEase(e1, e2, point)
+    if not point then point = 0.5 end
+
+    return function(a)
+      if a < point then
+        return e1(a / point) * point
+      else
+        return e2((a - point) / (1 - point)) * (1 - point) + point
+      end
+    end
+  end
+
+  local beatobjTemplate = {
+    _beats = {},
+    _ease = inOutCirc,
+    _align = 0.5,
+    _length = 1,
+    _plr = {},
+
+    -- setters
+    setl = function(self, a) self._length = a; return self end,
+    ease = function(self, a) self._ease = a; return self end,
+    align = function(self, a) self._align = a; return self end,
+
+    -- almost setters but not quite
+    add = function(self, add)
+      for i,b in ipairs(add._beats) do
+        table.insert(self._beats, b)
+      end
+      return self
+    end,
+    mixease = function(self, e1, e2, a)
+      self._ease = mixEase(e1, e2, a)
+      self._align = a
+      return self
+    end,
+
+    -- meta / manipulators
+    filter = function(self, filterfunc)
+      local beats = {}
+      for i,v in ipairs(self._beats) do
+        local check = filterfunc(v, i)
+        if check then table.insert(beats, v) end
+      end
+      self._beats = beats
+      return self
+    end,
+    filtermines = function(self)
+      self = self:filter(function(v) return v[3] ~= 'M' end)
+      return self
+    end,
+    f = function(self, forfunc)
+      for i,v in ipairs(self._beats) do
+        -- function(beat, i, off, len)
+        forfunc(v[1], i, i%2*2-1, (self._beats[i + 1] or {v[1] + self._length})[1] - v[1])
+      end
+
+      return self
+    end,
+    clone = function(self, beat)
+      local newbeats = copyTable(self._beats)
+      for i,v in ipairs(self._beats) do
+        local newv = {}
+        newv[1] = v[1] - self._beats[1][1] + beat
+        table.insert(newbeats, newv)
+      end
+
+      self._beats = newbeats
+      return self
+    end,
+    merge = function(self)
+      local seen = {}
+      local merged = {}
+      for _,v in ipairs(self._beats) do
+        local doMerge = true
+        for _,s in ipairs(seen) do
+          if v[1] == s[1] and ((v[2] == nil or s[2] == nil) or v[2] == s[2]) then
+            doMerge = false
+          end
+        end
+
+        if doMerge then table.insert(merged, v) end
+        table.insert(seen, {v[1], v[2]})
+      end
+
+      self._beats = merged
+      return self
+    end,
+    aggressivemerge = function(self)
+      local seen = {}
+      local merged = {}
+      for _,v in ipairs(self._beats) do
+        local doMerge = true
+        for _,s in ipairs(seen) do
+          if v[1] == s[1] then
+            doMerge = false
+          end
+        end
+
+        if doMerge then table.insert(merged, v) end
+        table.insert(seen, {v[1], v[2]})
+      end
+
+      self._beats = merged
+      return self
+    end,
+    offset = function(self, beat)
+      for _,v in ipairs(self._beats) do
+        v[1] = v[1] + beat
+      end
+
+      return self
+    end,
+
+    -- mods
+    wiggle = function(self, perc, mod)
+      if mod == nil then mod = perc; perc = 100 end
+
+      for i,v in ipairs(self._beats) do
+        local len = self._length
+        local off = i%2*2-1
+        ease {v[1] - len / (1 / self._align), len, self._ease, perc * off, mod, plr = self._plr}
+      end
+
+      return self
+    end,
+    onoff = function(self, perc, mod)
+      if mod == nil then mod = perc; perc = 100 end
+
+      for i,v in ipairs(self._beats) do
+        local len = self._length
+        local off = i%2
+        ease {v[1] - len / (1 / self._align), len, self._ease, perc * off, mod, plr = self._plr}
+      end
+
+      return self
+    end,
+
+    addm = function(self, perc, mod)
+      if mod == nil then mod = perc; perc = 100 end
+      
+      for i,v in ipairs(self._beats) do
+        local len = self._length
+        add {v[1] - len / (1 / self._align), len, self._ease, perc, mod, plr = self._plr}
+      end
+
+      return self
+    end,
+
+    bounce = function(self, perc, mod)
+      if mod == nil then mod = perc; perc = 100 end
+
+      local function bounceease(a)
+        if a < 0.5 then
+          return (self._ease(a + 0.5) - 0.5) / 0.5
+        else
+          return 1 - (self._ease(a - 0.5) / 0.5)
+        end
+      end
+
+      for i,v in ipairs(self._beats) do
+        local len = self._length
+
+        ease {v[1], len, bounceease, perc, mod, plr = self._plr}
+      end
+
+      return self
+    end,
+
+    kick = function(self, perc, mod)
+      if mod == nil then mod = perc; perc = 100 end
+
+      local function out(a)
+        return 1 - ((self._ease(a * 0.5 + 0.5) - 0.5) / 0.5)
+      end
+
+      for _,v in ipairs(self._beats) do
+        local len = self._length
+
+        ease {v[1], len, out, perc, mod, plr = self._plr}
+      end
+
+      return self
+    end,
+    velocitymap = function(self, perc, mod)
+      if mod == nil then mod = perc; perc = 100 end
+
+      local function map(a)
+        if a < 0.5 then
+          return self._ease(a / 0.5)
+        else
+          return 1 - self._ease(a / 0.5 - 1)
+        end
+      end
+
+      for _,v in ipairs(self._beats) do
+        local len = self._length
+
+        ease {v[1] - len / (1 / self._align), len, map, perc, mod, plr = self._plr}
+      end
+
+      return self
+    end,
+    velocitymapwiggle = function(self, perc, mod)
+      if mod == nil then mod = perc; perc = 100 end
+
+      local function map(a)
+        if a < 0.5 then
+          return self._ease(a / 0.5)
+        else
+          return 1 - self._ease(a / 0.5 - 1)
+        end
+      end
+
+      for i,v in ipairs(self._beats) do
+        local len = self._length
+        local off = i%2*2-1
+
+        ease {v[1] - len / (1 / self._align), len, map, perc * off, mod, plr = self._plr}
+      end
+
+      return self
+    end,
+
+    temp = function(self, perc, mod)
+      if mod == nil then mod = perc; perc = 100 end
+
+      local function temp(a)
+        if a == 1 then return self._ease(0) end
+        return self._ease(a)
+      end
+
+      for i,v in ipairs(self._beats) do
+        local len = self._length
+
+        ease {v[1] - len / (1 / self._align), len, temp, perc, mod, plr = self._plr}
+      end
+
+      return self
+    end
+  }
+
+  -- aliases
+  beatobjTemplate.wiggle0 = beatobjTemplate.onoff
+  beatobjTemplate.reverse = beatobjTemplate.kick
+
+  function c2l(start, ending, trunc)
+    local self = copyTable(beatobjTemplate)
+    if ending == nil then
+      self._beats = start
+    else
+      self._beats = P1:GetNoteData(start, ending)
+    end
+    self._plr = plr
+    return self
+  end
+  
+  function forl(start, ending, add)
+    add = add or 1
+    local self = copyTable(beatobjTemplate)
+
+    local v = {}
+    for i = start, ending, add do
+      table.insert(v, {i})
+    end
+
+    self._beats = v
+    self._plr = plr
+    return self
+  end
+
+  function beat(tbl)
+    local self = copyTable(beatobjTemplate)
+    for _,b in ipairs(tbl) do
+      table.insert(self._beats, {b})
+    end
+    self._plr = plr
+    return self
+  end
+end)"/>

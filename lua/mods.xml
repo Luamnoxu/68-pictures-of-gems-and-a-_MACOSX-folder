@@ -1,0 +1,1473 @@
+<Mods LoadCommand = "%xero(function(self)
+	if not P1 or not P2 then
+		backToSongWheel('Two Player Mode Required')
+		return
+	end
+
+	-- judgment / combo proxies
+	for pn = 1, 2 do
+		setupJudgeProxy(PJ[pn], P[pn]:GetChild('Judgment'), pn)
+		setupJudgeProxy(PC[pn], P[pn]:GetChild('Combo'), pn)
+	end
+	-- player proxies
+	for pn = 1, #PP do
+		PP[pn]:SetTarget(P[pn])
+		P[pn]:hidden(1)
+	end
+	-- your code goes here here:
+	local p1DefaultX = P1:GetX()
+    local p2DefaultX = P2:GetX()
+    local defaultZ = P1:GetZ()
+    definemod { 'centerPlayfields', function(percent) 
+        local scale = percent / 100
+        P1:x((scale*scx) + ((1-scale)*p1DefaultX))
+        P2:x((scale*scx) + ((1-scale)*p2DefaultX))
+    end }
+
+
+	definemod {'clock1', function(p)
+    cl_hand1:rotationz(p)
+	end}
+	definemod {'clock2', function(p)
+    cl_hand2:rotationz(p)
+	end}
+	
+	local function confOff(deg)
+       return math.rad(deg)*100
+    end
+
+	definemod {'speen', function(p)
+		local confusionzoffset = confOff(-p)
+		return confusionzoffset
+	end, 'confusionzoffset'}
+
+	setdefault{2,'xmod',0,'shellshock',0,'fall',0,'dpadinner',0,'dpadouter'}
+
+	definemod {'shellshock', function(p)
+		PC[1]:rotationz(p)
+		PC[2]:rotationz(p)
+		PJ[1]:rotationz(p)
+		PJ[2]:rotationz(p)
+		local confusionzoffset = confOff(-p)
+		return confusionzoffset
+	end, 'confusionzoffset'}
+
+	
+
+
+	
+
+	definemod{'fall', function(amt)
+		amt = amt * 0.1
+		local invert = -(math.cos(amt*math.pi)*10)+10
+		local alternate = (math.sin(amt*math.pi)*5)*1
+		local reverse = (math.sin(amt*math.pi)*5/2)*-1
+		local movey = math.abs(math.sin(amt*math.pi)*10)*-1
+		return invert, alternate, reverse
+		end, 'invert','alternate','reverse'}
+
+
+
+-----D-Pad Definemod-----------------------------------------------------------------------------
+ definemod {
+        'dpadinner','dpadouter',
+        function(inner,outer,pn)
+            local xp = {{-inner,-outer},{0,0},{0,0},{inner,outer}}
+            local yp = {{0,0},{inner,outer},{-inner,-outer},{0,0}}
+            if P[pn] then
+                for i=0,3 do
+                    P[pn]:SetXSpline(0,i,xp[i+1][2],-100,-1)
+                    P[pn]:SetXSpline(1,i,xp[i+1][1],600,-1)
+                    P[pn]:SetYSpline(0,i,yp[i+1][2],-100,-1)
+                    P[pn]:SetYSpline(1,i,yp[i+1][1],600,-1)
+                end
+            end
+        end
+    }
+
+	--CERING SHORTCUTS====================================================================
+
+    lin = linear
+    sinei, sineo, sines     = inSine, outSine, inOutSine
+    quadi, quado, quads     = inQuad, outQuad, inOutQuad
+    cubei, cubeo, cubes     = inCubic, outCubic, inOutCubic
+    quarti, quarto, quarts  = inQuart, outQuart, inOutQuart
+    quinti, quinto, inOutQuint  = inQuint, outQuint, inOutQuint
+    inExpo, outExpo, inOutExpo     = inExpo, outExpo, inOutExpo
+    circi, circo, circs     = inCirc, outCirc, inOutCirc
+    backi, backo, backs     = inBack, outBack, inOutBack
+    elasti, elasto, elasts  = inElastic, outElastic, inOutElastic
+
+    abs, asin, atan, atan2 = math.abs, math.asin, math.atan, math.atan2
+    cos, exp, floor, pow, sin = math.cos, math.exp, math.floor, math.pow, math.sin
+    rand = math.random
+    pi = math.pi
+    ph = math.pi*100
+    pd = ph/-180
+    scx, scy = SCREEN_CENTER_X, SCREEN_CENTER_Y
+    sw, sh = SCREEN_WIDTH, SCREEN_HEIGHT
+    top = SCREENMAN:GetTopScreen()
+
+
+	sprite(mysprite) -- set up the sprite
+	aft(myaft) -- set up the aft
+	mysprite:SetTexture(myaft:GetTexture()) -- set up the texture
+
+	function shake(i)
+		return math.sin(math.pi*i*8)*(i)
+	end
+	
+	
+	definemod {'fisheye', function(gh)
+		mysprite:GetShader():uniform1f('amount', gh * 0.01)
+	end}
+
+	local P1 = SCREENMAN:GetTopScreen():GetChild('PlayerP1');
+	local Jeuse = SCREENMAN:GetTopScreen();
+	definemod {'Zoomies', function(bible) Jeuse:zoom(bible) end}
+	setdefault{1,'Zoomies'}
+
+	condor_const1 = math.sqrt(math.pow(SCREEN_WIDTH/2,2)+math.pow(SCREEN_HEIGHT/2,2))
+    condor_const2 = 180+math.deg(math.atan(SCREEN_HEIGHT/SCREEN_WIDTH))
+            
+            function condor_screenmotion(zm,ang,x,y)
+                
+                if not x then x = SCREEN_WIDTH/2 end
+                if not y then y = SCREEN_HEIGHT/2 end
+
+                Jeuse:x(x+(condor_const1*zm*math.cos((ang+condor_const2)/180*math.pi)));
+                Jeuse:y(y+(condor_const1*zm*math.sin((ang+condor_const2)/180*math.pi)));
+                Jeuse:rotationz(ang)
+                Jeuse:zoom(zm)
+            end
+            
+		definemod{'poop',function(p)
+			condor_screenmotion(1,p)
+		end}
+
+		definemod{'HowAreWeDefiningMods',function(p)
+			condor_screenmotion(p,0)
+		end}
+		setdefault{1,'HowAreWeDefiningMods'}
+
+	--The concept of making a collab with noone knowing its a collab is still unbelievably funny and I REALLY want to get this done
+	--currently 15th january and my Goal is an April Fools release so well see how that goes
+	--its not 22nd january and I took a little break because ideas just werent flowing, taking it easier now and its quite relaxing
+	--wanna go out later and listen to some wan show
+
+
+
+	
+	
+	
+	
+	
+	
+--^^^funny defines^^^
+
+
+
+
+	func{0,function() black:hidden(0) spammy_bg:diffusealpha(0)  spammy_bg:stretchto(0,0,sw,sh) spammy_bg2:diffusealpha(0)  spammy_bg2:stretchto(0,0,sw,sh) 
+		spammy:diffusealpha(0) spambox:diffusealpha(0)
+		micheal:SetTexture(1,myaft:GetTexture()) end}
+	set{0,2,'xmod',100,'stealthpastreceptors',0,'cmod'}
+	
+	
+	func{29,function() black:hidden(1) end}
+
+	ease{34,2,inQuad,150,'mini',10,'rotationz',0,'rotationy',300,'drunk',30,'wave',100,'parabolaz'}
+	ease{34,2,linear,40,'rotationy'}
+	set{36,0,'rotationz',0,'mini',0,'rotationy',0,'drunk',0,'wave',0,'parabolaz'}
+	--spamton things
+	for i,v in ipairs(spamton) do
+  if v[2] == 0 then
+    ease{v[1],0.25,outQuad,10,'tandrunky',-100,'zoomz',-20,'rotationx',-30,'tinyy'}
+	set{v[1],0,'tandrunky',0,'zoomz',0,'rotationx',0,'flip',0,'tinyy'}
+  elseif v[2] == 1 then
+    ease{v[1],0.25,linear,10,'tandrunk',-30,'tinyx'}
+	set{v[1],0,'tandrunk',0,'tinyx'}
+  elseif v[2] == 2 then
+    ease{v[1],0.25,linear,0,'flip'}
+	set{v[1],0,'flip'}
+  elseif v[2] == 3 then
+    --for all columns!
+  end
+  --code run before or after these if statements will run every time there is an entry.
+end
+	func{35,29,function() spammy:x(scx*1.3+(math.sin(GAMESTATE:GetSongBeat()*0.7))*10) end}
+	func {35, 1, outQuad, 0, 0.5, 'spammy_bg:diffusealpha'}
+	func {35, 1, outQuad, 0, 1, 'spammy_bg2:diffusealpha'}
+	func {39, 1, outQuad, 0, 1, 'spambox:diffusealpha'}
+	func {43, 1, outQuad, 0, 1, 'spammy:diffusealpha'}
+
+	ease{39,1,linear,100,'centerPlayfields',130,'mini',1,'xmod',-70,'drawsize',100,'y'}
+
+	ease{42,2,inQuad,200,'mini',10,'rotationz',0,'rotationy',300,'drunk',30,'wave',100,'parabolaz'}
+	ease{42,2,linear,40,'rotationy'}
+	set{44,0,'rotationz',130,'mini',0,'rotationy',0,'drunk',0,'wave',0,'parabolaz'}
+
+	local ubetcha = 0	
+	for beating=46,47.25,0.25 do
+		ubetcha = ubetcha+5
+		add{beating,0.25,outBack,ubetcha,'flip',-1*ubetcha,'invert'}
+	end
+	ease{48,0.5,outBack,-40,'rotationy',25,'flip',-75,'invert'}
+	ease{51,0.5,outBack,-40,'rotationy',0,'flip',0,'invert'}
+
+	func {56, 1, inCirc, 190, 130, function(p) spambox:zoomto(190,p) end}
+	ease{56,1,inCirc,-80,'drawsize',150,'y',100,'drunk',10,'wave'}
+
+
+	ease{59,1,inCirc,10,'spiralx',40,'flip'}
+	set{60,100,'flip'}
+
+	reset{64}
+	func{64,function()
+	spammy:hidden(1)
+	spammy_bg:hidden(1)
+	spambox:hidden(1)
+	spammy_bg2:hidden(1)
+	end}
+
+
+
+	for q=67,71,1 do
+    ease{q,1,inverse,100,'x',10,'stealth',-100,'tinyx',314,'confusionzoffset'}
+    end
+	for q=71,74.5,1 do
+    ease{q,1,inverse,100,'y',10,'stealth',100,'flip'}
+    end
+	for q=75,93,1 do
+    ease{q,1,inverse,100,'z',10,'stealth',100,'mini'}
+    end
+	ease {3+67.5,1,inElastic,100,'centerPlayfields'}
+    ease {7+67.5,1,inElastic,0,'centerPlayfields'}
+    ease {11+67.5,1,inElastic,100,'centerPlayfields'}
+    ease {13+67.5,1,inElastic,0,'centerPlayfields'}
+    ease {15+67.5,1,outExpo,100,'centerPlayfields',100,'drunk'}
+    for i = 16+67.5,22+67.5,2 do
+    	ease {i,1,bounce,-50,'skewy'}
+    	ease {i+1,1,bounce,50,'skewy'}
+    end
+    ease {2+67.5,2,shake,20,'movex3'}
+    ease {6+67.5,2,shake,20,'movex3'}
+    ease {10+67.5,1,shake,20,'movex3'}
+    ease {12+67.5,1,shake,20,'movex3'}
+    ease {30+67.5,2,linear,0,'zoom'}
+    local ii = {
+    	{24+67.5,0},
+    	{25.5+67.5,0},
+    	{28+67.5,2},
+    	{30+67.5,1},
+    }
+    for i,v in ipairs(ii) do
+    	ease {v[1],1,flip(outExpo),-100,'tiny'..v[2]}
+    end
+
+
+	reset{100}
+
+
+
+
+	for q=103,147,2 do
+    ease{q,0.25,outQuad,99,'stealth',10,'spiralx'}
+	ease{q+1,0.25,outQuad,0,'stealth',0,'spiralx'}
+    end
+
+	
+
+	func{103,function() mysprite:hidden(0) mysprite:zoom(0.9999) end}
+	func{103,function()  mysprite:zoom(0.999) mysprite:rotationz(0.01) end}
+
+	--bass accent
+	for q=103,147,1 do
+    ease{q,0.25,pop,-10,'tinyx',-5,'drunk'}
+	ease{q+0.5,0.25,pop,-10,'tinyx',-5,'tipsy'}
+    end
+
+	for i,v in ipairs(penis) do
+  if v[2] == 0 then
+    ease{v[1],0.25,inverse,-1,'flip'}
+	set{v[1],0,'flip'}
+  elseif v[2] == 1 then
+    ease{v[1],0.25,inverse,50,'drunk',-50,'tinyx',-2,'fisheye'}
+	set{v[1],0,'tandrunk',0,'drunk',0,'tinyx',-0,'fisheye'}
+  elseif v[2] == 2 then
+    ease{v[1],0.25,linear,50,'tipsy',-20,'tinyx'}
+	set{v[1],0,'tandrunk',0,'tipsy',0,'tinyx'}
+	func{v[1],function() damn:hidden(0) damn:diffusealpha(0.1) end}
+	func{v[1]+0.01,function() damn:hidden(1) end}
+  elseif v[2] == 3 then
+    ease{v[1],0.25,inverse,50,'drunk',-50,'tinyx',2,'fisheye'}
+	set{v[1],0,'tandrunk',0,'drunk',0,'tinyx',0,'fisheye'}
+  end
+  --code run before or after these if statements will run every time there is an entry.
+end
+	
+		
+
+	
+	
+	
+	reset{150}
+	func{150,function()  mysprite:zoom(1.001) mysprite:rotationz(0) end}
+	
+	--oat funnies
+	local function inverseBounce(a)
+		if a < 0.5 then
+			return inCirc(a * 2)
+		else
+			return 1 - outCirc(a * 2 - 1)
+		end
+	end
+
+	ease {151+3.75, 0.5, inOutCirc, 100, 'tipsy',5,'fisheye'}
+	func{151+3.75,function()  mysprite:rotationz(0.08) end}
+	ease {151+4.25, 0.5, inOutCirc, -100, 'tipsy',-5,'fisheye'}
+	func{151+4.25,function()  mysprite:rotationz(-0.06) end}
+	ease {151+4.75, 0.5, inOutCirc, 100, 'tipsy',2,'fisheye'}
+	func{151+4.75,function()  mysprite:rotationz(0.04) end}
+	ease {151+5.75, 1, inOutCirc, 0, 'tipsy',0,'fisheye'}
+	func{151+5.75,function()  mysprite:rotationz(-0.02) end}
+
+	set {151+4, 120, 'bumpyperiod'}
+
+	ease {151+4, 2, outCirc, sw / 4, 'x', plr = 1}
+	ease {151+4, 2, outCirc, -sw / 4, 'x', plr = 2}
+
+	ease {151+6, 2, inExpo, sh * 0.95, 'y', 30, 'rotationz', 100, 'brake', plr = 1}
+	set {151+6, sh * 0.85, 'y', -15, 'rotationz', -100, 'movex', plr = 2}
+	ease {151+6, 9, linear, 100, 'movex', plr = 2}
+	ease {151+8, 5, outCirc, 0, 'y', 0, 'rotationz', plr = 2}
+	ease {151+11, 4, inCirc, sh, 'y', 15, 'rotationz', plr = 2}
+
+	set {151+14, -sh, 'y', 15, 'rotationz', 100, 'sudden', 90, 'suddenoffset', -150, 'movex', 0, 'brake', plr = 1}
+	ease {151+14, 8, linear, 150, 'movex', plr = 1}
+	ease {151+14, 5, outCirc, 0, 'y', 0, 'rotationz', plr = 1}
+	ease {151+18, 4, inCirc, -sh, 'y', -15, 'rotationz', plr = 1}
+
+	set {151+21, sh, 'y', -15, 'rotationz', 100, 'sudden', 110, 'suddenoffset', -150, 'movex', plr = 2}
+	ease {151+21, 8, linear, 150, 'movex', plr = 2}
+	ease {151+21, 5, outCirc, 0, 'y', 0, 'rotationz', plr = 2}
+	ease {151+25, 4, inCirc, sh, 'y', 15, 'rotationz', plr = 2}
+
+	set {151+28, -sh, 'y', 15, 'rotationz', 100, 'sudden', 90, 'suddenoffset', 200, 'movex', plr = 1}
+	ease {151+28, 7, linear, -100, 'movex', plr = 1}
+	ease {151+28, 5, outCirc, 0, 'y', 0, 'rotationz', plr = 1}
+
+
+	ease {151+7, 2, inverseBounce, -100, 'tiny'}
+	ease {151+8, 2, inverseBounce, -100, 'tiny'}
+	ease {151+12, 2, inverseBounce, -100, 'tiny'}
+	ease {151+15, 2, inverseBounce, -100, 'tiny'}
+	ease {151+16, 2, inverseBounce, -100, 'tiny'}
+	ease {151+18.5, 2, inverseBounce, -100, 'tiny'}
+	ease {151+20, 2, inverseBounce, -100, 'tiny'}
+	ease {151+22, 2, inverseBounce, -100, 'tiny'}
+	ease {151+23, 2, inverseBounce, -100, 'tiny'}
+	ease {151+24, 2, inverseBounce, -100, 'tiny'}
+	ease {151+28, 2, inverseBounce, -100, 'tiny'}
+
+
+	ease {151+18 - 0.25, 0.5, inOutCirc, 25, 'bumpyx'}
+	ease {151+18.33 - 0.25, 0.5, inOutCirc, -25, 'bumpyx'}
+	ease {151+18.5 - 0.25, 0.5, inOutCirc, 0, 'bumpyx'}
+	ease {151+19 - 0.25, 0.5, inOutCirc, 25, 'bumpyx'}
+	ease {151+19.33 - 0.25, 0.5, inOutCirc, -25, 'bumpyx'}
+	ease {151+19.5 - 0.25, 0.5, inOutCirc, 0, 'bumpyx'}
+
+
+	--SPELLCARD NAME: 4th sense
+
+
+	reset{179}
+	func{179,function() mysprite:hidden(1) mysprite:zoom(1) mysprite:rotationz(0) 
+						cl_face:hidden(0) cl_hand1:hidden(0) cl_hand2:hidden(0)
+						cl_face:diffuse(1,1,1,1) cl_hand1:diffuse(0,0,0,1) cl_hand2:diffuse(0,0,0,1)
+						cl_bg:hidden(0)
+
+		P1:SetYSpline(0,-1,-300,000,-1)
+		P1:SetYSpline(0,-1,-300,000,-1)
+		P1:SetStealthSpline(0,-1,30,150,-1)
+
+		P1:SetYSpline(1,-1,-0,300,-1)
+		P1:SetYSpline(1,-1,-0,300,-1)
+		P1:SetZSpline(1,-1,-400,300,-1)
+
+		P1:SetXSpline(1,-1,-0,600,-1)
+		P1:SetYSpline(1,-1,-0,600,-1)
+		
+		P1:SetStealthSpline(1,-1,100,500,-1)
+		end}
+	
+	func {179, 7, linear, 0, 1, 'cl_hand1:diffusealpha'}
+	func {179, 7, linear, 0, 1, 'cl_hand2:diffusealpha'}
+	func {179, 7, linear, 0, 1, 'cl_face:diffusealpha'}
+
+	--187, CLOCK GIMMICK
+	--transition??
+	ease {179, 7, linear, 100,'centerplayfields',100,'dark'}
+	ease {179, 7, linear, 50,'flip',50,'reverse',100,'tornado',plr=1}
+	
+	--set {186,100,'centerplayfields'}
+	
+	for m=187,218,1 do
+    add{m,1,outCirc,30,'clock1',-52.3,'confusionzoffset',30,'rotationz', plr=1}
+	add{m,0.5,bounce,-130,'tinyx',-500,'tinyz',-10,'dark',-0.5,'xmod', plr=1}
+	add{m,1,linear,2.5,'clock2'}
+	set{m,70,'hidden',70,'stealth',plr=2}
+	ease {m, 0.5, linear, 100,'dark',100,'stealth',plr=2}
+	func {m, 1, bounce, SCREEN_HEIGHT*0.0004, SCREEN_HEIGHT*0.0005, 'cl_hand1:zoomx'}
+	func {m, 1, bounce, SCREEN_HEIGHT*0.0005, SCREEN_HEIGHT*0.0004, 'cl_hand2:zoomx'}
+	--set{m,30,'tornado',plr=1}
+	--ease {m, 0.5, inverse, 60,'tornado',plr=1}
+	ease{m, 1, bounce, 1.01,'HowAreWeDefiningMods'}
+	
+    end
+	--tougher now!
+	
+
+	reset{219}
+	func{219,function() cl_face:hidden(1) cl_hand1:hidden(1) cl_hand2:hidden(1) cl_bg:hidden(1) end}
+	func{219,function() P1:ResetXSplines(-1) P1:ResetXSplines(-1) P1:ResetXSplines(-1) P1:ResetXSplines(3)
+								P1:ResetYSplines(0) P1:ResetYSplines(1) P1:ResetYSplines(2) P1:ResetYSplines(3)
+								P1:ResetZSplines(0) P1:ResetZSplines(1) P1:ResetZSplines(2) P1:ResetZSplines(3)
+								P1:ResetStealthSplines(0) P1:ResetStealthSplines(1) P1:ResetStealthSplines(2) P1:ResetStealthSplines(3) 
+								end}
+	
+	
+
+
+
+
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+----------------------yasmin code!!!---------------------------------------------------------
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+
+local me = mod_ease
+
+local m = mod_insert
+
+local mb = mod_bounce
+
+local mk = mod_kick
+
+local mpf = mod_perframe
+
+local SineS, CubicS, QuintS, CircS, ElasticS, QuadS, QuartS, ExpoS, BackS, BounceS,
+SineO, CubicO, QuintO, CircO, ElasticO, QuadO, QuartO, ExpoO, BackO, BounceO,
+SineI, CubicI, QuintI, CircI, ElasticI, QuadI, QuartI, ExpoI, BackI, BounceI  
+= inOutSine, inOutCubic, inOutQuint, inOutCirc, inOutElastic, inOutQuad, inOutQuart, inOutExpo, inOutBack, inOutBounce,
+outSine, outCubic, outQuint, outCirc, outElastic, outQuad, outQuart, outExpo, outBack, outBounce,
+inSine, inCubic, inQuint, inCirc, inElastic, inQuad, inQuart, inExpo, inBack, inBounce
+
+local fluct = 1
+for i = 0+224,30+224,1 do 
+	--mod_kick(i,2,50,-70,'orient','Expo','Quart')
+		
+	mod_kick(i,2,0,100,'wave','Expo','Quart')
+	mod_kick(i,2,0,-70,'drunk','Expo','Quart')
+	mod_bounce(i+0,1,0,-30*fluct,'rotationy','Cubic','Circ')
+	mod_bounce(i+0,1,0,30*fluct,'rotationz','Cubic','Circ')
+	--mod_kick(i,2,0,10,'brake','Expo','Quart')
+	mod_kick(i,1,0,100,'y','Cubic','Cubic')
+		
+	mod_kick(i,1,0,-35*fluct,'skewx','Cubic','Circ')
+	mod_kick(i,1,0,-35*fluct,'skewy','Cubic','Circ')
+
+	--	mod_kick(i,1,0,-5000,'tinyz','Quint','Cubic')
+	fluct = fluct*-1
+end
+
+func{0+224, 30+224, function(beat, poptions)
+if GAMESTATE:GetSongBeat() < 257 then
+local sin = math.sin(beat*math.pi*0.25)
+local cos = math.cos(beat*math.pi*0.25)
+	poptions[1].x = 200 * cos
+	poptions[1].z = 100 * sin
+	poptions[2].x = -200 * cos
+	poptions[2].z = -100 * sin
+end
+end}
+
+func{0+224,function()
+	for pn = 1,2 do
+		P[pn]:x(SCREEN_CENTER_X)
+	end
+end}
+
+wiggle(4+224, 4, 0.40, outCirc, 200, 'drunk')
+
+me(6+224,2,0,-30,'rotationx','len',QuintS)
+me(7.50+224,2,-30,30,'rotationx','len',QuintS)
+me(8+224,2,30,0,'rotationx','len',QuintS)
+ease2 (7.50+224, 1+1, QuintS, 100, 'reverse')
+
+wiggle(12+224, 4, 0.40, outCirc, 200, 'drunk')
+ease2 (15+224, 1+1, QuintS, 0, 'reverse')
+
+local fluct = 1
+for i = 16+224,30+224,1 do 
+	
+	--mod_bounce(i+0,1,0,-80*fluct,'rotationx','Cubic','Circ')
+	mod_kick(i,1,0,100*fluct,'flip','Quint','Cubic')
+	mod_kick(i,1,0,-300*fluct,'bumpyy','Quint','Cubic')
+	mod_kick(i,1,0,-500*fluct,'drunk','Quint','Cubic')
+	mod_kick(i,1,0,-500*fluct,'drunkspacing','Quint','Cubic')
+	mod_kick(i,1,0,-300*fluct,'shrinklinear','Quint','Cubic')
+	fluct = fluct*-1
+end
+
+
+set {24+224,100, 'confusion'}
+ease{24+224, 3, outCirc, -150*math.pi, 'ConfusionOffset0', -100*math.pi, 'ConfusionOffset2', -50*math.pi, 'ConfusionOffset3'}
+add{24+224, 2, outCirc, -50*math.pi, 'ConfusionOffset0', -50*math.pi, 'ConfusionOffset1', -50*math.pi, 'ConfusionOffset2', -50*math.pi, 'ConfusionOffset3'}
+for i=24+224,30+224,1 do
+	add{i+0, 2, outCirc, -50*math.pi, 'ConfusionOffset0', -50*math.pi, 'ConfusionOffset1', -50*math.pi, 'ConfusionOffset2', -50*math.pi, 'ConfusionOffset3'}
+end
+
+me(30+224,4,0,500,'y','len',inOutCubic)
+
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+----------------------yasmin code!!!---------------------------------------------------------
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+
+
+	reset{257}
+	--because reset is dumb with xyz
+	set{257,0,'x',0,'y',0,'z'}
+	
+	--toriel tech section
+	
+	func{257,function() PP[1]:z(0) PP[2]:z(0) PP[1]:x(0) PP[2]:x(0) end}
+	set{257,0,'rotationz',100,'centerplayfields',-30,'rotationx'}
+	for doodoo=260,283,2 do
+   	ease {doodoo, 1, outBack, -10,'rotationz'}
+	   ease {doodoo+1,1, outBack, 10,'rotationz'}
+	   set{doodoo+1,-60,'tinyx',-30,'confusionzoffset'}
+	 ease {doodoo+1,0.5, outQuad, 0,'tinyx',0,'confusionzoffset'}
+	 set{doodoo,-60,'tinyx',30,'confusionzoffset'}
+	 ease {doodoo,0.5, outQuad, 0,'tinyx',0,'confusionzoffset'}
+	
+    end
+	for doodoo=260,283,1 do
+   	ease {doodoo, 0.5, outBack, -50,'drunk',-20,'tornado'}
+	   ease {doodoo+0.5,0.5, outBack, 50,'drunk',-20,'tornado'}
+	   
+    end
+
+	func{260,function() toriel:hidden(0) toriel:diffusealpha(0) end}
+	func {260, 5, outQuad, 0, 1, 'toriel:diffusealpha'}
+
+	set{266,-360,'rotationy',100,'tipsy',confOff(360),'confusionyoffset'}
+	ease {266, 1, outSine, 0,'rotationy',0,'tipsy',0,'confusionyoffset'}
+	
+	set{272,360,'rotationy',100,'tipsy',confOff(-360),'confusionyoffset'}
+	ease {272, 1, outSine, 0,'rotationy',0,'tipsy',0,'confusionyoffset',30,'rotationx'}
+
+	func{283.5,function() toriel:hidden(1) toriel:diffusealpha(1) end}
+	reset{284}
+
+	--cod thing
+	set{284,100,'Arrowpath',50,'reverse',50,'flip',100,'centerplayfields',100,'wave'}
+	ease {284, 16, linear,720,'rotationz',confOff(-720),'confusionzoffset',30,'tornado',30,'drunk',50,'tipsy',plr=1}
+	ease {284, 16, linear,-360,'rotationz',confOff(360),'confusionzoffset',-70,'tornado',plr=2}
+	func{284,function() 
+		P1:SetYSpline(0,-1,-0,000,-1)
+		P1:SetXSpline(0,-1,-0,000,-1)
+		P1:SetZSpline(0,-1,-0,000,-1)
+		P1:SetZSpline(1,-1,1000,1000,-1)
+
+		P1:SetYSpline(1,1,1000,1000,-1)
+		P1:SetXSpline(1,0,-1000,1000,-1)
+		P1:SetXSpline(1,3,1000,1000,-1)
+		P1:SetYSpline(1,2,-1000,1000,-1)
+		
+		P2:SetYSpline(0,-1,-0,000,-1)
+		P2:SetXSpline(0,-1,-0,000,-1)
+		P1:SetZSpline(0,-1,-0,000,-1)
+		P1:SetZSpline(1,-1,-1000,1000,-1)
+
+		P2:SetYSpline(1,1,1000,1000,-1)
+		P2:SetXSpline(1,0,-1000,1000,-1)
+		P2:SetXSpline(1,3,1000,1000,-1)
+		P2:SetYSpline(1,2,-1000,1000,-1)
+		end}	
+	
+	func{300,function() P1:ResetXSplines(0) P1:ResetXSplines(1) P1:ResetXSplines(2) P1:ResetXSplines(3)
+	--this makes no fucking sense
+								P1:ResetYSplines(0) P1:ResetYSplines(1) P1:ResetYSplines(2) P1:ResetYSplines(3)
+								P1:ResetZSplines(0) P1:ResetZSplines(1) P1:ResetZSplines(2) P1:ResetZSplines(3)
+								P1:ResetStealthSplines(0) P1:ResetStealthSplines(1) P1:ResetStealthSplines(2) P1:ResetStealthSplines(3) 
+						P2:ResetXSplines(0) P2:ResetXSplines(1) P2:ResetXSplines(2) P2:ResetXSplines(3)
+								P2:ResetYSplines(0) P2:ResetYSplines(1) P2:ResetYSplines(2) P2:ResetYSplines(3)
+								P2:ResetZSplines(0) P2:ResetZSplines(1) P2:ResetZSplines(2) P2:ResetZSplines(3)
+								P2:ResetStealthSplines(0) P2:ResetStealthSplines(1) P2:ResetStealthSplines(2) P2:ResetStealthSplines(3) 
+								end}
+	reset{300}
+	set{300,100,'centerPlayfields'}
+	set{300,100000000,'movex2',100000000,'movex3',plr=1}
+	set{300,1000000000,'movex0',10000,'movex1',plr=2}
+	--why???????????????
+	--why am i doing this here with set 1000000000000000000 movex???????????????
+	--huuh????
+	--mayflower what the fuck are you up to
+	ease {302, 17, linear,200,'Drunk',200,'Tipsy',plr=1}
+	ease {302, 17, linear,-200,'Drunk',-200,'Tipsy',plr=2}
+
+	for i,v in ipairs(mother) do
+  		set{v[1],-100,'Beat',-100,'tiny',100,'Orient'}
+	ease {v[1], 0.5, outSine, 0,'Beat',0,'tiny',0,'Orient'}
+	end
+	
+	reset{319}
+	
+
+
+	local beat = 322 
+	
+	-- setup graphics
+	
+	
+	-- setup mods and activate stuff
+	set{beat - 1, 3, 'xmod', 100, 'drawsize', 200, 'drawsizeback', 200, 'modtimer', 100, 'stealthpastreceptors'}
+	{beat - 1, -1000, 'movez', 20, 'stealth', 90, 'dark', -150, 'movey'}
+	func{beat - 1, function()
+		P1:x(scx + 128)
+		P2:x(scx - 128)
+	end}
+	
+	-- oh god the playfields are approaching
+	ease{beat, 18, linear, -250, 'movez', 5, 'stealth', 60, 'dark'}
+	
+	-- jump accents
+	for b = beat, beat+7, 2 do
+		add{b, 1, pop, 100, 'tipsy', -25, 'flip', -100, 'movey'}
+		{b+1, 1, pop, -100, 'tipsy', 25, 'flip', 100, 'movey'}
+	end
+	add{beat+16, 1, pop, 100, 'tipsy', -25, 'flip', -100, 'movey'}
+	{beat+17, 1, pop, -100, 'tipsy', 25, 'flip', 100, 'movey'}
+	
+	-- funny swaps
+	swaps = {
+		{beat+8, 100, 0},
+		{beat+9, 0, 0},
+		{beat+10, 100, 0},
+		{beat+11, 0, 0},
+		{beat+12, 100, 0},
+		{beat+13, 0, 0},
+		{beat+14, 100, 0},
+		{beat+15, 0, 0}
+	}
+	for _, v in ipairs(swaps) do
+		ease{v[1], 0.5, outQuad, v[2], 'flip', v[3], 'invert'}
+	end
+	
+	-- additional effects to swaps
+	local str = 100
+	for b=beat+8,beat+15 do
+		add{b, 0.5, bounce, -10, 'stealth'}
+		add{b, 1, bounce, str, 'movex'}
+		str = -str
+	end
+	
+	set{beat+8, 200, 'beat'}
+	set{beat+16, 0, 'beat'}
+	
+
+	reset{340}
+	func{340.5,function() walter:hidden(0) walter:diffusealpha(1) end}
+	func{347,function() walter:hidden(1) walter:diffusealpha(1) end}
+
+
+
+	reset{348}
+	--sorry star
+	set{348,50,'Flip'}
+	
+	for i,v in ipairs(rebone) do
+  		set{v[1],-100,'Beat',1.01,'Zoomies',100,'Orient',-30,'tinyx'}
+	ease {v[1], 0.5, outSine, 0,'Beat',1,'Zoomies',0,'Orient',0,'tinyx'}
+	end
+
+	for ActorFartTexture=350,353,1 do
+	ease {ActorFartTexture, 0.5, inOutSine,10,'tipsy'}
+	ease {ActorFartTexture+0.5, 0.5, inOutSine,-10,'tipsy'}
+    end
+
+	ease {353.5, 1.5, inOutSine,100,'Drunk'}
+	ease {355, 0.5, inOutSine,0,'Drunk'}
+
+	ease {358, 2, inOutSine,-200,'Drunk'}
+	ease {360, 0.5, inOutSine,0,'Drunk'}
+
+	ease {361.5, 1.5, inOutSine,300,'Drunk',0,'flip'}
+	ease {363, 0.5, inOutSine,0,'Drunk'}
+
+	
+	reset{366}
+	func{371,function() ronaldino:hidden(0) ronaldino:animate(1) end}
+		
+
+	--lol
+	ease {380.5, 0.5, inOutSine,100,'flip'}
+	func {380.5, 0.5, inOutSine, 0, 180, 'PJ[1]:rotationy'}
+	func {380.5, 0.5, inOutSine, 0, 180, 'PJ[2]:rotationy'}
+
+
+	
+	reset{397} 
+	func{397,function() ronaldino:hidden(1) end}
+	func {397, 0.5, inOutSine, 180, 0, 'PJ[1]:rotationy'}
+	func {397, 0.5, inOutSine, 180, 0, 'PJ[2]:rotationy'}
+	--saw the french damn daniel in here again
+	--half tempted to go up to sora hey theres french music in this can i put an image of you there
+	--in hindsight this feels mean, do not do this mayflower
+	func{397,function() micheal:hidden(0) michealwave_help:hidden(0) micheal:rotationx(5) micheal:rotationz(180)  end}
+	func {405, 35, linear, 0, 1800, 'micheal:rotationy'}
+
+	set{408,100,'arrowpath',500,'tandigital',700,'tandrunky'}
+	set{415,-781,'tipsy',-923,'tanbumpyz'}
+	set{422,738,'drunk',11037,'orient',200,'centered2'}
+	set{429,738,'tinyz',871,'shrinklinearz',200,'square'}
+	func{422,function() among:hidden(0) fof:animate(0) end}
+	func{429,function() among:hidden(1) end}
+
+	func{429,function() fof:hidden(0) fof:animate(1) end}
+	func{435,function() fof:hidden(1) end}
+
+
+	reset{437}
+
+
+	func {449, 1, instant, 0,1, 'micheal:hidden'}
+	func {449, 1, instant, 0,1, 'michealwave_help:hidden'}
+	
+
+
+
+
+
+
+	reset{449}
+	--DA TOHOE :FLUSH:
+	set{493,50,'flip',100,'centerPlayfields'}
+	for j=493,540,2 do
+		ease {j, 1, pop,-30,'x',100,'bumpyx'}
+		ease {j, 0.5, outBack,-60,'tinyx',30,'tipsy'}
+		ease {j+0.5, 0.25, outQuad,-0,'tinyx',0,'tipsy'}
+		ease {j+1, 1, pop,30,'x',-100,'bumpyx'}
+		ease {j+1, 0.5, outBack,-60,'tinyx',30,'tipsy'}
+		ease {j+0.5+1, 0.25, outQuad,-0,'tinyx',0,'tipsy'}
+	end
+	ease {501, 1, outQuad,40,'flip'}
+	ease {502, 1, outQuad,30,'flip'}
+	ease {503, 1, outQuad,20,'flip'}
+	ease {504, 1, outQuad,0,'flip'}
+	func {506, 3, inQuad,scy*2, 'PP[2]:y'}
+	func {506, 2, inQuad,30, 'PP[2]:rotationz'}
+
+	for quan=505,508.5,0.5 do
+		set{quan,-100,'digital'}
+		ease {quan, 0.25, outQuad,0,'digital'}
+			--mom i hit the quan!
+		set{quan+0.25,100,'digital'}
+		ease {quan+0.25, 0.25, outQuad,0,'digital'}
+	end
+	ease {508, 2, outQuad,180,'rotationz',confOff(-180),'confusionzoffset',plr=1}
+	ease {510, 2, outQuad,-90,'rotationz',confOff(90),'confusionzoffset',plr=1}
+	ease {512, 2, outQuad,90,'rotationz',confOff(-90),'confusionzoffset',plr=1}
+	ease {511, 3, outQuad,100,'dark',plr=1}
+	ease {511, 3, outQuad,100,'mini',1.5,'xmod',plr=2}
+
+
+	func {509, 3, inQuad,scx*-1,0, 'PP[2]:x'}
+	func{511,function() PP[2]:y(0) PP[2]:rotationz(30) end}
+	hide{514.5, 2.1,plr=1}
+	--hide{517, 5.1,plr=2}
+	ease {516, 2, outQuad,-90,'rotationz',confOff(90),'confusionzoffset',0,'dark',plr=1}
+	func {517, 1, inQuad,0,scx*-1, 'PP[2]:x'}
+	ease {518, 2, outQuad,0,'rotationz',confOff(-0),'confusionzoffset',plr=1}
+	ease {520, 2, outQuad,180,'rotationz',confOff(-180),'confusionzoffset',plr=1}
+
+	hide{522.5, 2.1,plr=1}
+	ease {522.5, 2.5, outQuad,0,'rotationz',confOff(-0),'confusionzoffset',plr=1}
+	func {518, 3, inQuad,scx*1.5,scx*0.5, 'PP[2]:x'}
+	func{518,function() PP[2]:y(scy) PP[2]:rotationz(-30) end}
+	func {525, 2, inQuad,scx*0.5,scx*1.5, 'PP[2]:x'}
+
+	func {527, 3, inQuad,scx*-1,0, 'PP[2]:x'}
+	func{527,function() PP[2]:y(0) PP[2]:rotationz(30) end}
+	hide{530, 2.1,plr=1}
+
+	func{548,function() PP[2]:y(0) PP[2]:x(0)  PP[2]:rotationz(0) end}
+	--ease {quan+0.25, 0.25, outQuad,0,'digital'}
+
+	---------------------------------------------------------
+	--RYA SECTION--------------------------------------------
+	---------------------------------------------------------
+	
+	--RYA STUFF
+	definemod{'rotx','roty','rotz',function(xDegrees, yDegrees, zDegrees, plr)
+		local function mindf_reverseRotation(angleX, angleY, angleZ)
+			local sinX = math.sin(angleX);
+			local cosX = math.cos(angleX);
+			local sinY = math.sin(angleY);
+			local cosY = math.cos(angleY);
+			local sinZ = math.sin(angleZ);
+			local cosZ = math.cos(angleZ);
+			return { math.atan2(-cosX*sinY*sinZ-sinX*cosZ,cosX*cosY),
+					math.asin(-cosX*sinY*cosZ+sinX*sinZ),
+					math.atan2(-sinX*sinY*cosZ-cosX*sinZ,cosY*cosZ) }
+		end
+		local DEG_TO_RAD = math.pi / 180
+		local angles = mindf_reverseRotation(xDegrees * DEG_TO_RAD, yDegrees * DEG_TO_RAD, zDegrees * DEG_TO_RAD)
+		local rotationx,rotationy,rotationz=
+			xDegrees,
+			yDegrees,
+			zDegrees
+		local confusionxoffset,confusionyoffset,confusionzoffset=
+			(angles[1]*100),
+			(angles[2]*100),
+			(angles[3]*100)
+
+		return rotationx,rotationy,rotationz,confusionxoffset,confusionyoffset,confusionzoffset
+	end,
+	'rotationx','rotationy','rotationz','confusionxoffset','confusionyoffset','confusionzoffset'
+	}
+	
+	definemod {'fov', function(a,pn) P[pn]:fov(a) end}
+	setdefault {60, 'fov'}
+	
+	valFlip = 1
+	val = 0
+	definemod {'val', function(a) val = a end}
+	
+	local function fliperoo()
+		-- thanks XeroOl
+		-- basically creates a near psuedo-flicker effect at 60hz
+		if (GAMESTATE:GetSongTime() * 60) % 2 < 1 then
+			return -1
+		else
+			return 1
+		end
+	end
+	
+	local function mixEase(e1, e2, point)
+		if not point then point = 0.5 end
+		return function(a)
+			if a < point then
+				return e1(a / point) * point
+			else
+				return e2((a - point) / (1 - point)) * (1 - point) + point
+			end
+		end
+	end
+	
+	local function eae(t)
+		local beat, len, eas, pn = t[1], t[2], t[3], (t.plr or nil)
+		for j = 4, #t - (pn and 1 or 0), 3 do
+			local from, to, mod = t[j], t[j+1], t[j+2]
+			set {beat, from, mod, plr = pn}
+			ease {beat, len, eas, to, mod, plr = pn}
+		end
+		return eae
+	end
+	
+	function ass(t)
+		local beat, len, eas, pn = t[1], t[2], t[3], (t.plr or nil)
+		for j = 4, #t - (pn and 1 or 0), 3 do
+			local from, to, mod = t[j], t[j+1], t[j+2]
+			acc {beat, from, mod, plr = pn}
+			add {beat, len, eas, to, mod, plr = pn}
+		end
+		return ass
+	end
+	
+	-- card {420, 69, 'ass', -15, '#ffdfe8'}
+	--f_sprite:SetTexture(f_aft:GetTexture())
+	
+	-- //////////////////////////
+	-- wee
+	-- //////////////////////////
+	
+
+	--RYYA STUFF
+
+		set{449,300, 'cmod', 100, 'dizzyholds', 100, 'halgun', 100, 'stealthpastreceptors', 500, 'y', 100, 'modtimer'}
+
+
+	func{450,function() rya38:hidden(0) end}
+	set {0+451, .25, 'xmod', -360, 'rotationz'}
+	ease {1+451, 2, outExpo, 0, 'y'}
+	
+	add {1+451, 1, outQuint, -25, 'mini'}
+	add {2+451, 1, outQuint, -75, 'mini'}
+	add {3+451, 1, outExpo, 200, 'mini', 180, 'rotationz', .25, 'xmod'}
+	add {3.25+451, 1, mixEase(inExpo,outBack,.75), -125, 'mini', 180, 'rotationz', .5, 'xmod'}
+	
+	ease {3.5+451, .5, inExpo, -2000, 'tiny'} ease {4+451, .5, outExpo, 0, 'tiny'}
+	
+	ease {1+451, 1, bounce, -50, 'x', -20, 'rotationy'}
+	ease {2+451, 1, bounce, 50, 'x', 20, 'rotationy'}
+	
+	for b = 1+451, 2.5+451, .5 do
+		ease {b, .5, bounce, 25*valFlip, 'tipsy', 50*valFlip, 'drunk'}
+		valFlip = -valFlip
+	end
+	
+	for b = 4+451, 30+451, 16 do
+		for c = 1, 6 do
+			ease {b+c, 1, impulse, 50*valFlip, 'skewx'}
+			valFlip = -valFlip
+		end
+			for c = b+1, b+2.5, .5 do
+				ease {c      , (1/8), outQuint, 300, 'movex0', -100, 'movex1', -100, 'movex2', -100, 'movex3'}
+				ease {c+(1/8), (1/8), outQuint, 200, 'movex0',  200, 'movex1', -200, 'movex2', -200, 'movex3'}
+				ease {c+(2/8), (1/8), outQuint, 100, 'movex0',  100, 'movex1',  100, 'movex2', -300, 'movex3'}
+				ease {c+(3/8), (1/8), outQuint,   0, 'movex0',    0, 'movex1',    0, 'movex2',    0, 'movex3'}
+			end
+			for c = b+3, b+6 do
+				ease {c    , .25, outQuint, 300, 'movex0', -100, 'movex1', -100, 'movex2', -100, 'movex3'}
+				ease {c+.25, .25, outQuint, 200, 'movex0',  200, 'movex1', -200, 'movex2', -200, 'movex3'}
+				ease {c+.5 , .25, outQuint, 100, 'movex0',  100, 'movex1',  100, 'movex2', -300, 'movex3'}
+				ease {c+.75, .25, outQuint,   0, 'movex0',    0, 'movex1',    0, 'movex2',    0, 'movex3'}
+			end
+	end
+	
+	ease {11+451, 1, bounce, 15000, 'tinyz', 100, 'mini', -50, 'flip'}
+	ease {11+451, .5, outBack, 175, 'invert', -200, 'tiny'} ease {11.5, .5, outBack, 0, 'invert', 0, 'tiny'}
+	for b = 12+451, 16+451, 2 do
+		ease {b-.5, .5, inExpo, -2000, 'tiny', -3000, 'tinyz', 250, 'zoom'}
+		ease {b, 2, outExpo, 0, 'tiny', 0, 'tinyz'}
+		ease {b+1, .5, outBack, 50, 'tipsy', 100, 'drunk'} ease {b+1.5, .5, outBack, -50, 'tipsy', -100, 'drunk'}
+		ease {b+1, 1, bounce, -1500, 'tinyz'}
+		eae {b, 1, outExpo, 0, 100, 'zoom'}
+		eae {b, 1, outBack, 700, 0, 'invert', confOff(270*valFlip), 0, 'confusionoffset', 90, 60, 'fov'}
+		ease {b, 2, bounce, 10*valFlip, 'rotationz', 20*valFlip, 'rotationy'}
+		valFlip = -valFlip
+	end
+	
+	ease {18+451, .5, outBack, 50, 'tipsy', 100, 'drunk', 100, 'flip', confOff(90), 'confusionoffset', 50, 'stealth'}
+	ease {18.5+451, .5, outBack, -50, 'tipsy', -100, 'drunk', 0, 'flip', 0, 'confusionoffset', 0, 'stealth'}
+	ease {18+451, 1, bounce, 5000, 'tinyz'}
+	
+	ease {19+451, .5, outBack, 100, 'invert'} ease {19.5+451, .5, outBack, 0, 'invert'}
+	ease {19+451, 1, bounce, 100, 'mini', 90, 'fov'} ease {19.5+451, .5, inExpo, -2000, 'tiny', 1000, 'flip', -20000, 'tinyz'} ease {20+451, .5, outExpo, 0, 'tiny', 0, 'tinyz'}
+	set {20+451, 0, 'flip'}
+	--just wont turn off for some reason?????????????
+	func {4+451, 0, function(beat,poptions)
+		local mods = poptions[1]
+		mods.z = math.abs( math.sin( beat * math.pi ) ) * 50
+	end}
+	
+	valFlip = 1
+	for b = 28+451, 32+451, 2 do
+		add {b-.5, .5, inExpo, 2000, 'pulse'}
+		add {b, 1, outExpo, -2000, 'pulse'}
+		ease {b, 1.15, outBack, 50 + (valFlip*50), 'reverse'}
+		eae {b, 1.25, outQuint, 360, 0, 'roty'}
+		ease {b, 2, popElastic.params(1,10), 100, 'skewy'}
+		add {b, 2, popElastic.params(3,5), -100, 'pulse'}
+		ease {b, 1, bounce, 20, 'rotationx', -50, 'mini', 100, 'tornado'}
+		ease {b+1, 1, bounce, -20, 'rotationx', 100, 'pulse', 25, 'mini'}
+		eae {b+.5, 1, inOutQuad, confOff(360)*valFlip, 0, 'confusionzoffset'}
+		add {b+1, 1, pop, 200, 'modtimeroffset'}
+		add {b+1, 1, impulse, -5000, 'tinyz'}
+		valFlip = -valFlip
+	end
+	ease {34+451, 1.15, outBack, 0, 'reverse'}
+	
+	ease {27+451, .5, outExpo, 100, 'mini', 45, 'rotz'}
+	ease {27.5+451, .5, inExpo, -25, 'mini', 0, 'rotz'}
+	ease {27+451, .18, outExpo, 100, 'invert'}
+	ease {27.18+451, .4, outBack, 0, 'invert', 100, 'flip'}
+	ease {27.25+.33+451, .25, outBack, 0, 'flip'}
+	
+	valFlip = 1
+	for b = 34+451, 36+451 do
+		ease {b, 1, impulse, 300, 'brake'}
+		ease {b, 1, pop, .5, 'xmod'}
+		ease {b, 1, popElastic.params(2,3.5), 200*valFlip, 'bumpy', 200, 'pulse', 200, 'wave', 200, 'zoomz'}
+		valFlip = -valFlip
+	end
+	
+	set {34+451, 360, 'rotz'}
+	ease {34+451, 1, outExpo, 100, 'invert', 120, 'fov', -40, 'rotx', 100, 'orient'}
+	ease {35+451, 1, outExpo, 0, 'invert', 100, 'flip', -100, 'orient', 180, 'rotz'}
+	ease {36+451, 1, outExpo, 0, 'flip', 60, 'fov', 0, 'rotx', 0, 'orient', 0, 'rotz'}
+	
+	
+	
+	
+	---------------------------------------------------------
+	--RYA SECTION END--------------------------------------------
+	---------------------------------------------------------
+	reset{487}
+	reset{547}
+
+	--CERING================================================
+	--======================================================
+	--SETUP========================================================================
+
+    for pn = 1, #PP do
+        setupJudgeProxy(PJ[pn], P[pn]:GetChild('Judgment'), pn)
+        setupJudgeProxy(PC[pn], P[pn]:GetChild('Combo'), pn)
+        PP[pn]:SetTarget(P[pn])
+        P[pn]:SetFarDist(9999)
+        P[pn]:hidden(1)
+        PC[pn]:hidden(1)
+        PJ[pn]:hidden(1)
+    end
+
+
+--CERING SHORTCUTS=============================================================
+
+    lin = linear
+    sinei, sineo, sines     = inSine, outSine, inOutSine
+    quadi, quado, quads     = inQuad, outQuad, inOutQuad
+    cubei, cubeo, cubes     = inCubic, outCubic, inOutCubic
+    quarti, quarto, quarts  = inQuart, outQuart, inOutQuart
+    quinti, quinto, quints  = inQuint, outQuint, inOutQuint
+    expoi, expoo, expos     = inExpo, outExpo, inOutExpo
+    circi, circo, circs     = inCirc, outCirc, inOutCirc
+    backi, backo, backs     = inBack, outBack, inOutBack
+    elasti, elasto, elasts  = inElastic, outElastic, inOutElastic
+    abs, asin, atan, atan2 = math.abs, math.asin, math.atan, math.atan2
+    cos, exp, floor, pow, sin = math.cos, math.exp, math.floor, math.pow, math.sin
+    rand = math.random
+    pi = math.pi
+    ph = math.pi*100
+    pd = ph/-180
+    scx, scy = SCREEN_CENTER_X, SCREEN_CENTER_Y
+    sw, sh = SCREEN_WIDTH, SCREEN_HEIGHT
+    top = SCREENMAN:GetTopScreen()
+    modulo = function(a, b) return a - floor(a / b) * b end
+    alt = function(n, mult)  return modulo(n, mult*2) * (2/mult) - 1  end
+	
+    --oat's mixEase
+    function mix(e1, e2, p)
+        p = not p and 0.5 or p
+        return function(a)
+            return a < p and e1(a / p) * p or e2((a - p) / (1 - p)) * (1 - p) + p
+        end
+    end
+
+    function hidecol(start, len, col, pn)
+        if type(col) == 'number' then
+            acc{start, 100, 'stealth'..col, 100, 'dark'..col, 100, 'hidenoteflash'..col, plr=pn}
+            acc{start+len, -100, 'stealth'..col, -100, 'dark'..col, -100, 'hidenoteflash'..col, plr=pn}
+        else 
+            for i,v in ipairs(col) do
+                acc{start, 100, 'stealth'..v, 100, 'dark'..v, 100, 'hidenoteflash'..v, plr=pn}
+                acc{start+len, -100, 'stealth'..v, -100, 'dark'..v, -100, 'hidenoteflash'..v, plr=pn}
+            end
+        end
+    end
+
+--CERING MODS==================================================================
+	--fix beat 27!!! (minus offset)
+    P[1]:x(scx)
+    P[2]:x(scx)
+    af:fov(30)
+	
+    CERING_OFFSET = 548
+	--setdefault{220,'cmod'}
+    set{548,
+        220,'cmod', 100,'overhead', 100,'approachtype', 100,'dizzyholds',
+        100,'modtimer', 100,'stealthpastreceptors', 0,'mini', 100,'disablemines',
+        100,'hidemines', 100,'halgun', 100,'zbuffer',100,'centerplayfields'
+    }
+
+    for i = CERING_OFFSET, CERING_OFFSET+7.5, 0.5 do
+        s = modulo(i-CERING_OFFSET, 4) >= 2 and 1 or -1
+		
+        if modulo(i-CERING_OFFSET, 2) == 0 then
+            set{i, 10*3, 'invert', s*10*3/2, 'alternate', -s*10*3/2, 'centered'}
+            add{i, 1, flip(expoo), -50, 'tiny'}
+        else
+            local a = (modulo(-i+CERING_OFFSET, 2) - 0.5 ) * 2 * 10
+            set{i, a, 'invert', s*a/2, 'alternate', -s*a/2, 'centered'}
+            add{i, 0.2, pop, -20, 'tiny'}
+        end
+    end
+    set{CERING_OFFSET, 0, 'cmod', 100, 'stealth', -50, 'twirl', 100, 'dizzy', 100, 'wave'}
+    ease{CERING_OFFSET, 7.5, quarti, 220, 'cmod', 0, 'twirl', 0, 'dizzy'}
+    ease{CERING_OFFSET, 8, expos, 0, 'stealth'}
+    ease{CERING_OFFSET, 8, lin, 0, 'wave'}
+
+	
+	set{CERING_OFFSET+18, 220, 'cmod'}
+
+    definemod{'blacksphere', function(x)
+        local invert = 50 - 50 * cos(x * pi / 180)
+        local alternate = 25 * sin(x * pi / 180)
+        local reverse = -12.5 * sin(x * pi / 180)
+        return invert, alternate, reverse
+    end, 'invert', 'alternate', 'reverse'}
+
+    --:yass: 🎉
+	--CERiNG if the image wasnt specifically about the abject horror of my code you wouldve made it onto it
+	--I have no clue how to fix the alt() it is so crusty
+	--readable code not made to be read
+    for the = CERING_OFFSET, CERING_OFFSET+16, 16 do
+        local s = -alt(the-CERING_OFFSET,16)
+		
+        ease{the+7.5, 2.5, lin, 250*(220/144), 'centered2'}
+        ease{the+7.5, 2.5, lin, -250*(220/144), 'movey'}
+        ease{the+7.5, 2.5, sinei, 20, 'rotationx', 500, 'zoomz'}
+        for i = the+7.5, the+9.5, 0.5 do
+            local a = s
+			func{0,9999,function() print(a) end}
+            l = (i-7.5-the)*0.05
+            ease{i-0.5+l, 1-l*2, expos, a*50*(i-7-the), 'drunk', a*50*(i-7-the), 'drunkz', a*-50*(i-7-the),
+            'parabolaz', a*20*(i-7-the), 'rotationz', -a*10*(i-7-the), 'rotationy'}
+        end
+        ease{the+10, 2, expoo, 0, 'centered2', 0, 'drunkz', 0, 'movey', 0, 'parabolaz',
+        0, 'rotationy', 0, 'rotationx', 100, 'zoomz'}
+
+        add{the+9.5, 2.5, mix(expoi, expoo, 1/5), 300, 'cmod', 600-the*200/16, 'drunkspeed'}
+        add{the+10.5, 2, sines, -300, 'cmod'}
+        add{the+10, 1.5, pop, -300, 'tiny'}
+        ease{the+9.5, 2.5, mix(expoi, expoo, 1/5), 400, 'drunk'}
+        add{the+10.5, 2, sines, -400, 'drunk'}
+
+        ease{the+9.5, 3, mix(expoi, expoo, 1/6), s*4*ph, 'confusionzoffset'}
+        ease{the+9.5, 2.5, mix(expoi, expoo, 1/5), s*25, 'rotationz'}
+
+        ease{the+11.5, 1, pop, 100, 'brake', 50, 'stealth', plr=2}
+        ease{the+12.5, 1, pop, 100, 'brake', 50, 'stealth', plr=1}
+        ease{the+13.5, 1, pop, 100, 'brake', 50, 'stealth', plr=2}
+        ease{the+14.5, 1, pop, 100, 'brake', 50, 'stealth', plr=1}
+
+        for i = the+11.5, the+15.5, 0.5 do
+            local a = s*alt(i-11.5-the, 0.5)
+            add{i-0.3, 0.6, quints, a*50, 'rotationz'}
+            add{i-0.3, 0.6, quints, a*50, 'rotationy'}
+            ease{i, 0.5, quinti, a*30, 'skewx'}
+        end
+        for i = the+11.5, the+15.5, 1 do
+            local a = alt(i-11.5-the, 1)
+            ease{i-0.4, 0.8, expos, -a*30, 'skewy'}
+            ease{i-0.4, 0.8, expos, a*30, 'noteskewy'}
+        end
+
+        reset{the+16, plr=2}
+        reset{the+16, 2, expoo, exclude='confusionzoffset', plr=1}
+        add{the+16, 1, expoo, s*0, 'movex', s*50, 'rotationy', 100, 'z', plr=1}
+        ease{the+17, 2, quarts, -s*0, 'movex', -s*50, 'rotationy', plr=1}
+        ease{the+19, 2, expos, 0, 'movex', 0, 'rotationy', 0, 'z', plr=1}
+
+        add{the+16, 1, expoo, s*2*ph, 'confusionzoffset', plr=1}
+        add{the+17.25, 1.5, quarts, -s*2*ph, 'confusionzoffset', plr=1}
+        add{the+19.25, 1.5, expos, s*2*ph, 'confusionzoffset', plr=1}
+
+        ease{the+16, 3, elasto.params(1,1.2), s*360, 'blacksphere', plr=1}
+        add{the+16.5, 1, expos, 100, 'invert', plr=1}{the+17, 1, expos, -100, 'invert', plr=1}
+        ease{the+18, 3, elasto.params(1,1.2), 0, 'blacksphere', plr=1}
+        add{the+18.5, 1, expos, 100, 'invert', plr=1}{the+19, 1, expos, -100, 'invert', plr=1}
+
+        set{the+16, -s*500, 'movex', plr=2}
+        ease{the+16, 1, expoo, -s*0, 'movex', plr=2}
+        ease{the+17, 1, expoi, -s*750, 'movex', plr=2}
+        add{the+16.5, 1, expos, 100, 'flip', plr=2}{the+17, 1, expos, -100, 'flip', plr=2}
+
+        set{the+18, s*500, 'movex', plr=2}
+        ease{the+18, 1, expoo, s*0, 'movex', plr=2}
+        ease{the+19, 1, expoi, s*750, 'movex', plr=2}
+        add{the+18.5, 1, expos, 100, 'flip', plr=2}{the+19, 1, expos, -100, 'flip', plr=2}
+
+        for i = the+16, the+18, 2 do
+            local a = s*alt(i-16-the, 2)
+            set{i, a*90, 'rotationz', plr=2}
+            add{i, 2, lin, a*-60, 'rotationz', plr=2}
+            add{i, 1, expoo, a*-60, 'rotationz', plr=2}
+            add{i+1, 1, expoi, a*-60, 'rotationz', plr=2}
+
+            set{i, a*-90, 'rotationy', plr=2}
+            add{i, 2, lin, a*90, 'rotationy', plr=2}
+            add{i, 1, expoo, a*45, 'rotationy', plr=2}
+            add{i+1, 1, expoi, a*45, 'rotationy', plr=2}
+
+            set{i, 100, 'cmod', 0, 'drunkz', plr=2}
+            ease{i, 2, cubei, 700, 'cmod', 1500, 'drunkz', plr=2}
+        end
+
+        ease{the+20, 1.5, expoo, s*360, 'blacksphere', plr=1}
+        add{the+20, 2, mix(cubei, cubeo, 1/4), -50, 'orient', -100, 'drunk', 100, 'drunkspeed', plr=1}
+        add{the+20.5, 1.5, popElastic, 200, 'tipsy', plr=1}
+        add{the+21, 1.5, expos,  50, 'orient', 100, 'drunk', plr=1}
+        ease{the+21, 1.5, expoo, 0, 'blacksphere', plr=1}
+        ease{the+22, 1.5, expoo, s*360, 'blacksphere', plr=1}
+
+    end
+
+    hidecol(CERING_OFFSET+11.5, 4.5, {0,1}, 2)
+    hidecol(CERING_OFFSET+11.5, 4.5, {2,3}, 1)
+    hidecol(CERING_OFFSET+27.5, 4.5, {0,1}, 1)
+    hidecol(CERING_OFFSET+27.5, 4.5, {2,3}, 2)
+	set{CERING_OFFSET+27.5, 100, 'centerPlayfields'}
+
+    reset{CERING_OFFSET+23, plr=2, exclude={'zoomx', 'zoomy', 'blacksphere', 'centered2', 'movey', 'zoomz', 'drunk', 'drunkz',
+    'parabolaz', 'rotationx', 'rotationy', 'rotationz'}}
+    ease{CERING_OFFSET+23, 1, expoo, 300, 'zoomx', 0, 'zoomy', plr=1}
+    reset{CERING_OFFSET+24, exclude={'blacksphere', 'centered2', 'movey', 'zoomz', 'drunk', 'drunkz',
+    'parabolaz', 'rotationx', 'rotationy', 'rotationz'}}
+    
+	reset{588}
+
+	set{591,2,'xmod',0,'cmod',-999999999,'cover',100,'dizzyholds'}
+	func{595,function() eva_bg
+	:hidden(0) rya38:hidden(1) end}
+	--I like that this works its funny to me
+
+	--look at me go im using 'references' and 'stealing'
+	ease{597,1.5,outQuad,100,'wave',100,'centerplayfields'}
+	set{598.5,100,'drunk',100,'bumpyx',-20,'tipsy',10,'rotationz'}
+	ease{598.5,0.5,outQuad,0,'drunk',0,'bumpyx',-0,'tipsy',0,'rotationz'}
+
+	set{599,-100,'drunk',-100,'bumpyx',30,'tipsy',-10,'rotationz'}
+	ease{599,0.5,outQuad,0,'drunk',0,'bumpyx',-0,'tipsy',0,'rotationz'}
+
+	set{599.5,100,'drunk',100,'bumpyx',-30,'tipsy',10,'rotationz',1.3,'xmod'}
+	ease{599.5,0.5,outQuad,0,'drunk',0,'bumpyx',-0,'tipsy',0,'rotationz',2,'xmod'}
+
+	set{600,200,'drunk',-200,'bumpyx',-40,'tipsy',15,'rotationz',1.3,'xmod'}
+	ease{599.5+0.5,0.5,outQuad,0,'drunk',0,'bumpyx',-0,'tipsy',0,'rotationz',2,'xmod'}
+	--funny
+	set{601-0.5,-100,'drunk',-230,'bumpyx',-100,'tipsy',-15,'rotationz',1.3,'xmod'}
+	ease{599.5+0.5+0.5,0.5,outQuad,0,'drunk',0,'bumpyx',-0,'tipsy',0,'rotationz',2,'xmod'}
+
+	set{601,100,'drunk',-30,'bumpyx',-100,'tipsy',-30,'flip',-0,'xmod'}
+	ease{601,1,outQuad,0,'drunk',0,'bumpyx',-0,'tipsy',0,'flip',2,'xmod'}
+	
+
+	set{603,100,'arrowpath',200,'tandigital',200,'tandrunky'}set{604,0,'arrowpath',00,'tandigital',0000000,'tandrunky'}
+
+	set{605,100,'dizzy',20,'tornado',20,'pulse'}
+
+	 for penis = 609.5, 610.75, 0.25 do
+		add{penis,0,instant,-500,'tiny',100,'dizzy',50,'dark',100,'hidenoteflashes'}
+     end
+
+
+	set{609.5,0,'mini'}
+	 for penis = 606.5, 608.25, 0.5 do
+		add{penis,0.5,outQuart,25,'mini'}
+     end
+
+	--Hi taro
+	--gonna make a crusty tribute to your eva stuff
+	--why? its funny
+	--Wait I dont think taro would read this
+	
+	--I could probably do this better but like
+	--its my code and I get to decide where the crust goes
+	func{595,function() mitsubishi:hidden(0)  end}
+	func{595.5,function() mitsubishi:hidden(1)  end}
+	func{596,function() mitsubishi:hidden(0)  end}
+	func{596.5,function() mitsubishi:hidden(1)  end}
+	func{597,function() mitsubishi:hidden(0)  end}
+	func{597.5,function() mitsubishi:hidden(1)  end}
+	--And I have decided the crust is going everywhere
+	set{595,100,'invert'}
+	set{596,0,'invert'}
+	swap {596, 0, instant, 'lrdu'}
+	swap {597, 0, instant, 'ldur'}
+
+	func{603,function() mitsubishi:hidden(0)  end}
+	func{603.5,function() mitsubishi:hidden(1)  end}
+	func{604,function() mitsubishi:hidden(0)  end}
+	func{604.5,function() mitsubishi:hidden(1)  end}
+
+	func{605,function() mitsubishi:hidden(0)  end}
+	func{606,function() mitsubishi:hidden(1)  end}
+
+
+
+	reset{611.28672346783}
+
+
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+----------------------Jolly code!!!----------------------------------------------------------
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+
+
+
+	set{611.28672346783, 2.5, 'xmod', 100, 'drawsize', 200, 'modtimer'}
+	{0, 25, 'orient', 100, 'centered',100,'centerPlayfields',0,'dark'}
+	func{611.28672346783,function() bg:hidden(0) end}
+
+	P1:x(scx)
+	P2:x(scx)
+	bg:diffuse(0,0,0,1)
+	bg:xywh(scx, scy, sw, sh)
+	
+	
+	-- helper functions + definemods
+	function map(n, start1, stop1, start2, stop2)
+		return (n - start1) / (stop1 - start1) * (stop2 - start2) + start2
+	end
+	
+	definemod{'fieldhide', function(p, pn) 
+		local a = map(p, 0, 100, 100, 0)
+		for c = 0,3 do
+			P[pn]:SetNumArrowGradientPoints(c, 2)
+			P[pn]:SetArrowGradientColor(0, c, 1, 1, 1, a/100)
+		end
+		
+		local d = map(p, 0, 100, 50, 100)
+		return d 
+	end, 'dark'}	
+
+	definemod{'funx', function(p) return p, map(p, -175, 175, -30, 30) end, 'x', 'rotationy'}
+	definemod{'funy', function(p) 
+		local r = 0
+		if p > 0 then r = 100 end
+		return p, map(p, -200, 200, 20, -20), r 
+	end, 'y', 'rotationx', 'reverse'}
+
+
+	-- the sneaky bit (hiding/unhiding the playfield)
+	o = 0.25
+	for b = 0+611.5, 14+611.5, 2 do
+		ease{b, o, linear, 0, 'fieldhide'}
+		ease{b+o, 1.5-o, linear, 100, 'fieldhide'}
+	end
+	
+	-- setting the positions for playfield teleportation
+	-- local seed = os.time()
+	-- print(seed)
+	math.randomseed(1646476019)
+	for i = 0, 2 do math.random() end
+	pos = {
+		{0, -150}, -- init
+		{math.random(50, 150), -math.random(0, 100)}, -- b2
+		{-math.random(50, 150), -math.random(0, 100)}, -- b4
+		{math.random(-100, 150), -math.random(0, 100)}, -- b6
+		{0, 150}, -- b8
+		{math.random(-100, 150), math.random(0, 100)}, -- b10
+		{math.random(50, 150), math.random(0, 100)}, -- b12
+		{-math.random(50, 150), math.random(0, 100)}, -- b14
+	}
+	
+	-- actually teleporting the playfield
+	set{0, pos[1][1], 'funx', pos[1][2], 'funy'}
+	for i = 2, 8 do
+		set{2+611+(i-2)*2, pos[i][1], 'funx', pos[i][2], 'funy'}
+	end
+	
+	-------------
+	-- Accents --
+	-------------
+	for _, b in ipairs{0,8} do -- main plucks (repeating section)
+		ease{b+0.5+611.5, 0.25, outQuad, 100, 'tipsy'}
+		{b+0.75+611.5, 0.25, outQuad, -100, 'tipsy'}
+		{b+1+611.5, 0.25, outQuad, 100, 'tipsy'}
+		{b+1+611.5, 1, outQuad, 0, 'tipsy'}
+	
+		ease{b+2+611.5, 0.75, pop, -5, 'flip'}
+		ease{b+2.75+611.5, 0.25, outQuad, 75, 'drunk'}
+		{b+3+611.5, 0.25, outQuad, -75, 'drunk'}
+		{b+3+611.5, 1, outQuad, 0, 'drunk'}
+	end
+	
+	-- main plucks (extra section)
+	ease{6+611.5, 0.75, pop, -100, 'tipsy'} 
+	ease{6.75+611.5, 0.25, outQuad, -100, 'drunk'}
+	{7+611.5, 0.25, outQuad, 100, 'drunk'}
+	{7+611.5, 1, outQuad, 0, 'drunk'}
+
+	ease{5+611.5, 0.75, pop, 30, 'noteskewx'} -- a single side plug
+	
+	for _, b in ipairs{0+611.5,2+611.5,4+611.5,6+611.5,7+611.5,8+611.5,10+611.5} do -- bass
+		ease{b, 1, pop, 115, 'zoomx'}
+		{b, 1, pop, 85, 'zoomy'}
+	end
+	
+	-- final section
+	ease{12+611.5, 1, pop, -50, 'tiny'} -- lil extra
+	{14+611.5, 1, pop, -100, 'tiny'}
+	ease{12+611.5, 0.75, pop, -100, 'tipsy', 50, 'drunk'} -- plucks
+	{14+611.5, 0.75, pop, 150, 'tipsy', -75, 'drunk'}
+	ease{12+611.5, 1, pop, 115, 'zoomx'} -- increasing bass
+	{12+611.5, 1, pop, 85, 'zoomy'}
+	{13+611.5, 1, pop, 120, 'zoomx'}
+	{13+611.5, 1, pop, 80, 'zoomy'}
+	{14+611.5, 1, pop, 125, 'zoomx'}
+	{14+611.5, 1, pop, 75, 'zoomy'}
+	{15+611.5, 1, pop, 115, 'zoomx'}
+	{15+611.5, 1, pop, 85, 'zoomy'}
+
+
+
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+----------------------Jolly code!!!----------------------------------------------------------
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+
+
+reset{627}
+func{627,function() bg:hidden(1) end}
+	
+
+
+
+af:fov(30)
+
+
+end)"Name=af Type="ActorFrame"><children>
+	<Layer Type = "Sprite" Name = "mysprite" InitCommand="hidden,1" Frag="fisheye.frag"/>
+	<!--  Funny c2l shit  !-->
+	<Layer File = "c2l/spamton.xml"/>
+	<Layer File = "c2l/penis.xml"/>
+	<Layer File = "c2l/jebil.xml"/>
+	<Layer File = "c2l/mother.xml"/>
+	<Layer File = "c2l/rebone.xml"/>
+	<Layer File = "c2l/Leenor.xml"/>
+	<!--  Funny c2l shit  !-->
+	<Layer File = "eva.png" InitCommand="stretchto,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y" Name = "eva_bg" />
+	<Layer File = "char/spam/bg.png" Name = "spammy_bg2" OnCommand="customtexturerect,0,0,10,10;texcoordvelocity,-0.12,-0.1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y;"/>
+	<Layer File = "char/spam/bg.png" Name = "spammy_bg" OnCommand="customtexturerect,0,0,10,10;texcoordvelocity,0.1,0.1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y;blend,add;"/>
+	<Layer File = "char/spam/box.png" InitCommand="zoom,SCREEN_HEIGHT*0.001;hidden,0;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y*1.2" Name = "spambox" />
+	<Layer File = "man.png" InitCommand="stretchto,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y" Name = "damn" />
+	<Layer File = "rya.png" InitCommand = "xy,SCREEN_CENTER_X,SCREEN_CENTER_Y;hidden,1" Name="rya38" />
+	<Layer File = "toriel.png" InitCommand = "stretchto,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y" Name="toriel" />
+	<Layer File = "walt.png" InitCommand = "stretchto,SCREEN_WIDTH*0.25,SCREEN_HEIGHT*0.25,SCREEN_WIDTH*0.75,SCREEN_HEIGHT*0.75;hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y" Name="walter" />
+	<Layer File = "clock/bg.png" InitCommand="stretchto,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y" Name = "cl_bg" />
+	<Layer Type = "Quad" Name = "bg" InitCommand="hidden,1" />
+	
+	<Layer Type = "ActorProxy" Name = "PC[1]" />
+	<Layer Type = "ActorProxy" Name = "PC[2]" />
+	<Layer Type = "ActorProxy" Name = "PJ[1]" />
+	<Layer Type = "ActorProxy" Name = "PJ[2]" />
+	<Layer Type = "ActorProxy" Name = "PP[2]" />
+		<Layer File = "clock/clock3.png" InitCommand="zoom,SCREEN_HEIGHT*0.0007;hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y" Name = "cl_face" />
+		<Layer File = "clock/hand1.png" InitCommand="zoom,SCREEN_HEIGHT*0.0004;hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y" Name = "cl_hand1" />
+		<Layer File = "clock/hand2.png" InitCommand="zoom,SCREEN_HEIGHT*0.0004;hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y" Name = "cl_hand2" />
+	<Layer Type = "ActorProxy" Name = "PP[1]" />
+
+	<Layer File = "among.gif" InitCommand="stretchto,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y" Name = "among" />
+	<Layer File = "fof.gif" InitCommand="stretchto,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y" Name = "fof" />
+
+	<Layer File = "char/spam/spamton.png" InitCommand="zoom,SCREEN_HEIGHT*0.0005;hidden,0;xy,SCREEN_CENTER_X*1.2,SCREEN_CENTER_Y*0.5" Name = "spammy" />
+	<Layer Type = "Quad" InitCommand="stretchto,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;diffuse,0,0,0,1;hidden,0;" Name = "black" />
+	<Layer Type = "ActorFrameTexture" Name = "myaft"  />
+	<Layer File = "disclaimer.png" InitCommand="stretchto,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;diffusealpha,1;hidden,1;" Name = "michealwave_help" />
+	<Layer File = "microwave2.txt" InitCommand="xy,SCREEN_CENTER_X,SCREEN_CENTER_Y;zoom,3;hidden,1;" Name = "micheal" />
+
+	<Layer File = "signal.png" InitCommand="stretchto,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y" Name = "mitsubishi" />
+	
+	<Layer Type="ActorFrame" Name="funny" ><children>
+	<Layer File = "ronaldino.mp4" InitCommand="stretchto,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;diffusealpha,1;hidden,1;animate,0;" Name = "ronaldino" Frag="chroma.frag" />
+	</children></Layer>
+</children></Mods>

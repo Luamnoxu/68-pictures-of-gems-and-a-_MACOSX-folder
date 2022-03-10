@@ -1,0 +1,44 @@
+<Plugin Author="Sudospective" Version="1.0" LoadCommand="%xero(function(self)
+
+	-- i just dont know how to use beat objects. ~Sudo
+
+	function invert(easefunc)
+		return function(t) return inverse(easefunc(t)) end
+	end
+	
+	invSine = invert(inOutSine)
+	invQuad = invert(inOutQuad)
+	invCubic = invert(inOutCubic)
+	invQuart = invert(inOutQuart)
+	invQuint = invert(inOutQuint)
+	invExpo = invert(inOutExpo)
+	invCirc = invert(inOutCirc)
+	invBack = invert(inOutBack)
+	invBounce = invert(inOutBounce)
+	invElastic = invert(inOutElastic)
+
+	function mixEase(e1, e2, point)
+		if not point then point = 0.5 end
+		return function(t)
+			if t < point then
+				return e1(t / point) * point
+			else
+				return e2((t - point) / (1 - point)) * (1 - point) + point
+			end
+		end
+  	end
+
+	outInSine = mixEase(outSine, inSine)
+	outInQuad = mixEase(outQuad, inQuad)
+	outInCubic = mixEase(outCubic, inCubic)
+	outInQuart = mixEase(outQuart, inQuart)
+	outInQuint = mixEase(outQuint, inQuint)
+	outInExpo = mixEase(outExpo, inExpo)
+	outInCirc = mixEase(outCirc, inCirc)
+	outInBack = mixEase(outBack, inBack)
+	outInBounce = mixEase(outBounce, inBounce)
+	outInElastic = mixEase(outElastic, inElastic)
+
+	function sleep(t) return (t < 1 and 0) or 1 end
+
+end)" />
