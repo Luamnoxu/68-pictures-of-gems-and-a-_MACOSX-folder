@@ -40,7 +40,7 @@
 ,751.000=0.133
 ,787.000=0.101
 ;
-#TIMESIGNATURES:;
+#TIMESIGNATURES:0.000=4=4;
 #BGCHANGES:;
 
 //The majority of simfile scripts and visual effects are stored here.

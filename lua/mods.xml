@@ -730,6 +730,155 @@ end
 
 me(30+224,4,0,500,'y','len',inOutCubic)
 
+
+-- bg work
+-- thank you taro for making the code easily borrowable!!
+function jevil_bgMake()
+	local rad = 32 + SCREEN_WIDTH/2
+	local sides = 16
+	
+	jevil_bg:SetNumVertices(sides*4)
+	jevil_bg:SetPolygonMode(0)
+	jevil_bg:SetTexture( jevil_carousel:GetTexture() )
+	jevil_bg:SetTextureFiltering( false )
+	jevil_bg:cullmode('back');
+
+	for i=0,sides-1 do
+		local ang1 = i/sides
+		local ang2 = (i+1)/sides
+
+		local x1 = rad*math.sin(ang1*math.pi*2)
+		local x2 = rad*math.sin(ang2*math.pi*2)
+		local z1 = rad*math.cos(ang1*math.pi*2)
+		local z2 = rad*math.cos(ang2*math.pi*2)
+		
+		jevil_bg:SetVertexPosition(i*4+0,x1,-SCREEN_HEIGHT,z1)
+		jevil_bg:SetVertexPosition(i*4+1,x2,-SCREEN_HEIGHT,z2)
+		jevil_bg:SetVertexPosition(i*4+2,x2,SCREEN_HEIGHT,z2)
+		jevil_bg:SetVertexPosition(i*4+3,x1,SCREEN_HEIGHT,z1)
+		
+		jevil_bg:SetVertexTexCoord(i*4+0,ang1,0)
+		jevil_bg:SetVertexTexCoord(i*4+1,ang2,0)
+		jevil_bg:SetVertexTexCoord(i*4+2,ang2,1)
+		jevil_bg:SetVertexTexCoord(i*4+3,ang1,1)
+		
+		for j=0,3 do
+			jevil_bg:SetVertexColor(i*4+j,.125,.125,.375,1)
+		end
+	end
+end
+function jevil_lowerMake() 
+	local rad1 = 640
+
+	jevil_lower:SetPolygonMode(0)
+	jevil_lower:cullmode('back');
+	jevil_lower:SetNumVertices(48)
+
+	for i=0,7 do
+		local ang1 = i/8
+		local ang2 = (i+1)/8
+
+		local x1 = rad1*math.sin(ang1*math.pi*2)
+		local x2 = rad1*math.sin(ang2*math.pi*2)
+		local z1 = rad1*math.cos(ang1*math.pi*2)
+		local z2 = rad1*math.cos(ang2*math.pi*2)
+		
+		jevil_lower:SetVertexPosition(i*3+0,0,0,0)
+		jevil_lower:SetVertexPosition(i*3+1,x1,0,z1)
+		jevil_lower:SetVertexPosition(i*3+2,x2,0,z2)
+		
+		for j=0,2 do
+			if math.mod(i,2) == 0 then
+				jevil_lower:SetVertexColor(i*3+j,.125,.125,.375,1)
+			else
+				jevil_lower:SetVertexColor(i*3+j,0,0,.5,1)
+			end
+		end
+		
+	end
+
+	local rad2 = 120
+	
+	for i=0,7 do
+		local ang1 = i/8
+		local ang2 = (i+1)/8
+
+		local x1 = rad2*math.sin(ang1*math.pi*2)
+		local x2 = rad2*math.sin(ang2*math.pi*2)
+		local z1 = rad2*math.cos(ang1*math.pi*2)
+		local z2 = rad2*math.cos(ang2*math.pi*2)
+		
+		jevil_lower:SetVertexPosition(24+i*3+0,0,-SCREEN_HEIGHT/2,0)
+		jevil_lower:SetVertexPosition(24+i*3+1,x1,0,z1)
+		jevil_lower:SetVertexPosition(24+i*3+2,x2,0,z2)
+		
+		for j=0,2 do
+			if math.mod(i,2) == 0 then
+				jevil_lower:SetVertexColor(24+i*3+j,.125,.125,.375,1)
+			else
+				jevil_lower:SetVertexColor(24+i*3+j,0,0,.5,1)
+			end
+		end
+	end
+end
+function jevil_upperMake() 
+	local rad1 = 640
+	
+	jevil_upper:SetNumVertices(48)
+	jevil_upper:SetPolygonMode(0)
+	jevil_upper:cullmode('none');
+	
+	for i=0,7 do
+		local ang1 = i/8
+		local ang2 = (i+1)/8
+	
+		local x1 = rad1*math.sin(ang1*math.pi*2)
+		local x2 = rad1*math.sin(ang2*math.pi*2)
+		local z1 = rad1*math.cos(ang1*math.pi*2)
+		local z2 = rad1*math.cos(ang2*math.pi*2)
+		
+		jevil_upper:SetVertexPosition(i*3+0,0,0,0)
+		jevil_upper:SetVertexPosition(i*3+1,x1,0,z1)
+		jevil_upper:SetVertexPosition(i*3+2,x2,0,z2)
+		
+		for j=0,2 do
+			if math.mod(i,2) == 0 then
+				jevil_upper:SetVertexColor(i*3+j,.125,.125,.375,1)
+			else
+				jevil_upper:SetVertexColor(i*3+j,0,0,.5,1)
+			end
+		end
+		
+	end
+	
+	local rad2 = 120
+	for i=0,7 do
+		local ang1 = i/8
+		local ang2 = (i+1)/8
+	
+		local x1 = rad2*math.sin(ang1*math.pi*2)
+		local x2 = rad2*math.sin(ang2*math.pi*2)
+		local z1 = rad2*math.cos(ang1*math.pi*2)
+		local z2 = rad2*math.cos(ang2*math.pi*2)
+		
+		jevil_upper:SetVertexPosition(24+i*3+0,0,-SCREEN_HEIGHT/2,0)
+		jevil_upper:SetVertexPosition(24+i*3+1,x1,0,z1)
+		jevil_upper:SetVertexPosition(24+i*3+2,x2,0,z2)
+		
+		for j=0,2 do
+			if math.mod(i,2) == 0 then
+				jevil_upper:SetVertexColor(24+i*3+j,.125,.125,.375,1)
+			else
+				jevil_upper:SetVertexColor(24+i*3+j,0,0,.5,1)
+			end
+		end
+	end
+end
+
+func{0, function() jevil_bgMake(); jevil_lowerMake(); jevil_upperMake() end}
+func{224, function() twr_bg:hidden(0) end}
+func{256, function() twr_bg:hidden(1) end}
+
 ---------------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------------
 ----------------------yasmin code!!!---------------------------------------------------------
@@ -1611,6 +1760,8 @@ func{627,function() bg:hidden(1) end}
 af:fov(30)
 
 
+
+
 end)"Name=af Type="ActorFrame"><children>
 	<Layer Type = "Sprite" Name = "mysprite" InitCommand="hidden,1" Frag="fisheye.frag"/>
 	<!--  Funny c2l shit  !-->
@@ -1637,6 +1788,14 @@ end)"Name=af Type="ActorFrame"><children>
 		<Layer File = "gd/recticle.png" Name = "gd_recticle"/>
 		<Layer File = "gd/struct.png" Name = "gd_struct"/>
 		<Layer File = "gd/plus.png" Name = "gd_plus"/>
+	</children></Layer>
+	<Layer Type="ActorFrame" Name="twr_bg" OnCommand="hidden,1" ><children>
+		<Layer File="carousel" Name="jevil_carousel" OnCommand="hidden,1" />
+		<Layer Type="Polygon" DrawMode="Quads" Name="jevil_bg" OnCommand="diffuse,1,1,1,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;z,0;spin;effectmagnitude,0,90,0" />
+		<Layer Type="ActorFrame" OnCommand="fov,60"><children>
+			<Layer Type="Polygon" DrawMode="Triangles" Name="jevil_lower" OnCommand="diffuse,1,1,1,1;x,SCREEN_CENTER_X;y,SCREEN_HEIGHT;z,-200;spin;effectmagnitude,0,90,0" />
+			<Layer Type="Polygon" DrawMode="Triangles" Name="jevil_upper" OnCommand="diffuse,1,1,1,1;x,SCREEN_CENTER_X;y,0;zoomy,-1;z,-200;spin;effectmagnitude,0,90,0" />
+		</children></Layer>
 	</children></Layer>
 	<Layer Type = "Quad" Name = "bg" InitCommand="hidden,1" />
 	
