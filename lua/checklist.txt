@@ -11,3 +11,4 @@ kirby (Ky)
 gameover
 proper visuals
 add the funny somewhere (important [for me] )
+potentially add ghoul by daniel????
