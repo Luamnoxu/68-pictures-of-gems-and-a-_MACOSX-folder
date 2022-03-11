@@ -1057,6 +1057,9 @@ func{256, function() twr_bg:hidden(1) end}
 	ease {361.5, 1.5, inOutSine,300,'Drunk',0,'flip'}
 	ease {363, 0.5, inOutSine,0,'Drunk'}
 
+	func{350, function() damnbone:hidden(0) end}
+	func{366, function() damnbone:hidden(1) end}
+	
 	
 	reset{366}
 	func{371,function() ronaldino:hidden(0) ronaldino:animate(1) end}
@@ -1781,6 +1784,7 @@ end)"Name=af Type="ActorFrame"><children>
 	<Layer File = "toriel.png" InitCommand = "stretchto,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y" Name="toriel" />
 	<Layer File = "walt.png" InitCommand = "stretchto,SCREEN_WIDTH*0.25,SCREEN_HEIGHT*0.25,SCREEN_WIDTH*0.75,SCREEN_HEIGHT*0.75;hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y" Name="walter" />
 	<Layer File = "clock/bg.png" InitCommand="stretchto,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y" Name = "cl_bg" />
+	<Layer File = "damnbone.png" InitCommand = "stretchto,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y" Name="damnbone" />
 	<Layer Type = "ActorFrame" Name = "gd_af"><children>
 		<Layer File = "gd/arrow.png" Name = "gd_arrow"/>
 		<Layer File = "gd/mist.png" Name = "gd_mist"/>
@@ -1790,7 +1794,7 @@ end)"Name=af Type="ActorFrame"><children>
 		<Layer File = "gd/plus.png" Name = "gd_plus"/>
 	</children></Layer>
 	<Layer Type="ActorFrame" Name="twr_bg" OnCommand="hidden,1" ><children>
-		<Layer File="carousel" Name="jevil_carousel" OnCommand="hidden,1" />
+		<Layer File="carousel.png" Name="jevil_carousel" OnCommand="hidden,1" />
 		<Layer Type="Polygon" DrawMode="Quads" Name="jevil_bg" OnCommand="diffuse,1,1,1,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;z,0;spin;effectmagnitude,0,90,0" />
 		<Layer Type="ActorFrame" OnCommand="fov,60"><children>
 			<Layer Type="Polygon" DrawMode="Triangles" Name="jevil_lower" OnCommand="diffuse,1,1,1,1;x,SCREEN_CENTER_X;y,SCREEN_HEIGHT;z,-200;spin;effectmagnitude,0,90,0" />
