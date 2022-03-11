@@ -767,12 +767,12 @@ function jevil_bgMake()
 		end
 	end
 end
-function jevil_lowerMake() 
+function jevilMake(obj, cmode) 
 	local rad1 = 640
 
-	jevil_lower:SetPolygonMode(0)
-	jevil_lower:cullmode('back');
-	jevil_lower:SetNumVertices(48)
+	obj:SetPolygonMode(0)
+	obj:cullmode(cmode)
+	obj:SetNumVertices(48)
 
 	for i=0,7 do
 		local ang1 = i/8
@@ -783,15 +783,15 @@ function jevil_lowerMake()
 		local z1 = rad1*math.cos(ang1*math.pi*2)
 		local z2 = rad1*math.cos(ang2*math.pi*2)
 		
-		jevil_lower:SetVertexPosition(i*3+0,0,0,0)
-		jevil_lower:SetVertexPosition(i*3+1,x1,0,z1)
-		jevil_lower:SetVertexPosition(i*3+2,x2,0,z2)
+		obj:SetVertexPosition(i*3+0,0,0,0)
+		obj:SetVertexPosition(i*3+1,x1,0,z1)
+		obj:SetVertexPosition(i*3+2,x2,0,z2)
 		
 		for j=0,2 do
 			if math.mod(i,2) == 0 then
-				jevil_lower:SetVertexColor(i*3+j,.125,.125,.375,1)
+				obj:SetVertexColor(i*3+j,.125,.125,.375,1)
 			else
-				jevil_lower:SetVertexColor(i*3+j,0,0,.5,1)
+				obj:SetVertexColor(i*3+j,0,0,.5,1)
 			end
 		end
 		
@@ -808,74 +808,21 @@ function jevil_lowerMake()
 		local z1 = rad2*math.cos(ang1*math.pi*2)
 		local z2 = rad2*math.cos(ang2*math.pi*2)
 		
-		jevil_lower:SetVertexPosition(24+i*3+0,0,-SCREEN_HEIGHT/2,0)
-		jevil_lower:SetVertexPosition(24+i*3+1,x1,0,z1)
-		jevil_lower:SetVertexPosition(24+i*3+2,x2,0,z2)
+		obj:SetVertexPosition(24+i*3+0,0,-SCREEN_HEIGHT/2,0)
+		obj:SetVertexPosition(24+i*3+1,x1,0,z1)
+		obj:SetVertexPosition(24+i*3+2,x2,0,z2)
 		
 		for j=0,2 do
 			if math.mod(i,2) == 0 then
-				jevil_lower:SetVertexColor(24+i*3+j,.125,.125,.375,1)
+				obj:SetVertexColor(24+i*3+j,.125,.125,.375,1)
 			else
-				jevil_lower:SetVertexColor(24+i*3+j,0,0,.5,1)
-			end
-		end
-	end
-end
-function jevil_upperMake() 
-	local rad1 = 640
-	
-	jevil_upper:SetNumVertices(48)
-	jevil_upper:SetPolygonMode(0)
-	jevil_upper:cullmode('none');
-	
-	for i=0,7 do
-		local ang1 = i/8
-		local ang2 = (i+1)/8
-	
-		local x1 = rad1*math.sin(ang1*math.pi*2)
-		local x2 = rad1*math.sin(ang2*math.pi*2)
-		local z1 = rad1*math.cos(ang1*math.pi*2)
-		local z2 = rad1*math.cos(ang2*math.pi*2)
-		
-		jevil_upper:SetVertexPosition(i*3+0,0,0,0)
-		jevil_upper:SetVertexPosition(i*3+1,x1,0,z1)
-		jevil_upper:SetVertexPosition(i*3+2,x2,0,z2)
-		
-		for j=0,2 do
-			if math.mod(i,2) == 0 then
-				jevil_upper:SetVertexColor(i*3+j,.125,.125,.375,1)
-			else
-				jevil_upper:SetVertexColor(i*3+j,0,0,.5,1)
-			end
-		end
-		
-	end
-	
-	local rad2 = 120
-	for i=0,7 do
-		local ang1 = i/8
-		local ang2 = (i+1)/8
-	
-		local x1 = rad2*math.sin(ang1*math.pi*2)
-		local x2 = rad2*math.sin(ang2*math.pi*2)
-		local z1 = rad2*math.cos(ang1*math.pi*2)
-		local z2 = rad2*math.cos(ang2*math.pi*2)
-		
-		jevil_upper:SetVertexPosition(24+i*3+0,0,-SCREEN_HEIGHT/2,0)
-		jevil_upper:SetVertexPosition(24+i*3+1,x1,0,z1)
-		jevil_upper:SetVertexPosition(24+i*3+2,x2,0,z2)
-		
-		for j=0,2 do
-			if math.mod(i,2) == 0 then
-				jevil_upper:SetVertexColor(24+i*3+j,.125,.125,.375,1)
-			else
-				jevil_upper:SetVertexColor(24+i*3+j,0,0,.5,1)
+				obj:SetVertexColor(24+i*3+j,0,0,.5,1)
 			end
 		end
 	end
 end
 
-func{0, function() jevil_bgMake(); jevil_lowerMake(); jevil_upperMake() end}
+func{0, function() jevil_bgMake(); jevilMake(jevil_lower, 'back'); jevilMake(jevil_upper, 'front') end}
 func{224, function() twr_bg:hidden(0) end}
 func{256, function() twr_bg:hidden(1) end}
 
