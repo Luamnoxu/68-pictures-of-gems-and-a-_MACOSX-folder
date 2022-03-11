@@ -1,5 +1,7 @@
 // MilkShape 3D ASCII
+//I have no clue what this is but presumably its
 
+//checked textures and yes it is
 Frames: 30
 Frame: 1
 

@@ -1441,8 +1441,8 @@ func{256, function() twr_bg:hidden(1) end}
             ease{i-0.4, 0.8, expos, a*60, 'noteskewy'}
         end
 
-        reset{the+16, plr=2}
-        reset{the+16, 2, expoo, exclude={'confusionzoffset', 'cmod'}, plr=1}
+        reset{the+16,exclude={'centerPlayfields'}, plr=2}
+        reset{the+16, 2, expoo, exclude={'confusionzoffset', 'cmod','centerPlayfields'}, plr=1}
 		default(the+16)
         add{the+16, 1, expoo, s*250, 'movex', s*50, 'rotationy', 100, 'z', plr=1}
         ease{the+17, 2, quarts, -s*250, 'movex', -s*50, 'rotationy', plr=1}
@@ -1498,7 +1498,7 @@ func{256, function() twr_bg:hidden(1) end}
     hidecol(CERING_OFFSET+27.5, 4.5, {2,3}, 2)
 
     reset{CERING_OFFSET+23, plr=2, exclude={'zoomx', 'zoomy', 'blacksphere', 'centered2', 'movey', 'zoomz', 'drunk', 'drunkz',
-    'parabolaz', 'rotationx', 'rotationy', 'rotationz'}}
+    'parabolaz', 'rotationx', 'rotationy', 'rotationz','centerPlayfields'}}
     ease{CERING_OFFSET+23, 1, expoo, 300, 'zoomx', 0, 'zoomy', plr=1}
     reset{CERING_OFFSET+24, exclude={'blacksphere', 'centered2', 'movey', 'zoomz', 'drunk', 'drunkz',
     'parabolaz', 'rotationx', 'rotationy', 'rotationz','centerPlayfields'}}
