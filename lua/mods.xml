@@ -1834,6 +1834,7 @@ reset{727}
 --GHOUL SECTION end 791
 		func {724, 3, inQuart,0,1, 'green:diffusealpha'}
 		func {724, 3, inQuart,SCREEN_HEIGHT*0.004,SCREEN_HEIGHT*0.0004, 'green:zoom'}
+		func {724, 3, inQuart,scy*3,scy, 'green:y'}
 		func{727,function() 
 		green_bg:hidden(0)
 		green_bg:diffusealpha(1)
