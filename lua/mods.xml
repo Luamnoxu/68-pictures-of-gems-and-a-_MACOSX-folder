@@ -1810,25 +1810,7 @@ reset{627}
 func{720,function() green:hidden(0) end}
 func{727,function() bg:hidden(1) eva_bg:hidden(1) green_bg:hidden(0) end}
 
-func{700,function() ticker:hidden(0) end}
-func {710, 5, outQuad,0,1, 'ticker:diffusealpha'}
-func {710, 5, outQuart,SCREEN_HEIGHT,SCREEN_HEIGHT*0.86, 'ticker:y'}
-func {727, 1, outQuart,SCREEN_HEIGHT*0.86,SCREEN_HEIGHT*1.2, 'ticker:y'}
-reset{727}
-
-
-
-
---GHOUL SECTION end 791
-		func {714.5, 12.5, inQuart,0,0.1, 'green:diffusealpha'}
-		func {714.5, 12.5, outQuart,SCREEN_HEIGHT*0.004,SCREEN_HEIGHT*0.0004, 'green:zoom'}
-		func{727,function() 
-		green_bg:hidden(0)
-		green_bg:diffusealpha(1)
-		
-		green:diffusealpha(1)
-		green_refl:hidden(0)
-		green_refl:diffusealpha(1)
+func{700,function() ticker:hidden(0)
 		tuscanL[1]:hidden(0)
 		tuscanL[1]:diffusealpha(1)
 		tuscanR[1]:hidden(0)
@@ -1840,7 +1822,26 @@ reset{727}
 		tuscanL[3]:hidden(0)
 		tuscanL[3]:diffusealpha(1)
 		tuscanR[3]:hidden(0)
-		tuscanR[3]:diffusealpha(1)
+		tuscanR[3]:diffusealpha(1)	 end}
+func {710, 5, outQuad,0,1, 'ticker:diffusealpha'}
+func {710, 5, outQuart,SCREEN_HEIGHT,SCREEN_HEIGHT*0.86, 'ticker:y'}
+func {727, 1, outQuart,SCREEN_HEIGHT*0.86,SCREEN_HEIGHT*1.2, 'ticker:y'}
+reset{727}
+
+
+
+
+--GHOUL SECTION end 791
+		func {724, 3, inQuart,0,1, 'green:diffusealpha'}
+		func {724, 3, inQuart,SCREEN_HEIGHT*0.004,SCREEN_HEIGHT*0.0004, 'green:zoom'}
+		func{727,function() 
+		green_bg:hidden(0)
+		green_bg:diffusealpha(1)
+		
+		--green:diffusealpha(1)
+		green_refl:hidden(0)
+		green_refl:diffusealpha(1)
+		
 		--thinking and couldnt i have made this shorter with an actorframe? 
 		end}
 
@@ -1858,6 +1859,13 @@ reset{727}
 			func {pn, 2, bounce,SCREEN_HEIGHT*0.001,SCREEN_HEIGHT*0.00101, 'tuscanR[3]:zoom'}
 			
 		end
+		func {720.67, 3, outQuart,SCREEN_HEIGHT,SCREEN_CENTER_Y*1.2, 'tuscanL[1]:y'}
+		func {720.67, 3, outQuart,SCREEN_HEIGHT,SCREEN_CENTER_Y*1.2, 'tuscanR[1]:y'}
+		func {722, 3, outQuart,SCREEN_HEIGHT,SCREEN_CENTER_Y*1.2, 'tuscanL[2]:y'}
+		func {722, 3, outQuart,SCREEN_HEIGHT,SCREEN_CENTER_Y*1.2, 'tuscanR[2]:y'}
+		func {723.5, 3, outQuart,SCREEN_HEIGHT,SCREEN_CENTER_Y*1.2, 'tuscanL[3]:y'}
+		func {723.5, 3, outQuart,SCREEN_HEIGHT,SCREEN_CENTER_Y*1.2, 'tuscanR[3]:y'}
+
 	--stealing taros code was a dumb idea so ill be remaking it by hand
 	--pray for me
 		func{727,791-727,function() 
@@ -1935,12 +1943,12 @@ end)"Name=af Type="ActorFrame"><children>
 	<Layer Type = "Quad" Name = "bg" InitCommand="hidden,1" />
 		
 	<Layer Type="ActorFrame" Name="ghoul" ><children>
-		<Layer File = "char/fuck/tuscan.png" InitCommand = "fadebottom,0;xy,SCREEN_CENTER_X*0.7,SCREEN_CENTER_Y*1.2;zoom,SCREEN_HEIGHT*0.0006;diffusealpha,0;hidden,1;" Name="tuscanL[1]" />
-		<Layer File = "char/fuck/tuscan.png" InitCommand = "fadebottom,0;xy,SCREEN_CENTER_X*1.3,SCREEN_CENTER_Y*1.2;zoom,SCREEN_HEIGHT*0.0006;diffusealpha,0;hidden,1;" Name="tuscanR[1]" />
-		<Layer File = "char/fuck/tuscan.png" InitCommand = "fadebottom,0;xy,SCREEN_CENTER_X*0.5,SCREEN_CENTER_Y*1.2;zoom,SCREEN_HEIGHT*0.0008;diffusealpha,0;hidden,1;" Name="tuscanL[2]" />
-		<Layer File = "char/fuck/tuscan.png" InitCommand = "fadebottom,0;xy,SCREEN_CENTER_X*1.5,SCREEN_CENTER_Y*1.2;zoom,SCREEN_HEIGHT*0.0008;diffusealpha,0;hidden,1;" Name="tuscanR[2]" />
-		<Layer File = "char/fuck/tuscan.png" InitCommand = "fadebottom,0;xy,SCREEN_CENTER_X*0.3,SCREEN_CENTER_Y*1.2;zoom,SCREEN_HEIGHT*0.001;diffusealpha,0;hidden,1;" Name="tuscanL[3]" />
-		<Layer File = "char/fuck/tuscan.png" InitCommand = "fadebottom,0;xy,SCREEN_CENTER_X*1.7,SCREEN_CENTER_Y*1.2;zoom,SCREEN_HEIGHT*0.001;diffusealpha,0;hidden,1;" Name="tuscanR[3]" />
+		<Layer File = "char/fuck/tuscan.png" InitCommand = "fadebottom,0;xy,SCREEN_CENTER_X*0.7,SCREEN_CENTER_Y*12;zoom,SCREEN_HEIGHT*0.0006;diffusealpha,0;hidden,1;" Name="tuscanL[1]" />
+		<Layer File = "char/fuck/tuscan.png" InitCommand = "fadebottom,0;xy,SCREEN_CENTER_X*1.3,SCREEN_CENTER_Y*12;zoom,SCREEN_HEIGHT*0.0006;diffusealpha,0;hidden,1;" Name="tuscanR[1]" />
+		<Layer File = "char/fuck/tuscan.png" InitCommand = "fadebottom,0;xy,SCREEN_CENTER_X*0.5,SCREEN_CENTER_Y*12;zoom,SCREEN_HEIGHT*0.0008;diffusealpha,0;hidden,1;" Name="tuscanL[2]" />
+		<Layer File = "char/fuck/tuscan.png" InitCommand = "fadebottom,0;xy,SCREEN_CENTER_X*1.5,SCREEN_CENTER_Y*12;zoom,SCREEN_HEIGHT*0.0008;diffusealpha,0;hidden,1;" Name="tuscanR[2]" />
+		<Layer File = "char/fuck/tuscan.png" InitCommand = "fadebottom,0;xy,SCREEN_CENTER_X*0.3,SCREEN_CENTER_Y*12;zoom,SCREEN_HEIGHT*0.001;diffusealpha,0;hidden,1;" Name="tuscanL[3]" />
+		<Layer File = "char/fuck/tuscan.png" InitCommand = "fadebottom,0;xy,SCREEN_CENTER_X*1.7,SCREEN_CENTER_Y*12;zoom,SCREEN_HEIGHT*0.001;diffusealpha,0;hidden,1;" Name="tuscanR[3]" />
 
 		<Layer Type="ActorFrame" Name="yibm_all" ><children>
 			<Layer File = "char/fuck/green.png" InitCommand = "fadebottom,2;xy,SCREEN_CENTER_X,SCREEN_HEIGHT*1.2;zoom,SCREEN_HEIGHT*0.0004;rotationz,180;diffusealpha,0;hidden,1;" Name="green_refl" />
