@@ -117,6 +117,14 @@
 		return math.sin(math.pi*i*8)*(i)
 	end
 	
+
+	definemod{'bop',function(m)
+		green:zoom(m)
+		green_refl:zoom(m)
+	end}
+	setdefault{SCREEN_HEIGHT*0.0004,'bop'}
+
+
 	
 	definemod {'fisheye', function(gh)
 		mysprite:GetShader():uniform1f('amount', gh * 0.01)
@@ -126,7 +134,7 @@
 	local Jeuse = SCREENMAN:GetTopScreen();
 	definemod {'Zoomies', function(bible) Jeuse:zoom(bible) end}
 	setdefault{1,'Zoomies'}
-
+	
 	condor_const1 = math.sqrt(math.pow(SCREEN_WIDTH/2,2)+math.pow(SCREEN_HEIGHT/2,2))
     condor_const2 = 180+math.deg(math.atan(SCREEN_HEIGHT/SCREEN_WIDTH))
             
@@ -1700,11 +1708,94 @@ func{256, function() twr_bg:hidden(1) end}
 ---------------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------------
 
+fluc = 1
+fluc2 = 1
+pi = math.pi
+
+set{694,1, 'xmod', -100, 'spiralholds', 100, 'dizzyholds', 100, 'modtimer', 100, 'stealthpastreceptors', 100, 'stealthtype', 100, 'zbuffer'}
+	definemod{'cover2', function(a)
+		batman:diffusealpha(a)
+	end}
+	definemod{'rotx', 'roty', 'rotz', function(a, b ,c, plr)
+	
+		local rx, ry, rz = a, b, c
+		local cx, cy, cz = -(a/90)*50*pi, -(b/90)*50*pi, -(c/90)*50*pi
+	
+        return rx,ry,rz,cx,cy,cz
+	end,'rotationx','rotationy','rotationz','confusionxoffset','confusionyoffset','confusionzoffset'}
+
+	func{0, function()
+		for pn = 1, 2 do
+			P[pn]:x(scx)
+		end
+	end}
+
+	set{0+694, 100, 'dark', 1, 'cover2', 25, 'orient', -99, 'bumpyperiod', 10, 'drawsize', -100, 'drunkspeed', 600, 'drunkoffset', -50, 'drunkspacing', -75, 'drunkperiod', 200, 'drunkyspacing', -75, 'drunkyperiod', -100, 'drunkyspeed', 500, 'drunkyoffset', 300, 'zoomz'}
+	ease{0+694, 4, inCubic, 50, 'dark', 1.5, 'xmod'}
+
+
+	local nums = {4+694, 10+694, 16+694, 22+694, 28+694}
+	for i = 1, #nums do
+		ease{nums[i]-2, 4, inOutCubic, -2500, 'drunk'}
+		ease{nums[i], 2, outQuart, 50, 'drunk'}
+		add{nums[i], 4, outCubic, 3000*fluc2, 'drunkoffset'}
+		ease{nums[i]-.1, .5, outExpo, -500, 'tiny'}
+		ease{nums[i], 2, outExpo, 0, 'tiny'}
+		for j = 0.33, 6 , 1.333 do
+			if nums[i]+j < 31+694 then
+				ease {nums[i]+j-1, 2, inOutExpo, -150*fluc, 'drunky'}
+				add {nums[i]+j-1, 2, inOutExpo, -100*fluc, 'drunk'}
+	
+				add {nums[i]+j-1, 2, inOutExpo, -500*fluc, 'drunkyoffset'}
+				fluc = fluc*-1
+			end
+		end
+		if nums[i] == 16+694 or nums[i] == 28+694 then
+			func{nums[i], 2, outExpo, .5, 1.5, function(a)
+				for pn = 1, 2 do
+					P[pn]:x(scx*a)
+				end
+			end}
+		end 
+		if nums[i] == 10+694 or nums[i] == 22+694 then
+			ease{nums[i]+3.833, .5, outExpo, 25, 'reverse'}
+			ease{nums[i]+4.167-.1, .5, outExpo, -75, 'rotationx', 3, 'xmod', 300, 'bumpy'}
+			add{nums[i]+4.167-.1, 4.1, linear, 1000, 'bumpyoffset'}
+			ease{nums[i]+4.167, 4, outExpo, 0, 'reverse', 0, 'rotationx', 1.5, 'xmod', 0, 'bumpy'}
+			func{nums[i], 2, outExpo, 1.5, .5, function(a)
+				for pn = 1, 2 do
+					P[pn]:x(scx*a)
+				end
+			end}
+		add{nums[i]-1-3, 6, inOutExpo, 360*2, 'roty'}
+		ease{nums[i]-1-3, 3, inExpo, -25, 'flip'}
+		ease{nums[i]-1, 3, outExpo, 0, 'flip'}
+		end 
+		fluc2 = fluc2*-1
+	end
+
+
+	func{4+694, 2, outExpo, 1, 1.5, function(a)
+		for pn = 1, 2 do
+			P[pn]:x(scx*a)
+		end
+	end}
+
+	reset{31+694}
+
 
 reset{627}
-func{627,function() bg:hidden(1) end}
-	
+func{627,function() bg:hidden(1) eva_bg:hidden(1) green_bg:hidden(0) end}
+	--710
+func {710, 5, outQuad,0,1, 'ticker:diffusealpha'}
+func {710, 5, outQuart,SCREEN_HEIGHT,SCREEN_HEIGHT*0.86, 'ticker:y'}
+--currently hidden, check initcommand
 
+		for pn = 727, 999,1 do
+			func {pn, 1, bounce,SCREEN_HEIGHT*1.2,SCREEN_HEIGHT*1.21, 'green_refl:y'}
+			func {pn, 1, bounce,SCREEN_CENTER_Y,SCREEN_CENTER_Y*0.99, 'green:y'}
+			func {pn, 1, bounce,0.2,0.18, 'green:fadebottom'}
+		end
 
 
 af:fov(30)
@@ -1723,6 +1814,7 @@ end)"Name=af Type="ActorFrame"><children>
 	<Layer File = "c2l/Leenor.xml"/>
 	<!--  Funny c2l shit  !-->
 	<Layer File = "eva.png" InitCommand="stretchto,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y" Name = "eva_bg" />
+	<Layer Type="Quad" Name="batman" InitCommand="zoom,10000;diffuse,0,0,0,0" />
 	<Layer File = "char/spam/bg.png" Name = "spammy_bg2" OnCommand="customtexturerect,0,0,10,10;texcoordvelocity,-0.12,-0.1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y;"/>
 	<Layer File = "char/spam/bg.png" Name = "spammy_bg" OnCommand="customtexturerect,0,0,10,10;texcoordvelocity,0.1,0.1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y;blend,add;"/>
 	<Layer File = "char/spam/box.png" InitCommand="zoom,SCREEN_HEIGHT*0.001;hidden,0;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y*1.2" Name = "spambox" />
@@ -1732,6 +1824,7 @@ end)"Name=af Type="ActorFrame"><children>
 	<Layer File = "walt.png" InitCommand = "stretchto,SCREEN_WIDTH*0.25,SCREEN_HEIGHT*0.25,SCREEN_WIDTH*0.75,SCREEN_HEIGHT*0.75;hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y" Name="walter" />
 	<Layer File = "clock/bg.png" InitCommand="stretchto,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y" Name = "cl_bg" />
 	<Layer File = "damnbone.png" InitCommand = "stretchto,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y" Name="damnbone" />
+	<Layer File = "char/fuck/lowtiergod.png" InitCommand = "stretchto,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y" Name="green_bg" />
 	<Layer Type = "ActorFrame" Name = "gd_af"><children>
 		<Layer File = "gd/arrow.png" Name = "gd_arrow"/>
 		<Layer File = "gd/mist.png" Name = "gd_mist"/>
@@ -1750,6 +1843,9 @@ end)"Name=af Type="ActorFrame"><children>
 	</children></Layer>
 	<Layer Type = "Quad" Name = "bg" InitCommand="hidden,1" />
 	
+	<Layer File = "char/fuck/green.png" InitCommand = "fadebottom,2;xy,SCREEN_CENTER_X,SCREEN_HEIGHT*1.2;zoom,SCREEN_HEIGHT*0.0004;rotationz,180" Name="green_refl" />
+	<Layer File = "char/fuck/green.png" InitCommand = "fadebottom,0.2;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y;zoom,SCREEN_HEIGHT*0.0004" Name="green" />
+	
 	<Layer Type = "ActorProxy" Name = "PC[1]" />
 	<Layer Type = "ActorProxy" Name = "PC[2]" />
 	<Layer Type = "ActorProxy" Name = "PJ[1]" />
@@ -1759,6 +1855,8 @@ end)"Name=af Type="ActorFrame"><children>
 		<Layer File = "clock/hand1.png" InitCommand="zoom,SCREEN_HEIGHT*0.0004;hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y" Name = "cl_hand1" />
 		<Layer File = "clock/hand2.png" InitCommand="zoom,SCREEN_HEIGHT*0.0004;hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y" Name = "cl_hand2" />
 	<Layer Type = "ActorProxy" Name = "PP[1]" />
+
+	<Layer File = "fuvk.png" InitCommand="zoomtowidth,SCREEN_WIDTH;xy,SCREEN_CENTER_X,SCREEN_HEIGHT*0.86;diffusealpha,0;hidden,1;" Name = "ticker" />
 
 	<Layer File = "among.gif" InitCommand="stretchto,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y" Name = "among" />
 	<Layer File = "fof.gif" InitCommand="stretchto,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y" Name = "fof" />
