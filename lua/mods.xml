@@ -24,6 +24,12 @@
         P2:x((scale*scx) + ((1-scale)*p2DefaultX))
     end }
 
+	definemod {'coolskewx','coolskewy', function(x, y)
+			return x, -x, y, -y
+		end,
+		'skewx','noteskew','skewy','noteskewy'
+	}
+
 	function inCubicT (t, b, c, d)
 	  t = t / d
 	  return c * pow(t, 3) + b
@@ -1803,6 +1809,12 @@ set{694,1, 'xmod', -100, 'spiralholds', 100, 'dizzyholds', 100, 'modtimer', 100,
 		end
 	end}
 
+	 func{31+694, function()
+        for pn = 1, 2 do
+            P[pn]:x(scx*pn-(scx*.5))
+        end
+    end}
+
 	reset{31+694}
 
 
@@ -1845,12 +1857,17 @@ reset{727}
 		
 		--thinking and couldnt i have made this shorter with an actorframe? 
 		end}
-
+		--animation loop for green
 		for pn = 727, 791,2 do
-			func {pn, 1, bounce,SCREEN_HEIGHT*0.0004,SCREEN_HEIGHT*0.000398, 'green_refl:zoom'}
-			func {pn, 1, bounce,SCREEN_HEIGHT*0.0004,SCREEN_HEIGHT*0.000398, 'green:zoom'}
-			func {pn+1, 1, bounce,SCREEN_HEIGHT*0.0004,SCREEN_HEIGHT*0.000398, 'green_refl:zoom'}
-			func {pn+1, 1, bounce,SCREEN_HEIGHT*0.0004,SCREEN_HEIGHT*0.000398, 'green:zoom'}
+			func {pn, 1, bounce,SCREEN_HEIGHT*0.0004,SCREEN_HEIGHT*0.000395, 'green_refl:zoom'}
+			func {pn, 1, bounce,SCREEN_HEIGHT*0.0004,SCREEN_HEIGHT*0.000395, 'green:zoom'}
+			func {pn+1, 1, bounce,SCREEN_HEIGHT*0.0004,SCREEN_HEIGHT*0.000395, 'green_refl:zoom'}
+			func {pn+1, 1, bounce,SCREEN_HEIGHT*0.0004,SCREEN_HEIGHT*0.000395, 'green:zoom'}
+			func {pn, 1, bounce,SCREEN_HEIGHT*0.0004,SCREEN_HEIGHT*0.000407, 'green_refl:zoomx'}
+			func {pn, 1, bounce,SCREEN_HEIGHT*0.0004,SCREEN_HEIGHT*0.000407, 'green:zoomx'}
+			func {pn+1, 1, bounce,SCREEN_HEIGHT*0.0004,SCREEN_HEIGHT*0.000404, 'green_refl:zoomx'}
+			func {pn+1, 1, bounce,SCREEN_HEIGHT*0.0004,SCREEN_HEIGHT*0.000404, 'green:zoomx'}
+			
 			--sorry hehu!!!
 			func {pn, 2, bounce,SCREEN_HEIGHT*0.0006,SCREEN_HEIGHT*0.000605, 'tuscanL[1]:zoom'}
 			func {pn, 2, bounce,SCREEN_HEIGHT*0.0006,SCREEN_HEIGHT*0.000605, 'tuscanR[1]:zoom'}
@@ -1858,8 +1875,13 @@ reset{727}
 			func {pn, 2, bounce,SCREEN_HEIGHT*0.0008,SCREEN_HEIGHT*0.000807, 'tuscanR[2]:zoom'}
 			func {pn, 2, bounce,SCREEN_HEIGHT*0.001,SCREEN_HEIGHT*0.00101, 'tuscanL[3]:zoom'}
 			func {pn, 2, bounce,SCREEN_HEIGHT*0.001,SCREEN_HEIGHT*0.00101, 'tuscanR[3]:zoom'}
-			
+			--and mods i think
+			ease{pn, 0.25, outExpo, 30, 'coolskewx',10,'rotationz'}
+			ease{pn+0.25, 0.5, outExpo, 0, 'coolskewx',0,'rotationz'}
+			ease{pn+1, 0.25, outExpo, -30, 'coolskewx',-10,'rotationz'}
+			ease{pn+1.25, 0.5, outExpo, 0, 'coolskewx',0,'rotationz'}
 		end
+		--the eternally judging pillars
 		func {720.67, 3, outQuart,SCREEN_HEIGHT,SCREEN_CENTER_Y*1.2, 'tuscanL[1]:y'}
 		func {720.67, 3, outQuart,SCREEN_HEIGHT,SCREEN_CENTER_Y*1.2, 'tuscanR[1]:y'}
 		func {722, 3, outQuart,SCREEN_HEIGHT,SCREEN_CENTER_Y*1.2, 'tuscanL[2]:y'}
@@ -1867,6 +1889,16 @@ reset{727}
 		func {723.5, 3, outQuart,SCREEN_HEIGHT,SCREEN_CENTER_Y*1.2, 'tuscanL[3]:y'}
 		func {723.5, 3, outQuart,SCREEN_HEIGHT,SCREEN_CENTER_Y*1.2, 'tuscanR[3]:y'}
 
+
+
+	definemod{'walk', function(amt)
+	amt = amt * 0.01
+		local invert = -(math.cos(amt*math.pi)*50)+50
+		local alternate = (math.sin(amt*math.pi)*25)*1
+		local reverse = (math.sin(amt*math.pi)*25/2)*-1
+		local movey = math.abs(math.sin(amt*math.pi)*50)*-1
+		return invert, alternate, reverse, movey
+	end, 'invert', 'alternate', 'reverse', 'movey'}
 	--stealing taros code was a dumb idea so ill be remaking it by hand
 	--pray for me
 		func{727,791-727,function() 
@@ -1875,6 +1907,9 @@ reset{727}
 			green:cropbottom(0.00007*sh*math.sin(GAMESTATE:GetSongBeat()*0.7))
 			green_refl:cropbottom(0.00007*sh*math.sin(GAMESTATE:GetSongBeat()*0.7))
 		end}
+		set{727,100,'centerplayfields',100,'arrowpath',100,'centered'}
+		set{727,100,'reverse',plr=2}
+		ease{727, 791-727, linear,1800,'rotationz2'}
 		
 		
 		
