@@ -24,6 +24,26 @@
         P2:x((scale*scx) + ((1-scale)*p2DefaultX))
     end }
 
+	function inCubicT (t, b, c, d)
+	  t = t / d
+	  return c * pow(t, 3) + b
+	end
+	
+	local function outCubicT(t, b, c, d)
+	  t = t / d - 1
+	  return c * (pow(t, 3) + 1) + b
+	end
+
+	local function inOutCubicT(t, b, c, d)
+	  t = t / d * 2
+	  if t < 1 then
+		return c / 2 * t * t * t + b
+	  else
+		t = t - 2
+		return c / 2 * (t * t * t + 2) + b
+	  end
+	end
+
 
 	definemod {'clock1', function(p)
     cl_hand1:rotationz(p)
@@ -53,7 +73,7 @@
 	end, 'confusionzoffset'}
 
 	
-
+	local beat = GAMESTATE:GetSongBeat()
 
 	
 
@@ -1797,10 +1817,104 @@ func {710, 5, outQuart,SCREEN_HEIGHT,SCREEN_HEIGHT*0.86, 'ticker:y'}
 			func {pn, 1, bounce,0.2,0.18, 'green:fadebottom'}
 		end
 
+	aux{'cylz','cylo'}
+	func{480+247,604-480+247,function(beat, mods)
+		
+		local offs = 1
+		local irad = 100
+		if beat < 484+247 then
+			offs = outCubicT(beat-480+247,0,1,4)
+			irad = 100 * outCubicT(beat-480+247,0,1,4)
+		elseif beat >= 484+247 and beat < 600+247 then
+			offs = 1
+			irad = 100
+		elseif beat >= 600+247 and beat < 604+247 then
+			offs = (1-outCubicT(beat-600+247,0,1,4))
+			irad = 100 * (1-outCubicT(beat-600+247,0,1,4))
+		end
+		
+		yib_all_y2 = 10*(mods[1]['yz']-.3)*math.sin(beat*0.25*math.pi)
+		yib_all:y2(yib_all_y2)
+		yibm_all_y2 = -10*(mods[1]['yz']-.3)*math.sin(beat*0.25*math.pi)
+		yibm_all:y2(yibm_all_y2)
+		
+		green:cropbottom(0.07+0.04*(mods[1]['yz']-.3)*math.sin(beat*0.25*math.pi))
+		green_refl:cropbottom(0.07+0.04*(mods[1]['yz']-.3)*math.sin(beat*0.25*math.pi))
+		
+		--ARM  MOVEMENT
+		--for i,v in ipairs(yin_arms) do
+		--	v:x2(6*math.sin(beat*math.pi*0.125 + i*math.pi))
+		--	v:y2(6*math.cos(beat*math.pi*0.125 + i*math.pi))
+		--end
+		--for i,v in ipairs(yinm_arms) do
+		--	v:x2(6*math.sin(beat*math.pi*0.125 + i*math.pi))
+		--	v:y2(6*math.cos(beat*math.pi*0.125 + i*math.pi))
+		--end
+		
+		for pn=1,4 do
+		
+			local pn2 = math.mod(pn-1,2)+1
+		
+			local addx = 96*(pn2*2-3)
+			
+			
+			--dont take code you dont understand kids
+			--turns you into joker
+			local zpos = mods[pn]['cylz'] + mods[pn]['cylo']
+			while zpos > 400 do
+				zpos = zpos - 1000
+			end
+			while zpos < -600 do
+				zpos = zpos + 1000
+			end
+			local scale = 0.3 + 0.7*(zpos+600)/600
+			if zpos > -100 then
+				addx = addx + 200*(pn2*2-3) * inCubicT(zpos,0,1,500)
+			end
+			
+			local tinyx = 0
+			if zpos < -500 then
+				tinyx = 200*(1-(zpos+600)/100)
+			end
+		
+			local a = P[pn]
+			if a then
+			
+				mods[pn]['zoom'] = 100*scale
+			
+				for j=0,3 do
+					local ang = offs*(j/4)*2*math.pi + math.pi*(pn2-1) + math.rad(beat*90)
+					
+					local xp = irad*math.sin(ang) + addx*100/64
+					local zp = irad*2*math.cos(ang) + zpos
+					local r = ang
+					local st = 30 - 60*math.cos(ang)
+					
+					--str = str..'*-1 '..xp..' movex'..j..',*-1 '..zp..' movez'..j..',*-1 '..st..' stealth'..j..', *-1 '..100*mis_dampen(-r)..' confusionyoffset'..j..','
+					
+					mods[pn]['tinyx'..j] = tinyx
+					mods[pn]['movex'..j] = xp
+					mods[pn]['movez'..j] = zp
+					mods[pn]['stealth'..j] = st
+					if beat < 602 then
+						mods[pn]['confusionyoffset'..j] = 100*mis_dampen(-r)
+					end
+					
+				end
+				
+			end
+			
+			
+			
+		end
+
+		
+	end}
+
 
 af:fov(30)
 
-
+func{0,99999999999999,function() print(zpos) end}
 
 
 end)"Name=af Type="ActorFrame"><children>
@@ -1843,8 +1957,15 @@ end)"Name=af Type="ActorFrame"><children>
 	</children></Layer>
 	<Layer Type = "Quad" Name = "bg" InitCommand="hidden,1" />
 	
-	<Layer File = "char/fuck/green.png" InitCommand = "fadebottom,2;xy,SCREEN_CENTER_X,SCREEN_HEIGHT*1.2;zoom,SCREEN_HEIGHT*0.0004;rotationz,180" Name="green_refl" />
-	<Layer File = "char/fuck/green.png" InitCommand = "fadebottom,0.2;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y;zoom,SCREEN_HEIGHT*0.0004" Name="green" />
+	<Layer Type="ActorFrame" Name="yibm_all" ><children>
+		<Layer File = "char/fuck/green.png" InitCommand = "fadebottom,2;xy,SCREEN_CENTER_X,SCREEN_HEIGHT*1.2;zoom,SCREEN_HEIGHT*0.0004;rotationz,180" Name="green_refl" />
+	</children></Layer>
+
+	<Layer Type="ActorFrame" Name="yib_all" ><children>
+		<Layer File = "char/fuck/green.png" InitCommand = "fadebottom,0.2;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y;zoom,SCREEN_HEIGHT*0.0004" Name="green" />
+	</children></Layer>
+
+	
 	
 	<Layer Type = "ActorProxy" Name = "PC[1]" />
 	<Layer Type = "ActorProxy" Name = "PC[2]" />
