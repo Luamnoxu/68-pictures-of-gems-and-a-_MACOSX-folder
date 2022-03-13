@@ -1907,10 +1907,44 @@ reset{727}
 			green:cropbottom(0.00007*sh*math.sin(GAMESTATE:GetSongBeat()*0.7))
 			green_refl:cropbottom(0.00007*sh*math.sin(GAMESTATE:GetSongBeat()*0.7))
 		end}
-		set{727,100,'centerplayfields',100,'arrowpath',100,'centered'}
+		set{727,100,'centerplayfields',0,'arrowpath',100,'centered',-1000,'drawsizeback',-1000,'arrowpathdrawsizeback'}
 		set{727,100,'reverse',plr=2}
 		ease{727, 791-727, linear,1800,'rotationz2'}
+
+
+		-- this aux idea is stolen from ghoul
+		-- it's also brilliant, and a game changer
+		aux{'ghoulease'}
+		set{0, 0, 'ghoulease'}
+		ease{759, 8, linear, 100, 'ghoulease'}
+		ease{789, 2, linear, 0, 'ghoulease'}
 		
+		-- ah hell nah spunch bob the playfields are rotating
+		func{759, 32, function(b, poptions)
+			local ease = poptions[1].ghoulease/100
+			local str = 100
+			local tri = math.pi/4 * b
+			poptions[1].z = ease * str * math.sin(tri)
+			poptions[1].x = ease * str * math.cos(tri)
+			poptions[2].z = ease * -str * math.sin(tri)
+			poptions[2].x = ease * -str * math.cos(tri)
+			
+			-- for pn = 1,2 do
+				-- poptions[pn].z = 100 * math.sin(0.25 * math.pi * b)
+				-- poptions[pn].x = 100 * math.cos(0.25 * math.pi * b)
+				-- poptions[pn].y = 200 * math.sin(0.25 * math.pi * b)
+			-- end
+		end}
+		
+		-- flipped playfields are mean >:(
+		for b=727, 791, 12.8 do
+			ease{b+3.2,1.6,outCubic,100,'flip'}
+			ease{b+9.6,1.6,outCubic,0,'flip'}
+		end
+		-- arrowpath vibin to the beat
+		for b = 727, 791 do
+			ease{b, 1, flip(outQuad), 150, 'arrowpath'}
+		end
 		
 		
 		--yib_all_y2 = 10*(mods[1]['yz']-.3)*math.sin(beat*0.25*math.pi)
