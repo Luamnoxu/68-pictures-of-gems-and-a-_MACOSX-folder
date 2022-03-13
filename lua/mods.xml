@@ -1911,7 +1911,7 @@ reset{727}
 			green:cropbottom(0.00007*sh*math.sin(GAMESTATE:GetSongBeat()*0.7))
 			green_refl:cropbottom(0.00007*sh*math.sin(GAMESTATE:GetSongBeat()*0.7))
 		end}
-		set{727,100,'centerplayfields',0,'arrowpath',100,'centered',-1000,'drawsizeback',-1000,'arrowpathdrawsizeback'}
+		set{727,100,'centerplayfields',0,'arrowpath',100,'centered',-1000,'drawsizeback',-1000,'arrowpathdrawsizeback',-1400,'parabolaz',1.4,'xmod'}
 		set{727,100,'reverse',plr=2}
 		ease{727, 791-727, linear,1800,'rotationz2'}
 
