@@ -2071,7 +2071,7 @@ func {727, 791-727, function(b, mods)
 		mods[pn].stealth = inCirc(stealth[pn] or 0) * 100
 		mods[pn].dark = inCirc(stealth[pn] or 0) * 100
 		mods[pn].tiny = inQuad(stealth[pn] or 0) * 200
-		mods[pn].flip = inCirc(stealth[pn] or 0) * -30
+		--mods[pn].flip = inCirc(stealth[pn] or 0) * -30
 		mods[pn].drunk = inCirc(stealth[pn] or 0) * 50
 		mods[pn].tipsy = inCirc(stealth[pn] or 0) * 80
 	end
