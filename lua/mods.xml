@@ -1819,7 +1819,7 @@ set{694,1, 'xmod', -100, 'spiralholds', 100, 'dizzyholds', 100, 'modtimer', 100,
         end
     end}
 
-	reset{31+694}
+	--reset{31+694}
 
 
 reset{627}
@@ -1842,7 +1842,7 @@ func{700,function() ticker:hidden(0)
 --func {710, 5, outQuad,0,1, 'ticker:diffusealpha'}
 func {710, 5, outQuart,SCREEN_HEIGHT,SCREEN_HEIGHT*0.86, 'ticker:y'}
 func {727, 1, outQuart,SCREEN_HEIGHT*0.86,SCREEN_HEIGHT*1.2, 'ticker:y'}
-reset{727}
+reset{724}
 
 
 
@@ -1928,8 +1928,9 @@ reset{727}
 			green:cropbottom(0.00007*sh*math.sin(GAMESTATE:GetSongBeat()*0.7))
 			green_refl:cropbottom(0.00007*sh*math.sin(GAMESTATE:GetSongBeat()*0.7))
 		end}
-		set{727,100,'centerplayfields',0,'arrowpath',100,'centered',-1000,'drawsizeback',-1000,'arrowpathdrawsizeback',-1400,'parabolaz',1.5,'xmod'}
-		set{727,100,'reverse',plr={2, 4}}
+		ease {724, 727-724, outCubic, 100, 'centerplayfields', 100, 'centered', 1.5, 'xmod', -1400, 'parabolaz'}
+		ease {724, 727-724, outCubic, 100, 'reverse', plr = {2, 4}}
+		set{727,0,'arrowpath',-1000,'drawsizeback',-1000,'arrowpathdrawsizeback'}
 		ease{727, 791-727, linear,1800,'rotationz2'}
 
 
