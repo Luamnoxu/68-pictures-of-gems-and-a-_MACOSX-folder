@@ -1848,12 +1848,23 @@ reset{727}
 
 
 --GHOUL SECTION end 791
-		func {724, 3, inQuart,0,1, 'green:diffusealpha'}
-		func {724, 3, inQuart,SCREEN_HEIGHT*0.004,SCREEN_HEIGHT*0.0004, 'green:zoom'}
-		func {724, 3, inQuart,scy*3,scy, 'green:y'}
+		plr = {1, 2, 3, 4}
+		func {724, 3, inQuart, 0,1, 'green:diffusealpha'}
+		func {724, 3, mixEase(inQuart, outCirc, 0.8),SCREEN_HEIGHT*0.004,SCREEN_HEIGHT*0.0004, 'green:zoom'}
+		func {724, 3, mixEase(inQuart, outCirc, 0.8),scy*3,scy, 'green:y'}
+		func {725, 2, inCubic, 0, 0.8, 'green_bg:diffusealpha'}
+		func {724, 3, function() 
+			bg:hidden(1)
+			eva_bg:hidden(1)
+			green_bg:hidden(0)
+			greeenbgbg:diffuse(0, 0, 0, 1)
+			greeenbgbg:hidden(0)
+		end}
 		func{727,function() 
-		green_bg:hidden(0)
-		green_bg:diffusealpha(1)
+
+		ghoulproxies:hidden(0)
+		PP[1]:hidden(1)
+		PP[2]:hidden(1)
 		
 		--green:diffusealpha(1)
 		green_refl:hidden(0)
@@ -1887,11 +1898,17 @@ reset{727}
 		end
 		--the eternally judging pillars
 		func {720.67, 3, outQuart,SCREEN_HEIGHT,SCREEN_CENTER_Y*1.2, 'tuscanL[1]:y'}
+		func {720.67, 3, outQuart, 0, 1, 'tuscanL[1]:diffusealpha'}
 		func {720.67, 3, outQuart,SCREEN_HEIGHT,SCREEN_CENTER_Y*1.2, 'tuscanR[1]:y'}
+		func {720.67, 3, outQuart, 0, 1, 'tuscanR[1]:diffusealpha'}
 		func {722, 3, outQuart,SCREEN_HEIGHT,SCREEN_CENTER_Y*1.2, 'tuscanL[2]:y'}
+		func {722, 3, outQuart, 0, 1, 'tuscanL[2]:diffusealpha'}
 		func {722, 3, outQuart,SCREEN_HEIGHT,SCREEN_CENTER_Y*1.2, 'tuscanR[2]:y'}
+		func {722, 3, outQuart, 0, 1, 'tuscanR[2]:diffusealpha'}
 		func {723.5, 3, outQuart,SCREEN_HEIGHT,SCREEN_CENTER_Y*1.2, 'tuscanL[3]:y'}
+		func {723.5, 3, outQuart, 0, 1, 'tuscanL[3]:diffusealpha'}
 		func {723.5, 3, outQuart,SCREEN_HEIGHT,SCREEN_CENTER_Y*1.2, 'tuscanR[3]:y'}
+		func {723.5, 3, outQuart, 0, 1, 'tuscanR[3]:diffusealpha'}
 
 
 
@@ -1911,8 +1928,8 @@ reset{727}
 			green:cropbottom(0.00007*sh*math.sin(GAMESTATE:GetSongBeat()*0.7))
 			green_refl:cropbottom(0.00007*sh*math.sin(GAMESTATE:GetSongBeat()*0.7))
 		end}
-		set{727,100,'centerplayfields',0,'arrowpath',100,'centered',-1000,'drawsizeback',-1000,'arrowpathdrawsizeback',-1400,'parabolaz',1.4,'xmod'}
-		set{727,100,'reverse',plr=2}
+		set{727,100,'centerplayfields',0,'arrowpath',100,'centered',-1000,'drawsizeback',-1000,'arrowpathdrawsizeback',-1400,'parabolaz',1.5,'xmod'}
+		set{727,100,'reverse',plr={2, 4}}
 		ease{727, 791-727, linear,1800,'rotationz2'}
 
 
@@ -1928,10 +1945,16 @@ reset{727}
 			local ease = poptions[1].ghoulease/100
 			local str = 100
 			local tri = math.pi/4 * b
-			poptions[1].z = ease * str * math.sin(tri)
-			poptions[1].x = ease * str * math.cos(tri)
-			poptions[2].z = ease * -str * math.sin(tri)
-			poptions[2].x = ease * -str * math.cos(tri)
+			local sin = math.sin(tri)
+			local cos = math.cos(tri)
+			poptions[1].z = ease * str * sin
+			poptions[1].x = ease * str * cos
+			poptions[2].z = ease * -str * sin
+			poptions[2].x = ease * -str * cos
+			poptions[3].z = ease * str * sin
+			poptions[3].x = ease * str * cos
+			poptions[4].z = ease * -str * sin
+			poptions[4].x = ease * -str * cos
 			
 			-- for pn = 1,2 do
 				-- poptions[pn].z = 100 * math.sin(0.25 * math.pi * b)
@@ -1968,11 +1991,102 @@ reset{727}
 		--	v:x2(6*math.sin(beat*math.pi*0.125 + i*math.pi))
 		--	v:y2(6*math.cos(beat*math.pi*0.125 + i*math.pi))
 		--end
-		
+
+		definemod {'fisheyes', function(t)
+			ghoul:fov(30 + t * 90)
+			self:fov(30 + t * 40)
+			fisheyesprite:GetShader():uniform1f('amount', t * 0.1)
+			if t == 0 then
+				fisheyesprite:hidden(1)
+				fisheyeaft:hidden(1)
+			else
+				fisheyesprite:hidden(0)
+				fisheyeaft:hidden(0)
+				green_bg:diffusealpha(0.8 + t * 0.2)
+			end
+		end}
+
+		fisheyesprite:SetTexture(fisheyeaft:GetTexture())
+
+		for b = 727, 791 - 1 do
+			ease {b, 1, bounce, 0.4, 'fisheyes', -100, 'tiny'}
+		end
 
 
 af:fov(30)
+ghoulproxies:hidden(1)
 
+local stealth = {}
+ghoulproxies:SetDrawFunction(function()
+	local b = GAMESTATE:GetSongBeat()
+	local a = 0
+	if b > 727 and b < 791 then a = mixEase(inQuint, outCubic, 0.96)((b - 727) / (791 - 727)) end
+
+	local z = a * 16
+	local l1alpha = 1 - (z % 1)
+	local l2alpha = (z % 1)
+	local l1z = (z % 1)
+	local l2z = -(1 - (z % 1))
+
+	local size = math.floor(math.min(sw, sh) / 4)
+	math.randomseed(math.floor(z) * 2000)
+	local l1x = math.random(-size, size)
+	local l1y = math.random(-size, size)
+	if math.floor(z) == 0 then l1x = 0 l1y = 0 end
+	if math.floor(z) > 14 then l1x = 0 l1y = 0 end
+	math.randomseed((math.floor(z) + 1) * 2000)
+	local l2x = math.random(-size, size)
+	local l2y = math.random(-size, size)
+	if math.floor(z + 1) == 0 then l2x = 0 l2y = 0 end
+	if math.floor(z + 1) > 14 then l2x = 0 l2y = 0 end
+
+	ghoulproxy:z(l1z * 600)
+	ghoulproxy:xy(l1x, l1y)
+	--ghoulproxy:zoomx(l1alpha * 0.3 + 1)
+	--ghoulproxy:zoomy(l1alpha * 0.6 + 1)
+
+	stealth[1] = l2alpha
+	stealth[2] = l2alpha
+	ghoulproxy:SetTarget(P[1])
+	ghoulproxy:Draw()
+	ghoulproxy:SetTarget(P[2])
+	ghoulproxy:Draw()
+
+	ghoulproxy:z(l2z * 600)
+	ghoulproxy:xy(l2x, l2y)
+	--ghoulproxy:zoomx(l2alpha * 0.3 + 1)
+	--ghoulproxy:zoomy(l2alpha * 0.6 + 1)
+
+	stealth[3] = l1alpha
+	stealth[4] = l1alpha
+	ghoulproxy:SetTarget(P[3])
+	ghoulproxy:Draw()
+	ghoulproxy:SetTarget(P[4])
+	ghoulproxy:Draw()
+end)
+
+func {727, 791-727, function(b, mods)
+	for pn = 1, 4 do
+		mods[pn].stealth = inCirc(stealth[pn] or 0) * 100
+		mods[pn].dark = inCirc(stealth[pn] or 0) * 100
+		mods[pn].tiny = inQuad(stealth[pn] or 0) * 200
+		mods[pn].flip = inCirc(stealth[pn] or 0) * -30
+		mods[pn].drunk = inCirc(stealth[pn] or 0) * 50
+		mods[pn].tipsy = inCirc(stealth[pn] or 0) * 80
+	end
+end}
+func {727, function()
+	P3:SetAwake(true)
+	P4:SetAwake(true)
+end}
+func {791, function()
+	ghoulproxies:hidden(1)
+	PP[1]:hidden(0)
+	PP[2]:hidden(0)
+	P3:SetAwake(false)
+	P4:SetAwake(false)
+end}
+plr = {1, 2}
 
 
 
@@ -1997,6 +2111,7 @@ end)"Name=af Type="ActorFrame"><children>
 	<Layer File = "walt.png" InitCommand = "stretchto,SCREEN_WIDTH*0.25,SCREEN_HEIGHT*0.25,SCREEN_WIDTH*0.75,SCREEN_HEIGHT*0.75;hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y" Name="walter" />
 	<Layer File = "clock/bg.png" InitCommand="stretchto,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y" Name = "cl_bg" />
 	<Layer File = "damnbone.png" InitCommand = "stretchto,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y" Name="damnbone" />
+	<Layer Type = "Quad" Name = "greeenbgbg" InitCommand="hidden,1;stretchto,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y" />
 	<Layer File = "char/fuck/lowtiergod.png" InitCommand = "stretchto,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y;hidden,1;diffusealpha,0;" Name="green_bg" />
 	<Layer Type = "ActorFrame" Name = "gd_af"><children>
 		<Layer File = "gd/arrow.png" Name = "gd_arrow"/>
@@ -2046,6 +2161,10 @@ end)"Name=af Type="ActorFrame"><children>
 		<Layer File = "clock/hand2.png" InitCommand="zoom,SCREEN_HEIGHT*0.0004;hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y" Name = "cl_hand2" />
 	<Layer Type = "ActorProxy" Name = "PP[1]" />
 
+	<Layer Type="ActorFrame" Name="ghoulproxies"><children>
+		<Layer Type = "ActorProxy" Name = "ghoulproxy"/>
+	</children></Layer>
+
 	<Layer File = "fuvk.png" InitCommand="zoomtowidth,SCREEN_WIDTH;xy,SCREEN_CENTER_X,SCREEN_HEIGHT*0.86;diffusealpha,0;hidden,1;" Name = "ticker" />
 
 	<Layer File = "among.gif" InitCommand="stretchto,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y" Name = "among" />
@@ -2063,5 +2182,7 @@ end)"Name=af Type="ActorFrame"><children>
 	<Layer File = "ronaldino.mp4" InitCommand="stretchto,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;diffusealpha,1;hidden,1;animate,0;" Name = "ronaldino" Frag="chroma.frag" />
 	</children></Layer>
 
+	<Layer Type = "ActorFrameTexture" Name = "fisheyeaft" InitCommand = "%xero.aft"/>
+	<Layer Type = "Sprite" Name = "fisheyesprite" Frag = "fisheye.frag" InitCommand = "%xero.sprite"/>
 	
 </children></Mods>
