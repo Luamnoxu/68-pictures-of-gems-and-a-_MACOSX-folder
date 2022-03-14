@@ -1968,6 +1968,8 @@ reset{724}
 		for b=727, 791, 12.8 do
 			ease{b+3.2,1.6,outCubic,100,'flip'}
 			ease{b+9.6,1.6,outCubic,0,'flip'}
+			--why does this nnot work???????????
+			--oat why did you add flip tto the perframe >:(
 		end
 		-- arrowpath vibin to the beat
 		for b = 727, 791 do
