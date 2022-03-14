@@ -1880,10 +1880,10 @@ reset{727}
 			func {pn, 2, bounce,SCREEN_HEIGHT*0.001,SCREEN_HEIGHT*0.00101, 'tuscanL[3]:zoom'}
 			func {pn, 2, bounce,SCREEN_HEIGHT*0.001,SCREEN_HEIGHT*0.00101, 'tuscanR[3]:zoom'}
 			--and mods i think
-			ease{pn, 0.25, outExpo, 30, 'coolskewx',10,'rotationz'}
-			ease{pn+0.25, 0.5, outExpo, 0, 'coolskewx',0,'rotationz'}
-			ease{pn+1, 0.25, outExpo, -30, 'coolskewx',-10,'rotationz'}
-			ease{pn+1.25, 0.5, outExpo, 0, 'coolskewx',0,'rotationz'}
+			ease{pn, 0.25, outExpo, 30, 'coolskewx',10,'rotationz',-90,'tinyx',20,'brake'}
+			ease{pn+0.25, 0.5, outExpo, 0, 'coolskewx',0,'rotationz',-0,'tinyx',0,'brake'}
+			ease{pn+1, 0.25, outExpo, -30, 'coolskewx',-10,'rotationz',-90,'tinyx',20,'brake'}
+			ease{pn+1.25, 0.5, outExpo, 0, 'coolskewx',0,'rotationz',-0,'tinyx',0,'brake'}
 		end
 		--the eternally judging pillars
 		func {720.67, 3, outQuart,SCREEN_HEIGHT,SCREEN_CENTER_Y*1.2, 'tuscanL[1]:y'}
