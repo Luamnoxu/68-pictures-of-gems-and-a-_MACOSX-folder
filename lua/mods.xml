@@ -2079,12 +2079,14 @@ func {727, function()
 	P3:SetAwake(true)
 	P4:SetAwake(true)
 end}
+func {782, 788-782, inSine, 0, 1, 'livereaction:diffusealpha'}
 func {791, function()
 	ghoulproxies:hidden(1)
 	PP[1]:hidden(0)
 	PP[2]:hidden(0)
 	P3:SetAwake(false)
 	P4:SetAwake(false)
+	livereaction:hidden(1)
 end}
 plr = {1, 2}
 
@@ -2185,4 +2187,5 @@ end)"Name=af Type="ActorFrame"><children>
 	<Layer Type = "ActorFrameTexture" Name = "fisheyeaft" InitCommand = "%xero.aft"/>
 	<Layer Type = "Sprite" Name = "fisheyesprite" Frag = "fisheye.frag" InitCommand = "%xero.sprite"/>
 	
+	<Layer File = "live reaction.png" InitCommand="xy,SCREEN_WIDTH-100,SCREEN_CENTER_Y+160;zoom,0.4;diffusealpha,0" Name = "livereaction"/>
 </children></Mods>
