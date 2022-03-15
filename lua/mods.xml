@@ -1927,6 +1927,7 @@ reset{724}
 			yibm_all:y2(-0.01*scy*math.sin(GAMESTATE:GetSongBeat()*0.7))
 			green:cropbottom(0.00007*sh*math.sin(GAMESTATE:GetSongBeat()*0.7))
 			green_refl:cropbottom(0.00007*sh*math.sin(GAMESTATE:GetSongBeat()*0.7))
+			
 		end}
 		ease {724, 727-724, outCubic, 100, 'centerplayfields', 100, 'centered', 1.5, 'xmod', -1400, 'parabolaz'}
 		ease {724, 727-724, outCubic, 100, 'reverse', plr = {2, 4}}
@@ -2081,8 +2082,12 @@ end}
 func {727, function()
 	P3:SetAwake(true)
 	P4:SetAwake(true)
+	P3:GetChild('Judgment'):hidden(1)
+	P4:GetChild('Judgment'):hidden(1)
 end}
 func {782, 788-782, inSine, 0, 1, 'livereaction:diffusealpha'}
+func {788, 3, inSine, -SCREEN_CENTER_Y*4, SCREEN_CENTER_Y*0.45, 'battery:y'}
+func {788, 3, inSine, -30, 10, 'battery:rotationz'}
 func {791, function()
 	ghoulproxies:hidden(1)
 	PP[1]:hidden(0)
@@ -2090,7 +2095,10 @@ func {791, function()
 	P3:SetAwake(false)
 	P4:SetAwake(false)
 	livereaction:hidden(1)
+	ghoul:hidden(1)
+	green_bg:hidden(1)
 end}
+reset{791}
 plr = {1, 2}
 
 
@@ -2151,6 +2159,8 @@ end)"Name=af Type="ActorFrame"><children>
 		<Layer Type="ActorFrame" Name="yib_all" ><children>
 			<Layer File = "char/fuck/green.png" InitCommand = "fadebottom,0.2;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y;zoom,SCREEN_HEIGHT*0.0004;diffusealpha,0;hidden,1;" Name="green" />
 		</children></Layer>
+
+		<Layer File = "char/fuck/battery.png" InitCommand="xy,SCREEN_CENTER_X,SCREEN_CENTER_Y*89732497834578904358970345978045378903450789;zoom,SCREEN_HEIGHT*0.0003;diffusealpha,1" Name = "battery"/>
 	</children></Layer>
 	
 	<Layer Type="ActorFrame" Name="window"><children>
