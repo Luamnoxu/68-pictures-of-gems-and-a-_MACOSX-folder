@@ -1839,8 +1839,8 @@ func{700,function() ticker:hidden(0)
 		tuscanR[3]:hidden(0)
 		tuscanR[3]:diffusealpha(1)	 end}
 --func {710, 5, outQuad,0,1, 'ticker:diffusealpha'}
-func {710, 5, outQuart,SCREEN_HEIGHT,SCREEN_HEIGHT*0.86, 'ticker:y'}
-func {727, 1, outQuart,SCREEN_HEIGHT*0.86,SCREEN_HEIGHT*1.2, 'ticker:y'}
+func {710, 5, outQuart,SCREEN_HEIGHT*1.2,SCREEN_HEIGHT*0.9, 'ticker:y'}
+func {727, 1, outQuart,SCREEN_HEIGHT*0.9,SCREEN_HEIGHT*1.2, 'ticker:y'}
 reset{724}
 
 
@@ -1928,6 +1928,7 @@ reset{724}
 			green_refl:cropbottom(0.00007*sh*math.sin(GAMESTATE:GetSongBeat()*0.7))
 			
 		end}
+		set{724, 100, 'Sudden', 100, 'SuddenOffset'}
 		ease {724, 727-724, outCubic, 100, 'centerplayfields', 100, 'centered', 1.5, 'xmod', -1400, 'parabolaz'}
 		ease {724, 727-724, outCubic, 100, 'reverse', plr = {2, 4}}
 		set{727,0,'arrowpath',-1000,'drawsizeback',-1000,'arrowpathdrawsizeback'}
@@ -2085,6 +2086,8 @@ func {727, function()
 	P4:GetChild('Judgment'):hidden(1)
 end}
 func {782, 788-782, inSine, 0, 1, 'livereaction:diffusealpha'}
+func {789, 1, instant, 0, 1, 'yosh:diffusealpha'}
+func {789, 2, outQuad, scy*0.41, scy*0.25, 'yosh:y'}
 func {788, 3, inSine, -SCREEN_CENTER_Y*4, SCREEN_CENTER_Y*0.45, 'battery:y'}
 func {788, 3, inSine, -30, 10, 'battery:rotationz'}
 func {791, function()
@@ -2094,6 +2097,7 @@ func {791, function()
 	P3:SetAwake(false)
 	P4:SetAwake(false)
 	livereaction:hidden(1)
+	yosh:hidden(1)
 	ghoul:hidden(1)
 	green_bg:hidden(1)
 end}
@@ -2142,7 +2146,8 @@ end)"Name=af Type="ActorFrame"><children>
 		</children></Layer>
 	</children></Layer>
 	<Layer Type = "Quad" Name = "bg" InitCommand="hidden,1" />
-		
+	
+	<Layer File = "yosh.png" InitCommand="xy,SCREEN_CENTER_X*0.3,SCREEN_CENTER_Y*0.41;zoom,0.09;diffusealpha,0" Name = "yosh"/>
 	<Layer Type="ActorFrame" Name="ghoul" ><children>
 		<Layer File = "char/fuck/tuscan.png" InitCommand = "fadebottom,0;xy,SCREEN_CENTER_X*0.7,SCREEN_CENTER_Y*12;zoom,SCREEN_HEIGHT*0.0006;diffusealpha,0;hidden,1;" Name="tuscanL[1]" />
 		<Layer File = "char/fuck/tuscan.png" InitCommand = "fadebottom,0;xy,SCREEN_CENTER_X*1.3,SCREEN_CENTER_Y*12;zoom,SCREEN_HEIGHT*0.0006;diffusealpha,0;hidden,1;" Name="tuscanR[1]" />
@@ -2179,7 +2184,7 @@ end)"Name=af Type="ActorFrame"><children>
 		<Layer Type = "ActorProxy" Name = "ghoulproxy"/>
 	</children></Layer>
 
-	<Layer File = "fuvk.png" InitCommand="zoomtowidth,SCREEN_WIDTH;xy,SCREEN_CENTER_X,SCREEN_HEIGHT*0.86;diffusealpha,0;hidden,1;" Name = "ticker" />
+	<Layer File = "fuvk.png" InitCommand="zoomto,SCREEN_WIDTH,SCREEN_HEIGHT/5;xy,SCREEN_CENTER_X,SCREEN_HEIGHT*1.2;diffusealpha,1;hidden,1;" Name = "ticker" />
 
 	<Layer File = "among.gif" InitCommand="stretchto,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y" Name = "among" />
 	<Layer File = "fof.gif" InitCommand="stretchto,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y" Name = "fof" />
