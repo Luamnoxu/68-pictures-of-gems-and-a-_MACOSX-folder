@@ -51,8 +51,8 @@
 	end
 
 	textbox[1] = setup_texthandler(textbox[1])
-	textbox[1]:setFont('Inkling_outline 8x12.png','Inkling_outline_kerning.lua')
-	textbox[1]:setTextBox(0,30,scx/2,scy*1.3,18)
+	textbox[1]:setFont('Eurostile_outline 8x12.png','Eurostile_outline_kerning.lua')
+	textbox[1]:setTextBox(0,30,scx/2,scy*1.5,25)
 
 
 	definemod {'clock1', function(p)
@@ -222,13 +222,15 @@
 
 
 
-	func{0,function() black:hidden(0) spammy_bg:diffusealpha(0)  spammy_bg:stretchto(0,0,sw,sh) spammy_bg2:diffusealpha(0)  spammy_bg2:stretchto(0,0,sw,sh) 
+	func{0,function() black:hidden(1) spammy_bg:diffusealpha(0)  spammy_bg:stretchto(0,0,sw,sh) spammy_bg2:diffusealpha(0)  spammy_bg2:stretchto(0,0,sw,sh) 
 		spammy:diffusealpha(0) spambox:diffusealpha(0)
+		MyMovie:animate(1)
+		bg_bg:animate(1)
 		micheal:SetTexture(1,myaft:GetTexture()) end}
 	set{0,2,'xmod',100,'stealthpastreceptors',0,'cmod'}
 	
 	
-	func{29,function() black:hidden(1) end}
+	func{29,function() black:hidden(1) MyMovie:hidden(1) MyMovie:animate(0) bg_bg:hidden(1) bg_bg:animate(0) end}
 
 	ease{34,2,inQuad,150,'mini',10,'rotationz',0,'rotationy',300,'drunk',30,'wave',100,'parabolaz'}
 	ease{34,2,linear,40,'rotationy'}
@@ -1863,7 +1865,10 @@ reset{724}
 			greeenbgbg:hidden(0)
 		end}
 		func{727,function() 
-
+		DialogueBox:diffusealpha(0)
+		DialogueBox:hidden(0)
+		window:halign(0.5)
+		
 		ghoulproxies:hidden(0)
 		PP[1]:hidden(1)
 		PP[2]:hidden(1)
@@ -1874,6 +1879,12 @@ reset{724}
 		
 		--thinking and couldnt i have made this shorter with an actorframe? 
 		end}
+		func{732,function() DialogueBox:diffusealpha(0.7) end}
+		func {732, 2, outBack, 0, 100, 'DialogueBox:zoomy'}
+		func{734,function() textbox[1]:setTextBox(0,30,scx*0.3,scy*1.5,50) textbox[1]:sayThis('Not only did I steal Mods for this,',0.04,'donk.wav') end}
+		func{742,function() textbox[1]:setTextBox(0,30,scx/2,scy*1.5,50) textbox[1]:sayThis('I also stole Yin-Baos look.',0.04,'donk.wav') end}
+		func{749,function() textbox[1]:setTextBox(0,30,scx*0.3,scy*1.5,25) textbox[1]:sayThis('And you know what?',0.04,'donk.wav') end}
+		func{754,function() textbox[1]:setTextBox(0,30,scx*0.6,scy*1.45,21) textbox[1]:sayThis('It looks much better on me than on Yibby.',0.04,'donk.wav') end}
 		--animation loop for green
 		for pn = 727, 791,2 do
 			func {pn, 1, bounce,SCREEN_HEIGHT*0.0004,SCREEN_HEIGHT*0.000395, 'green_refl:zoom'}
@@ -2170,7 +2181,7 @@ end)"Name=af Type="ActorFrame"><children>
 
 		<Layer File = "char/fuck/battery.png" InitCommand="xy,SCREEN_CENTER_X,SCREEN_CENTER_Y*89732497834578904358970345978045378903450789;zoom,SCREEN_HEIGHT*0.0003;diffusealpha,1" Name = "battery"/>
 	</children></Layer>
-	
+	<Layer Type="Quad" InitCommand="diffuse,0,0,0,0.7;zoomx,11037;zoomy,100;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y*1.5;hidden,1;" Name="DialogueBox" />
 	<Layer Type="ActorFrame" Name="window"><children>
 	<Layer File="text/letters.xml" Name = "textbox[1]" />
 	</children></Layer>
@@ -2194,7 +2205,7 @@ end)"Name=af Type="ActorFrame"><children>
 	<Layer File = "fof.gif" InitCommand="stretchto,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y" Name = "fof" />
 
 	<Layer File = "char/spam/spamton.png" InitCommand="zoom,SCREEN_HEIGHT*0.0005;hidden,0;xy,SCREEN_CENTER_X*1.2,SCREEN_CENTER_Y*0.5" Name = "spammy" />
-	<Layer Type = "Quad" InitCommand="stretchto,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;diffuse,0,0,0,1;hidden,0;" Name = "black" />
+	<Layer Type = "Quad" InitCommand="stretchto,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;diffuse,0,0,0,1;hidden,1;" Name = "black" />
 	<Layer Type = "ActorFrameTexture" Name = "myaft"  />
 	<Layer File = "disclaimer.png" InitCommand="stretchto,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;diffusealpha,1;hidden,1;" Name = "michealwave_help" />
 	<Layer File = "microwave2.txt" InitCommand="xy,SCREEN_CENTER_X,SCREEN_CENTER_Y;zoom,3;hidden,1;" Name = "micheal" />
@@ -2207,6 +2218,7 @@ end)"Name=af Type="ActorFrame"><children>
 
 	<Layer Type = "ActorFrameTexture" Name = "fisheyeaft" InitCommand = "%xero.aft"/>
 	<Layer Type = "Sprite" Name = "fisheyesprite" Frag = "fisheye.frag" InitCommand = "%xero.sprite"/>
-	
+	<Layer File = "8I9-YPDYn2hiXUA2.mp4" InitCommand="stretchto,SCREEN_CENTER_X*0.5,SCREEN_CENTER_Y*0.5,SCREEN_CENTER_X*1.5,SCREEN_CENTER_Y*1.5;Animate,0;hidden,1;" Name = "bg_bg" />
 	<Layer File = "live reaction.png" InitCommand="xy,SCREEN_WIDTH-100,SCREEN_CENTER_Y+160;zoom,0.4;diffusealpha,0" Name = "livereaction"/>
-</children></Mods>
+	<Layer File = "My Movie.mp4" InitCommand="stretchto,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;Animate,0;blend,add;" Name = "MyMovie" />
+	</children></Mods>
