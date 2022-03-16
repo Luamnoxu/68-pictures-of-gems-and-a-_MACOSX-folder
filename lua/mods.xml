@@ -123,7 +123,7 @@
     cubei, cubeo, cubes     = inCubic, outCubic, inOutCubic
     quarti, quarto, quarts  = inQuart, outQuart, inOutQuart
     quinti, quinto, inOutQuint  = inQuint, outQuint, inOutQuint
-    inExpo, outExpo, inOutExpo     = inExpo, outExpo, inOutExpo
+    -- inExpo, outExpo, inOutExpo     = inExpo, outExpo, inOutExpo
     circi, circo, circs     = inCirc, outCirc, inOutCirc
     backi, backo, backs     = inBack, outBack, inOutBack
     elasti, elasto, elasts  = inElastic, outElastic, inOutElastic
@@ -1391,8 +1391,6 @@ func{256, function() twr_bg:hidden(1) end}
 	CERING_OFFSET = 548
 	
 	func{CERING_OFFSET, function()
-		P[1]:x(scx)
-		P[2]:x(scx)
 		af:fov(30)
 		plr = {1,2}
 	end}
@@ -1406,7 +1404,7 @@ func{256, function() twr_bg:hidden(1) end}
 		set{CERING_OFFSET,
 			320,'cmod', 100,'overhead', 100,'approachtype', 100,'dizzyholds',
 			100,'modtimer', 100,'stealthpastreceptors', 0,'mini', 100,'disablemines',
-			100,'hidemines', 100,'halgun', 100,'zbuffer',100,'centerPlayfields'
+			100,'hidemines', 100,'halgun', 100,'zbuffer',100,'centerPlayfields',1,'xmod'
 		}
 	end
 	default(CERING_OFFSET)
@@ -1450,12 +1448,12 @@ func{256, function() twr_bg:hidden(1) end}
             local a = s*alt(i-7.5-the, 0.5)
             l = (i-7.5-the)*0.05
             ease{i-0.5+l, 1-l*2, expos, a*50*(i-7-the), 'drunk', a*50*(i-7-the), 'drunkz', a*-50*(i-7-the),
-            'parabolaz', a*20*(i-7-the), 'rotationz', -a*10*(i-7-the), 'rotationy'}
+            'parabolaz', a*16*(i-7-the), 'rotationz', -a*8*(i-7-the), 'rotationy'}
         end
         ease{the+10, 2, expoo, 0, 'centered2', 0, 'drunkz', 0, 'movey', 0, 'parabolaz',
         0, 'rotationy', 0, 'rotationx', 100, 'zoomz'}
 
-        add{the+9.5, 2.5, mix(expoi, expoo, 1/5), 300, 'cmod',  600-(the-CERING_OFFSET)*200/16, 'drunkspeed'}
+        add{the+9.5, 2.5, mix(expoi, expoo, 1/5), 300, 'cmod',  20-(the-CERING_OFFSET)*5/16, 'drunkspeed'}
         add{the+10.5, 2, sines, -300, 'cmod'}
         add{the+10, 1.5, pop, -300, 'tiny'}
         ease{the+9.5, 2.5, mix(expoi, expoo, 1/5), 400, 'drunk'}
@@ -1481,8 +1479,8 @@ func{256, function() twr_bg:hidden(1) end}
             ease{i-0.4, 0.8, expos, a*60, 'noteskewy'}
         end
 
-        reset{the+16,exclude={'centerPlayfields'}, plr=2}
-        reset{the+16, 2, expoo, exclude={'confusionzoffset', 'cmod','centerPlayfields'}, plr=1}
+        reset{the+16,exclude={'centerPlayfields','xmod'}, plr=2}
+        reset{the+16, 2, expoo, exclude={'confusionzoffset', 'cmod','centerPlayfields','xmod'}, plr=1}
 		default(the+16)
         add{the+16, 1, expoo, s*250, 'movex', s*50, 'rotationy', 100, 'z', plr=1}
         ease{the+17, 2, quarts, -s*250, 'movex', -s*50, 'rotationy', plr=1}
@@ -1538,10 +1536,11 @@ func{256, function() twr_bg:hidden(1) end}
     hidecol(CERING_OFFSET+27.5, 4.5, {2,3}, 2)
 
     reset{CERING_OFFSET+23, plr=2, exclude={'zoomx', 'zoomy', 'blacksphere', 'centered2', 'movey', 'zoomz', 'drunk', 'drunkz',
-    'parabolaz', 'rotationx', 'rotationy', 'rotationz','centerPlayfields'}}
-    ease{CERING_OFFSET+23, 1, expoo, 300, 'zoomx', 0, 'zoomy', plr=1}
+    'parabolaz', 'rotationx', 'rotationy', 'rotationz','centerPlayfields','xmod'}}
+    set{CERING_OFFSET+23, 200, 'HoldTiny'}
+	ease{CERING_OFFSET+23, 1, expoo, 300, 'zoomx', 0, 'zoomy', plr=1}
     reset{CERING_OFFSET+24, exclude={'blacksphere', 'centered2', 'movey', 'zoomz', 'drunk', 'drunkz',
-    'parabolaz', 'rotationx', 'rotationy', 'rotationz','centerPlayfields'}}
+    'parabolaz', 'rotationx', 'rotationy', 'rotationz','centerPlayfields','xmod'}}
 	set{CERING_OFFSET+24,220,'cmod'}
     
 	reset{588}
