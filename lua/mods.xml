@@ -1896,9 +1896,9 @@ reset{724}
 		func{742,function() textbox[1]:setTextBox(0,30,scx/2,scy*1.5,50) textbox[1]:sayThis('I also stole Yin-Baos look.',0.04,'donk.wav') end}
 		func{749,function() textbox[1]:setTextBox(0,30,scx*0.3,scy*1.5,25) textbox[1]:sayThis('And you know what?',0.04,'donk.wav') end}
 		func{754,function() textbox[1]:setTextBox(0,30,scx*0.6,scy*1.45,21) textbox[1]:sayThis('It looks much better on me than on Yibby.',0.04,'donk.wav') end}
-		func {762, 1, inCubic, 1, 0, 'window:diffusealpha'}
-		func {763, 2, outBack, 100, 0, 'DialogueBox:zoomy'}
-		func{765,function() DialogueBox:hidden(1) end}
+		func {763, 1, inCubic, 1, 0, 'window:diffusealpha'}
+		func {764, 2, outBack, 100, 0, 'DialogueBox:zoomy'}
+		func{767,function() DialogueBox:hidden(1) end}
 		--animation loop for green
 		for pn = 727, 791,2 do
 			func {pn, 1, bounce,SCREEN_HEIGHT*0.0004,SCREEN_HEIGHT*0.000395, 'green_refl:zoom'}
