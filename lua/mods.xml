@@ -219,7 +219,18 @@
 	
 --^^^funny defines^^^
 
-
+	func{0,function() credit[1]:hidden(0) end}
+	func{2.5,function() credit[1]:hidden(1) credit[2]:hidden(0) end}
+	func{5.2,function() credit[2]:hidden(1) credit[3]:hidden(0) end}
+	func{8,function() credit[3]:hidden(1) credit[4]:hidden(0) end}
+	func{10.7,function() credit[4]:hidden(1) credit[5]:hidden(0) end}
+	func{12.9,function() credit[5]:hidden(1) credit[6]:hidden(0) end}
+	func{14.9,function() credit[6]:hidden(1) credit[7]:hidden(0) end}
+	func{17.4,function() credit[7]:hidden(1) credit[8]:hidden(0) end}
+	func{19.6,function() credit[8]:hidden(1) credit[9]:hidden(0) end}
+	func{24.2,function() credit[9]:hidden(1) credit[10]:hidden(0) end}
+	func{26.4,function() credit[10]:hidden(1) credit[11]:hidden(0) end}
+	func{28.5,function() credit[11]:hidden(1) credit[12]:hidden(0) end}
 
 
 	func{0,function() black:hidden(1) spammy_bg:diffusealpha(0)  spammy_bg:stretchto(0,0,sw,sh) spammy_bg2:diffusealpha(0)  spammy_bg2:stretchto(0,0,sw,sh) 
@@ -230,7 +241,7 @@
 	set{0,2,'xmod',100,'stealthpastreceptors',0,'cmod'}
 	
 	
-	func{29,function() black:hidden(1) MyMovie:hidden(1) MyMovie:animate(0) bg_bg:hidden(1) bg_bg:animate(0) end}
+	func{30,function() black:hidden(1) MyMovie:hidden(1) MyMovie:animate(0) bg_bg:hidden(1) bg_bg:animate(0) credit[12]:hidden(1) end}
 
 	ease{34,2,inQuad,150,'mini',10,'rotationz',0,'rotationy',300,'drunk',30,'wave',100,'parabolaz'}
 	ease{34,2,linear,40,'rotationy'}
@@ -1885,6 +1896,9 @@ reset{724}
 		func{742,function() textbox[1]:setTextBox(0,30,scx/2,scy*1.5,50) textbox[1]:sayThis('I also stole Yin-Baos look.',0.04,'donk.wav') end}
 		func{749,function() textbox[1]:setTextBox(0,30,scx*0.3,scy*1.5,25) textbox[1]:sayThis('And you know what?',0.04,'donk.wav') end}
 		func{754,function() textbox[1]:setTextBox(0,30,scx*0.6,scy*1.45,21) textbox[1]:sayThis('It looks much better on me than on Yibby.',0.04,'donk.wav') end}
+		func {762, 1, inCubic, 1, 0, 'window:diffusealpha'}
+		func {763, 2, outBack, 100, 0, 'DialogueBox:zoomy'}
+		func{765,function() DialogueBox:hidden(1) end}
 		--animation loop for green
 		for pn = 727, 791,2 do
 			func {pn, 1, bounce,SCREEN_HEIGHT*0.0004,SCREEN_HEIGHT*0.000395, 'green_refl:zoom'}
@@ -2220,5 +2234,17 @@ end)"Name=af Type="ActorFrame"><children>
 	<Layer Type = "Sprite" Name = "fisheyesprite" Frag = "fisheye.frag" InitCommand = "%xero.sprite"/>
 	<Layer File = "8I9-YPDYn2hiXUA2.mp4" InitCommand="stretchto,SCREEN_CENTER_X*0.5,SCREEN_CENTER_Y*0.5,SCREEN_CENTER_X*1.5,SCREEN_CENTER_Y*1.5;Animate,0;hidden,1;" Name = "bg_bg" />
 	<Layer File = "live reaction.png" InitCommand="xy,SCREEN_WIDTH-100,SCREEN_CENTER_Y+160;zoom,0.4;diffusealpha,0" Name = "livereaction"/>
-	<Layer File = "My Movie.mp4" InitCommand="stretchto,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;Animate,0;blend,add;" Name = "MyMovie" />
+	<Layer File = "emoji.mp4" InitCommand="stretchto,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;Animate,0" Name = "MyMovie" />
+	<Layer File = "intro/1.png" InitCommand="hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y*1.3" Name = "credit[1]" />
+	<Layer File = "intro/2.png" InitCommand="hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y*1.3" Name = "credit[2]" />
+	<Layer File = "intro/3.png" InitCommand="hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y*1.3" Name = "credit[3]" />
+	<Layer File = "intro/4.png" InitCommand="hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y*1.3" Name = "credit[4]" />
+	<Layer File = "intro/5.png" InitCommand="hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y*1.3" Name = "credit[5]" />
+	<Layer File = "intro/6.png" InitCommand="hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y*1.3" Name = "credit[6]" />
+	<Layer File = "intro/7.png" InitCommand="hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y*1.3" Name = "credit[7]" />
+	<Layer File = "intro/8.png" InitCommand="hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y*1.3" Name = "credit[8]" />
+	<Layer File = "intro/9.png" InitCommand="hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y*1.3" Name = "credit[9]" />
+	<Layer File = "intro/10.png" InitCommand="hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y*1.3" Name = "credit[10]" />
+	<Layer File = "intro/11.png" InitCommand="hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y*1.3" Name = "credit[11]" />
+	<Layer File = "intro/12.png" InitCommand="hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y*1.3" Name = "credit[12]" />
 	</children></Mods>
