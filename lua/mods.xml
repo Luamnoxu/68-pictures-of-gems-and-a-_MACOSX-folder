@@ -636,7 +636,7 @@ end
 	reset{179}
 	func{179,function() mysprite:hidden(1) mysprite:zoom(1) mysprite:rotationz(0) 
 						cl_face:hidden(0) cl_hand1:hidden(0) cl_hand2:hidden(0)
-						cl_face:diffuse(1,1,1,1) cl_hand1:diffuse(0,0,0,1) cl_hand2:diffuse(0,0,0,1)
+						cl_face:diffuse(1,1,1,0) cl_hand1:diffuse(1,1,1,0) cl_hand2:diffuse(1,1,1,0)
 						cl_bg:hidden(0)
 
 		P1:SetYSpline(0,-1,-300,000,-1)
@@ -985,12 +985,12 @@ func{256, function() twr_bg:hidden(1) end}
 	-- setup mods and activate stuff
 	-- changing of dark is a bandaid fix
 	-- something is fucking with it and I'm too lazy to figure out what
-	set{beat - 1, 3, 'xmod', 100, 'drawsize', 200, 'drawsizeback', 200, 'modtimer', 100, 'stealthpastreceptors'}
-	{beat - 1, -1000, 'movez', 20, 'stealth', 40, 'dark', -150, 'movey'}
-	func{beat - 1, function()
-		P1:x(scx + 128)
-		P2:x(scx - 128)
-	end}
+	set{beat, 3, 'xmod', 100, 'drawsize', 200, 'drawsizeback', 200, 'modtimer', 100, 'stealthpastreceptors'}
+	{beat, -1000, 'movez', 20, 'stealth', 40, 'dark', -150, 'movey'}
+	-- func{beat, function()
+		-- P1:x(scx + 128)
+		-- P2:x(scx - 128)
+	-- end}
 	func{beat, function() fire:diffusealpha(1) end}
 	
 	-- oh god the playfields are approaching
@@ -1157,7 +1157,7 @@ func{256, function() twr_bg:hidden(1) end}
 
 	func {527, 3, inQuad,scx*-1,0, 'PP[2]:x'}
 	func{527,function() PP[2]:y(0) PP[2]:rotationz(30) end}
-	hide{530, 2.1,plr=1}
+	hide{530.5, 2.1,plr=1}
 
 	func{548,function() PP[2]:y(0) PP[2]:x(0)  PP[2]:rotationz(0) end}
 	--ease {quan+0.25, 0.25, outQuad,0,'digital'}
@@ -1642,12 +1642,12 @@ func{256, function() twr_bg:hidden(1) end}
 
 
 
-	set{611.28672346783, 2.5, 'xmod', 100, 'drawsize', 200, 'modtimer'}
+	set{611.28672346783, 2.5, 'xmod', 100, 'drawsize', 200, 'modtimer', 100, 'centerPlayfields'}
 	{0, 25, 'orient', 100, 'centered',100,'centerPlayfields',0,'dark'}
 	func{611.28672346783,function() bg:hidden(0) end}
 
-	P1:x(scx)
-	P2:x(scx)
+	-- P1:x(scx)
+	-- P2:x(scx)
 	bg:diffuse(0,0,0,1)
 	bg:xywh(scx, scy, sw, sh)
 	
@@ -1693,14 +1693,14 @@ func{256, function() twr_bg:hidden(1) end}
 		{math.random(50, 150), -math.random(0, 100)}, -- b2
 		{-math.random(50, 150), -math.random(0, 100)}, -- b4
 		{math.random(-100, 150), -math.random(0, 100)}, -- b6
-		{0, 150}, -- b8
+		{0, 30}, -- b8
 		{math.random(-100, 150), math.random(0, 100)}, -- b10
 		{math.random(50, 150), math.random(0, 100)}, -- b12
 		{-math.random(50, 150), math.random(0, 100)}, -- b14
 	}
 	
 	-- actually teleporting the playfield
-	set{0, pos[1][1], 'funx', pos[1][2], 'funy'}
+	set{611, pos[1][1], 'funx', pos[1][2], 'funy'}
 	for i = 2, 8 do
 		set{2+611+(i-2)*2, pos[i][1], 'funx', pos[i][2], 'funy'}
 	end
