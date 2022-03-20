@@ -162,6 +162,8 @@
 		mysprite:GetShader():uniform1f('amount', gh * 0.01)
 	end}
 
+	
+
 	local P1 = SCREENMAN:GetTopScreen():GetChild('PlayerP1');
 	local Jeuse = SCREENMAN:GetTopScreen();
 	definemod {'Zoomies', function(bible) Jeuse:zoom(bible) end}
@@ -241,9 +243,9 @@
 	set{0,2,'xmod',100,'stealthpastreceptors',0,'cmod'}
 	
 	
-	func{30,function() black:hidden(1) MyMovie:hidden(1) MyMovie:animate(0) bg_bg:hidden(1) bg_bg:animate(0) credit[12]:hidden(1) end}
+	func{30,function() black:hidden(1) MyMovie:hidden(1) MyMovie:animate(0) bg_bg:hidden(1) bg_bg:animate(0) credit[12]:hidden(1) credits:hidden(0) end}
 
-	ease{34,2,inQuad,150,'mini',10,'rotationz',0,'rotationy',300,'drunk',30,'wave',100,'parabolaz'}
+	ease{34,2,inQuad,150,'mini',10,'rotationz',0,'rotationy',300,'drunk',30,'wave',100,'parabolaz',}
 	ease{34,2,linear,40,'rotationy'}
 	set{36,0,'rotationz',0,'mini',0,'rotationy',0,'drunk',0,'wave',0,'parabolaz'}
 	--spamton things
@@ -2133,6 +2135,83 @@ reset{791}
 plr = {1, 2}
 
 
+--this could probably be made better and quicker but like
+
+--its my code 
+func {32, 2, outQuad, -140, 0, 'credits:x'}
+func {32+5, 2, outQuad, -0, -140, 'credits:x'}
+func{32+8,function() credits_mayflower:hidden(1) Text_Mayflower:hidden(1) credits_snowy:hidden(0) Text_Snowy:hidden(0) end}
+func {65, 2, outQuad, -140, 0, 'credits:x'}
+func {65+5, 2, outQuad, -0, -140, 'credits:x'}
+
+func{102,function() credits_mayflower:hidden(0) Text_Mayflower:hidden(0) credits_snowy:hidden(1) Text_Snowy:hidden(1) end}
+func {103, 2, outQuad, -140, 0, 'credits:x'}
+func {103+5, 2, outQuad, -0, -140, 'credits:x'}
+
+func{150,function() credits_mayflower:hidden(1) Text_Mayflower:hidden(1) credits_oatmealine:hidden(0) Text_oatmealine:hidden(0) end}
+func {151, 2, outQuad, -140, 0, 'credits:x'}
+func {151+5, 2, outQuad, -0, -140, 'credits:x'}
+func{151+8,function() credits_mayflower:hidden(0) Text_Mayflower:hidden(0) credits_oatmealine:hidden(1) Text_oatmealine:hidden(1) end}
+
+func {187, 2, outQuad, -140, 0, 'credits:x'}
+func {187+5, 2, outQuad, -0, -140, 'credits:x'}
+func{187+8,function() credits_mayflower:hidden(1) Text_Mayflower:hidden(1) credits_yasmyn:hidden(0) Text_yasmyn:hidden(0) end}
+
+func {224, 2, outQuad, -140, 0, 'credits:x'}
+func {224+5, 2, outQuad, -0, -140, 'credits:x'}
+func{224+8,function() credits_mayflower:hidden(0) Text_Mayflower:hidden(0) credits_yasmyn:hidden(1) Text_yasmyn:hidden(1) end}
+
+func {260, 2, outQuad, -140, 0, 'credits:x'}
+func {260+5, 2, outQuad, -0, -140, 'credits:x'}
+func {260+8,function() credits_mayflower:hidden(0) Text_Mayflower:hidden(0) credits_yasmyn:hidden(1) Text_yasmyn:hidden(1) end}
+
+func {292, 2, outQuad, -140, 0, 'credits:x'}
+func {292+5, 2, outQuad, -0, -140, 'credits:x'}
+func {292+8,function() credits_mayflower:hidden(0) Text_Mayflower:hidden(0) credits_yasmyn:hidden(1) Text_yasmyn:hidden(1) end}
+
+func {302, 2, outQuad, -140, 0, 'credits:x'}
+func {302+5, 2, outQuad, -0, -140, 'credits:x'}
+func {302+8,function() credits_mayflower:hidden(1) Text_Mayflower:hidden(1) credits_Jolly:hidden(0) Text_Jolly:hidden(0) end}
+
+func {322, 2, outQuad, -140, 0, 'credits:x'}
+func {322+5, 2, outQuad, -0, -140, 'credits:x'}
+func {322+8,function() credits_Jolly:hidden(1) Text_Jolly:hidden(1) credits_Aura:hidden(0) Text_Aura:hidden(0) end}
+
+func {340, 2, outQuad, -140, 0, 'credits:x'}
+func {340+5, 2, outQuad, -0, -140, 'credits:x'}
+func {340+8,function() credits_Aura:hidden(1) Text_Aura:hidden(1) credits_mayflower:hidden(0) Text_Mayflower:hidden(0) end}
+
+func {350, 2, outQuad, -140, 0, 'credits:x'}
+func {350+5, 2, outQuad, -0, -140, 'credits:x'}
+func {350+8,function() credits_mayflower:hidden(1) Text_Mayflower:hidden(1) credits_Rya:hidden(0) Text_Rya:hidden(0) end}
+
+func {454, 2, outQuad, -140, 0, 'credits:x'}
+func {454+5, 2, outQuad, -0, -140, 'credits:x'}
+func {454+8,function() credits_Rya:hidden(1) Text_Rya:hidden(1) credits_CERiNG:hidden(0) Text_CERiNG:hidden(0) end}
+
+func {555.5, 2, outQuad, -140, 0, 'credits:x'}
+func {555.5+5, 2, outQuad, -0, -140, 'credits:x'}
+func {555.5+8,function() credits_CERiNG:hidden(1) Text_CERiNG:hidden(1) credits_mayflower:hidden(0) Text_Mayflower:hidden(0) end}
+
+func {595, 2, outQuad, -140, 0, 'credits:x'}
+func {595+5, 2, outQuad, -0, -140, 'credits:x'}
+func {595+8,function() credits_mayflower:hidden(1) Text_Mayflower:hidden(1) credits_Jolly:hidden(0) Text_Jolly:hidden(0) end}
+
+func {612, 2, outQuad, -140, 0, 'credits:x'}
+func {612+5, 2, outQuad, -0, -140, 'credits:x'}
+func {612+8,function() credits_Jolly:hidden(1) Text_Jolly:hidden(1) credits_tetaes:hidden(0) Text_tetaes:hidden(0) end}
+
+func {628, 2, outQuad, -140, 0, 'credits:x'}
+func {628+5, 2, outQuad, -0, -140, 'credits:x'}
+func {628+8,function() credits_tetaes:hidden(1) Text_tetaes:hidden(1) credits_Sheepy:hidden(0) Text_Sheepy:hidden(0) end}
+
+func {698, 2, outQuad, -140, 0, 'credits:x'}
+func {698+5, 2, outQuad, -0, -140, 'credits:x'}
+func {698+8,function() credits_Sheepy:hidden(1) Text_Sheepy:hidden(1) credits_moj:hidden(0) Text_moj:hidden(0) end}
+
+func {727, 2, outQuad, -140, 0, 'credits:x'}
+func {727+7.5, 3, outQuad, -0, -140, 'credits:x'}
+func {727+12,function() credits_moj:hidden(1) Text_moj:hidden(1) credits_moj:hidden(0) Text_moj:hidden(0) end}
 
 end)"Name=af Type="ActorFrame"><children>
 	<Layer Type = "Sprite" Name = "mysprite" InitCommand="hidden,1" Frag="fisheye.frag"/>
@@ -2247,4 +2326,32 @@ end)"Name=af Type="ActorFrame"><children>
 	<Layer File = "intro/10.png" InitCommand="hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y*1.3" Name = "credit[10]" />
 	<Layer File = "intro/11.png" InitCommand="hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y*1.3" Name = "credit[11]" />
 	<Layer File = "intro/12.png" InitCommand="hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y*1.3" Name = "credit[12]" />
-	</children></Mods>
+
+	<Layer Type="ActorFrame" Name="credits" InitCommand="hidden,1;x,-10000;"><children>
+	<!-- images are 70px -->
+		<Layer File = "card.png" InitCommand="xy,67.5,SCREEN_CENTER_Y*0.2;diffusealpha,1;zoom,0.5" Name = "credits_bg"/>
+			<Layer Type="BitmapText" File="default" OnCommand="zoom,0.5;xy,80,SCREEN_CENTER_Y*0.175" Name="Text_Mayflower" Text="Mayflower" />
+			<Layer File = "intro/icons/May.png" InitCommand="xy,17,SCREEN_CENTER_Y*0.2;diffusealpha,1;zoom,0.5;" Name = "credits_mayflower"/>
+			<Layer Type="BitmapText" File="default" OnCommand="zoom,0.5;xy,80,SCREEN_CENTER_Y*0.175;hidden,1;" Name="Text_Snowy" Text="Snowy" />
+			<Layer File = "intro/icons/default.png" InitCommand="xy,17,SCREEN_CENTER_Y*0.2;diffusealpha,1;zoom,0.5;hidden,1;" Name = "credits_snowy"/>
+			<Layer Type="BitmapText" File="default" OnCommand="zoom,0.5;xy,80,SCREEN_CENTER_Y*0.175;hidden,1;" Name="Text_oatmealine" Text="oatmealine" />
+			<Layer File = "intro/icons/oatmealine.png" InitCommand="xy,17,SCREEN_CENTER_Y*0.2;diffusealpha,1;zoom,0.5;hidden,1;" Name = "credits_oatmealine"/>
+			<Layer Type="BitmapText" File="default" OnCommand="zoom,0.5;xy,80,SCREEN_CENTER_Y*0.175;hidden,1;" Name="Text_yasmyn" Text="Yasmyn" />
+			<Layer File = "intro/icons/Yasmyn.png" InitCommand="xy,17,SCREEN_CENTER_Y*0.2;diffusealpha,1;zoom,0.5;hidden,1;" Name = "credits_yasmyn"/>
+			<Layer Type="BitmapText" File="default" OnCommand="zoom,0.5;xy,80,SCREEN_CENTER_Y*0.175;hidden,1;" Name="Text_Jolly" Text="Jollysivie" />
+			<Layer File = "intro/icons/Jollysivie.png" InitCommand="xy,17,SCREEN_CENTER_Y*0.2;diffusealpha,1;zoom,0.5;hidden,1;" Name = "credits_Jolly"/>
+			<Layer Type="BitmapText" File="default" OnCommand="zoom,0.5;xy,80,SCREEN_CENTER_Y*0.175;hidden,1;" Name="Text_Aura" Text="Aura" />
+			<Layer File = "intro/icons/default.png" InitCommand="xy,17,SCREEN_CENTER_Y*0.2;diffusealpha,1;zoom,0.5;hidden,1;" Name = "credits_Aura"/>
+			<Layer Type="BitmapText" File="default" OnCommand="zoom,0.5;xy,80,SCREEN_CENTER_Y*0.175;hidden,1;" Name="Text_Rya" Text="Rya" />
+			<Layer File = "intro/icons/Rya.png" InitCommand="xy,17,SCREEN_CENTER_Y*0.2;diffusealpha,1;zoom,0.5;hidden,1;" Name = "credits_Rya"/>
+			<Layer Type="BitmapText" File="default" OnCommand="zoom,0.5;xy,80,SCREEN_CENTER_Y*0.175;hidden,1;" Name="Text_CERiNG" Text="CERiNG" />
+			<Layer File = "intro/icons/default.png" InitCommand="xy,17,SCREEN_CENTER_Y*0.2;diffusealpha,1;zoom,0.5;hidden,1;" Name = "credits_CERiNG"/>
+			<Layer Type="BitmapText" File="default" OnCommand="zoom,0.5;xy,80,SCREEN_CENTER_Y*0.175;hidden,1;" Name="Text_tetaes" Text="tetaes" />
+			<Layer File = "intro/icons/default.png" InitCommand="xy,17,SCREEN_CENTER_Y*0.2;diffusealpha,1;zoom,0.5;hidden,1;" Name = "credits_tetaes"/>
+			<Layer Type="BitmapText" File="default" OnCommand="zoom,0.5;xy,80,SCREEN_CENTER_Y*0.175;hidden,1;" Name="Text_Sheepy" Text="SheepyPeka" />
+			<Layer File = "intro/icons/default.png" InitCommand="xy,17,SCREEN_CENTER_Y*0.2;diffusealpha,1;zoom,0.5;hidden,1;" Name = "credits_Sheepy"/>
+			<Layer Type="BitmapText" File="default" OnCommand="zoom,0.5;xy,80,SCREEN_CENTER_Y*0.175;hidden,1;" Name="Text_moj" Text="nITG mojs team" />
+			<Layer File = "intro/icons/moj.png" InitCommand="xy,17,SCREEN_CENTER_Y*0.2;diffusealpha,1;zoom,0.5;hidden,1;" Name = "credits_moj"/>
+	</children></Layer>
+
+</children></Mods>
