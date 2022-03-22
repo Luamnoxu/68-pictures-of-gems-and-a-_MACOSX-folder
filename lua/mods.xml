@@ -270,7 +270,7 @@ end
 	func {39, 1, outQuad, 0, 1, 'spambox:diffusealpha'}
 	func {43, 1, outQuad, 0, 1, 'spammy:diffusealpha'}
 
-	ease{39,1,linear,100,'centerPlayfields',130,'mini',1,'xmod',-70,'drawsize',100,'y'}
+	ease{39,1,linear,100,'centerPlayfields',130,'mini',1.5,'xmod',-70,'drawsize',100,'y'}
 
 	ease{42,2,inQuad,200,'mini',10,'rotationz',0,'rotationy',300,'drunk',30,'wave',100,'parabolaz'}
 	ease{42,2,linear,40,'rotationy'}
@@ -967,8 +967,11 @@ func{256, function() twr_bg:hidden(1) end}
 	--why am i doing this here with set 1000000000000000000 movex???????????????
 	--huuh????
 	--mayflower what the fuck are you up to
+	--idk!!!
 	ease {302, 17, linear,200,'Drunk',200,'Tipsy',plr=1}
 	ease {302, 17, linear,-200,'Drunk',-200,'Tipsy',plr=2}
+	func{302,function() earthbound:hidden(0) end}
+	func{319,function() earthbound:hidden(1) end}
 
 	for i,v in ipairs(mother) do
   		set{v[1],-100,'Beat',-100,'tiny',100,'Orient'}
@@ -1645,7 +1648,6 @@ func{256, function() twr_bg:hidden(1) end}
 
 
 	set{611.28672346783, 2.5, 'xmod', 100, 'drawsize', 200, 'modtimer', 100, 'centerPlayfields', 25, 'orient', 100, 'centered',100,'centerPlayfields',0,'dark'}
-	{}
 	func{611.28672346783,function() bg:hidden(0) end}
 
 	-- P1:x(scx)
@@ -2223,6 +2225,7 @@ end)"Name=af Type="ActorFrame"><children>
 	<Layer File = "c2l/rebone.xml"/>
 	<Layer File = "c2l/Leenor.xml"/>
 	<!--  Funny c2l shit  !-->
+	<Layer File="sprite.jpg" Name="earthbound" InitCommand="stretchto,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y" Frag="stolen.frag" />
 	<Layer File = "eva.png" InitCommand="stretchto,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y" Name = "eva_bg" />
 	<Layer Type="Quad" Name="batman" InitCommand="zoom,10000;diffuse,0,0,0,0" />
 	<Layer File = "char/spam/bg.png" Name = "spammy_bg2" OnCommand="customtexturerect,0,0,10,10;texcoordvelocity,-0.12,-0.1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y;"/>
