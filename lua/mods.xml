@@ -1104,8 +1104,8 @@ func{256, function() twr_bg:hidden(1) end}
 	reset{437}
 
 
-	func {449, 1, instant, 0,1, 'micheal:hidden'}
-	func {449, 1, instant, 0,1, 'michealwave_help:hidden'}
+	func {450, 1, instant, 0,1, 'micheal:hidden'}
+	func {450, 1, instant, 0,1, 'michealwave_help:hidden'}
 	
 
 
@@ -1568,8 +1568,9 @@ func{256, function() twr_bg:hidden(1) end}
 	
 
 	set{591,2,'xmod',0,'cmod',-999999999,'cover',100,'dizzyholds'}
+	func{548,function() rya38:hidden(1) rya39:hidden(0) end}
 	func{595,function() eva_bg
-	:hidden(0) rya38:hidden(1) end}
+	:hidden(0) rya39:hidden(1) end}
 	--I like that this works its funny to me
 
 	--look at me go im using 'references' and 'stealing'
@@ -2233,6 +2234,7 @@ end)"Name=af Type="ActorFrame"><children>
 	<Layer File = "char/spam/box.png" InitCommand="zoom,SCREEN_HEIGHT*0.001;hidden,0;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y*1.2" Name = "spambox" />
 	<Layer File = "man.png" InitCommand="stretchto,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y" Name = "damn" />
 	<Layer File = "rya.png" InitCommand = "xy,SCREEN_CENTER_X,SCREEN_CENTER_Y;hidden,1" Name="rya38" />
+	<Layer File = "rya2.png" InitCommand = "xy,SCREEN_CENTER_X,SCREEN_CENTER_Y;hidden,1" Name="rya39" />
 	<Layer File = "toriel.png" InitCommand = "stretchto,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y" Name="toriel" />
 	<Layer File = "walt.png" InitCommand = "stretchto,SCREEN_WIDTH*0.25,SCREEN_HEIGHT*0.25,SCREEN_WIDTH*0.75,SCREEN_HEIGHT*0.75;hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y" Name="walter" />
 	<Layer File = "clock/bg.png" InitCommand="stretchto,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y" Name = "cl_bg" />
