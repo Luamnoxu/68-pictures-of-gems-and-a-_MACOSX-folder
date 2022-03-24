@@ -557,11 +557,20 @@ end
   elseif v[2] == 2 then
     ease{v[1],0.25,linear,50,'tipsy',-20,'tinyx'}
 	set{v[1],0,'tandrunk',0,'tipsy',0,'tinyx'}
-	func{v[1],function() damn:hidden(0) damn:diffusealpha(0.1) end}
-	func{v[1]+0.01,function() damn:hidden(1) end}
   elseif v[2] == 3 then
     ease{v[1],0.25,inverse,50,'drunk',-50,'tinyx',2,'fisheye'}
 	set{v[1],0,'tandrunk',0,'drunk',0,'tinyx',0,'fisheye'}
+  end
+  --code run before or after these if statements will run every time there is an entry.
+end
+
+for i,v in ipairs(timber) do
+  if v[2] == 2 then
+	func{v[1],function() damn:hidden(0) damn:diffusealpha(0.1) end}
+	func{v[1]+0.125,function() damn:hidden(1) end}
+  elseif v[2] == 3 then
+	func{v[1],function() daniel:hidden(0) daniel:diffusealpha(0.1) end}
+	func{v[1]+0.125,function() daniel:hidden(1) end}
   end
   --code run before or after these if statements will run every time there is an entry.
 end
@@ -2225,6 +2234,7 @@ end)"Name=af Type="ActorFrame"><children>
 	<Layer File = "c2l/mother.xml"/>
 	<Layer File = "c2l/rebone.xml"/>
 	<Layer File = "c2l/Leenor.xml"/>
+	<Layer File = "c2l/timber.xml"/>
 	<!--  Funny c2l shit  !-->
 	<Layer File="sprite.jpg" Name="earthbound" InitCommand="stretchto,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y" Frag="stolen.frag" />
 	<Layer File = "eva.png" InitCommand="stretchto,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y" Name = "eva_bg" />
@@ -2232,7 +2242,8 @@ end)"Name=af Type="ActorFrame"><children>
 	<Layer File = "char/spam/bg.png" Name = "spammy_bg2" OnCommand="customtexturerect,0,0,10,10;texcoordvelocity,-0.12,-0.1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y;"/>
 	<Layer File = "char/spam/bg.png" Name = "spammy_bg" OnCommand="customtexturerect,0,0,10,10;texcoordvelocity,0.1,0.1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y;blend,add;"/>
 	<Layer File = "char/spam/box.png" InitCommand="zoom,SCREEN_HEIGHT*0.001;hidden,0;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y*1.2" Name = "spambox" />
-	<Layer File = "man.png" InitCommand="stretchto,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y" Name = "damn" />
+	<Layer File = "timber.png" InitCommand="stretchto,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y" Name = "damn" />
+		<Layer File = "edward.png" InitCommand="stretchto,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y" Name = "daniel" />
 	<Layer File = "rya.png" InitCommand = "xy,SCREEN_CENTER_X,SCREEN_CENTER_Y;hidden,1" Name="rya38" />
 	<Layer File = "rya2.png" InitCommand = "xy,SCREEN_CENTER_X,SCREEN_CENTER_Y;hidden,1" Name="rya39" />
 	<Layer File = "toriel.png" InitCommand = "stretchto,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y" Name="toriel" />
