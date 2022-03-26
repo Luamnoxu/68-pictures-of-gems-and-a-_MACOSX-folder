@@ -270,8 +270,9 @@ end
 	func {39, 1, outQuad, 0, 1, 'spambox:diffusealpha'}
 	func {43, 1, outQuad, 0, 1, 'spammy:diffusealpha'}
 
-	ease{39,1,linear,100,'centerPlayfields',130,'mini',1.5,'xmod',-70,'drawsize',100,'y'}
-
+	ease{39,1,linear,100,'centerPlayfields',130,'mini',1.5,'xmod',-60,'drawsize',100,'y'}
+	set{40, 100, 'Sudden', -50, 'SuddenOffset'}
+	
 	ease{42,2,inQuad,200,'mini',10,'rotationz',0,'rotationy',300,'drunk',30,'wave',100,'parabolaz'}
 	ease{42,2,linear,40,'rotationy'}
 	set{44,0,'rotationz',130,'mini',0,'rotationy',0,'drunk',0,'wave',0,'parabolaz'}
@@ -285,7 +286,8 @@ end
 	ease{51,0.5,outBack,-40,'rotationy',0,'flip',0,'invert'}
 
 	func {56, 1, inCirc, 190, 130, function(p) spambox:zoomto(190,p) end}
-	ease{56,1,inCirc,-80,'drawsize',150,'y',100,'drunk',10,'wave'}
+	ease{56,1,inCirc,-75,'drawsize',150,'y',100,'drunk',10,'wave'}
+	set{57, 100, 'Sudden', -65, 'SuddenOffset'}
 
 
 	ease{59,1,inCirc,10,'spiralx',40,'flip'}
@@ -930,13 +932,13 @@ func{256, function() twr_bg:hidden(1) end}
 	ease {272, 1, outSine, 0,'rotationy',0,'tipsy',0,'confusionyoffset',30,'rotationx'}
 
 	func{283.5,function() toriel:hidden(1) toriel:diffusealpha(1) end}
-	reset{284}
+	reset{283.5}
 
 	--cod thing
-	set{284,100,'Arrowpath',50,'reverse',50,'flip',100,'centerplayfields',100,'wave'}
-	ease {284, 16, linear,720,'rotationz',confOff(-720),'confusionzoffset',30,'tornado',30,'drunk',50,'tipsy',plr=1}
-	ease {284, 16, linear,-360,'rotationz',confOff(360),'confusionzoffset',-70,'tornado',plr=2}
-	func{284,function() 
+	set{283.5,100,'Arrowpath',50,'reverse',50,'flip',100,'centerplayfields',100,'wave'}
+	ease {283.5, 16, linear,720,'rotationz',confOff(-720),'confusionzoffset',30,'tornado',30,'drunk',50,'tipsy',plr=1}
+	ease {283.5, 16, linear,-360,'rotationz',confOff(360),'confusionzoffset',-70,'tornado',plr=2}
+	func{283.5,function() 
 		P1:SetYSpline(0,-1,-0,000,-1)
 		P1:SetXSpline(0,-1,-0,000,-1)
 		P1:SetZSpline(0,-1,-0,000,-1)
@@ -1008,7 +1010,7 @@ func{256, function() twr_bg:hidden(1) end}
 	func{beat, function() fire:diffusealpha(1) end}
 	
 	-- oh god the playfields are approaching
-	ease{beat, 18, linear, -250, 'movez', 5, 'stealth', 10, 'dark'}
+	ease{beat, 16, linear, -250, 'movez', 5, 'stealth', 10, 'dark'}
 	
 	-- jump accents
 	for b = beat, beat+7, 2 do
@@ -1046,6 +1048,7 @@ func{256, function() twr_bg:hidden(1) end}
 	
 	func{340, function() fire:diffusealpha(0) end}
 	reset{340}
+	set{340, 100, 'Stealth'}
 	func{340.5,function() walter:hidden(0) walter:diffusealpha(1) end}
 	func{347,function() walter:hidden(1) walter:diffusealpha(1) end}
 
@@ -1571,6 +1574,9 @@ func{256, function() twr_bg:hidden(1) end}
 	ease{CERING_OFFSET+23, 1, expoo, 300, 'zoomx', 0, 'zoomy', plr=1}
     reset{CERING_OFFSET+24, exclude={'blacksphere', 'centered2', 'movey', 'zoomz', 'drunk', 'drunkz',
     'parabolaz', 'rotationx', 'rotationy', 'rotationz','centerPlayfields','xmod'}}
+	set{CERING_OFFSET+24, -100, 'LongHolds'}
+	ease{CERING_OFFSET+24,0.5,outQuad, 0, 'LongHolds'}
+	set{CERING_OFFSET+23,220,'cmod'}
 	set{CERING_OFFSET+24,220,'cmod'}
     
 	reset{588}
@@ -1646,7 +1652,7 @@ func{256, function() twr_bg:hidden(1) end}
 
 
 
-	reset{611.28672346783}
+	reset{611}
 
 
 ---------------------------------------------------------------------------------------------
@@ -1657,8 +1663,8 @@ func{256, function() twr_bg:hidden(1) end}
 
 
 
-	set{611.28672346783, 2.5, 'xmod', 100, 'drawsize', 200, 'modtimer', 100, 'centerPlayfields', 25, 'orient', 100, 'centered',100,'centerPlayfields',0,'dark'}
-	func{611.28672346783,function() bg:hidden(0) end}
+	set{611, 2.5, 'xmod', 100, 'drawsize', 200, 'modtimer', 100, 'centerPlayfields', 25, 'orient', 100, 'centered',0,'dark'}
+	func{611,function() bg:hidden(0) end}
 
 	-- P1:x(scx)
 	-- P2:x(scx)
@@ -1704,13 +1710,13 @@ func{256, function() twr_bg:hidden(1) end}
 	for i = 0, 2 do math.random() end
 	pos = {
 		{0, -150}, -- init
-		{math.random(50, 150), -math.random(0, 100)}, -- b2
-		{-math.random(50, 150), -math.random(0, 100)}, -- b4
-		{math.random(-100, 150), -math.random(0, 100)}, -- b6
-		{0, 30}, -- b8
-		{math.random(-100, 150), math.random(0, 100)}, -- b10
-		{math.random(50, 150), math.random(0, 100)}, -- b12
-		{-math.random(50, 150), math.random(0, 100)}, -- b14
+		{math.random(50, 150), -math.random(100, 200)}, -- b2
+		{-math.random(50, 150), -math.random(100, 200)}, -- b4
+		{math.random(-150, 150), -math.random(100, 200)}, -- b6
+		{0, 150}, -- b8
+		{math.random(-150, 150), math.random(100, 200)}, -- b10
+		{math.random(50, 150), math.random(100, 200)}, -- b12
+		{-math.random(50, 150), math.random(100, 200)}, -- b14
 	}
 	
 	-- actually teleporting the playfield
@@ -1773,7 +1779,7 @@ fluc = 1
 fluc2 = 1
 pi = math.pi
 
-set{694,1, 'xmod', -100, 'spiralholds', 100, 'dizzyholds', 100, 'modtimer', 100, 'stealthpastreceptors', 100, 'stealthtype', 100, 'zbuffer'}
+set{693,1, 'xmod', -100, 'spiralholds', 100, 'dizzyholds', 100, 'modtimer', 100, 'stealthpastreceptors', 100, 'stealthtype', 100, 'zbuffer'}
 	definemod{'cover2', function(a)
 		batman:diffusealpha(a)
 	end}
@@ -1791,7 +1797,7 @@ set{694,1, 'xmod', -100, 'spiralholds', 100, 'dizzyholds', 100, 'modtimer', 100,
 		end
 	end}
 
-	set{0+694, 100, 'dark', 1, 'cover2', 25, 'orient', -99, 'bumpyperiod', 10, 'drawsize', -100, 'drunkspeed', 600, 'drunkoffset', -50, 'drunkspacing', -75, 'drunkperiod', 200, 'drunkyspacing', -75, 'drunkyperiod', -100, 'drunkyspeed', 500, 'drunkyoffset', 300, 'zoomz'}
+	set{0+693, 100, 'dark', 1, 'cover2', 25, 'orient', -99, 'bumpyperiod', 10, 'drawsize', -100, 'drunkspeed', 600, 'drunkoffset', -50, 'drunkspacing', -75, 'drunkperiod', 200, 'drunkyspacing', -75, 'drunkyperiod', -100, 'drunkyspeed', 500, 'drunkyoffset', 300, 'zoomz'}
 	ease{0+694, 4, inCubic, 50, 'dark', 1.5, 'xmod'}
 
 
