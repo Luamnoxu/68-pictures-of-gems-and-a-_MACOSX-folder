@@ -2153,6 +2153,16 @@ reset{791}
 plr = {1, 2}
 
 
+-- the playfield can now die (in a basic fashion)
+-- truly amazing what age we live in
+set{823, 100, 'centerPlayfields'}
+set{827.125, 100, 'centered', -140, 'y', 25, 'rotationz'}
+
+local lol = 1.5
+add{830, lol, bounce, -100, 'y'}
+add{830 + lol, 5 - lol, linear, 250*4, 'y'}
+
+
 --this could probably be made better and quicker but like
 
 --its my code 
