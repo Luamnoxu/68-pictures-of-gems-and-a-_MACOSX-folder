@@ -2218,8 +2218,8 @@ set{823, 100, 'centerPlayfields'}
 set{827.125, 100, 'centered', -140, 'y', 25, 'rotationz'}
 
 local lol = 1.5
-add{830, lol, bounce, -100, 'y'}
-add{830 + lol, 5 - lol, linear, 250*4, 'y'}
+add{830, 1.5, bounce, -100, 'y'}
+add{830 + 1.5, 5 - 1.5, linear, 250*5, 'y'}
 
 
 --this could probably be made better and quicker but like
