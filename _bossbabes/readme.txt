@@ -6,6 +6,10 @@ that I can be very very funny and top them within a week of them releasing
 That thought  is REALLY funny and I want to do it
 so I can get my imaginary crown of most collaborators back :^)
 
+27th March Mayflower here:
+All that needs to be done now is to get DPS and Ky to finish their parts and then
+I (the clearly rightful owner) will claim my crown once more!!!
+
 mayflower's joyride of fun files and friends 
 -tetaes, having no clue what I asked them to mod
 
@@ -32,10 +36,11 @@ CERiNG
 yasmyn "yas queen" yasmyn??????
 Jollysivie
 -Ky
--Oranger
+Oranger
+Hyperhero
 
 (ignore this list this was my list for scheming from the start)
-POTENTIAL GUESTS
+POTENTIAL GUESTS/HITLIST
 mrcool
 star
 sorae??
