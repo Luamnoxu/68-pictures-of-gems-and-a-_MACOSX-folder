@@ -1584,76 +1584,132 @@ func{256, function() twr_bg:hidden(1) end}
 
 	set{591,2,'xmod',0,'cmod',-999999999,'cover',100,'dizzyholds'}
 	func{548,function() rya38:hidden(1) rya39:hidden(0) end}
-	func{595,function() eva_bg
-	:hidden(0) rya39:hidden(1) end}
-	--I like that this works its funny to me
-
-	--look at me go im using 'references' and 'stealing'
-	ease{597,1.5,outQuad,100,'wave',100,'centerplayfields'}
-	set{598.5,100,'drunk',100,'bumpyx',-20,'tipsy',10,'rotationz'}
-	ease{598.5,0.5,outQuad,0,'drunk',0,'bumpyx',-0,'tipsy',0,'rotationz'}
-
-	set{599,-100,'drunk',-100,'bumpyx',30,'tipsy',-10,'rotationz'}
-	ease{599,0.5,outQuad,0,'drunk',0,'bumpyx',-0,'tipsy',0,'rotationz'}
-
-	set{599.5,100,'drunk',100,'bumpyx',-30,'tipsy',10,'rotationz',1.3,'xmod'}
-	ease{599.5,0.5,outQuad,0,'drunk',0,'bumpyx',-0,'tipsy',0,'rotationz',2,'xmod'}
-
-	set{600,200,'drunk',-200,'bumpyx',-40,'tipsy',15,'rotationz',1.3,'xmod'}
-	ease{599.5+0.5,0.5,outQuad,0,'drunk',0,'bumpyx',-0,'tipsy',0,'rotationz',2,'xmod'}
-	--funny
-	set{601-0.5,-100,'drunk',-230,'bumpyx',-100,'tipsy',-15,'rotationz',1.3,'xmod'}
-	ease{599.5+0.5+0.5,0.5,outQuad,0,'drunk',0,'bumpyx',-0,'tipsy',0,'rotationz',2,'xmod'}
-
-	set{601,100,'drunk',-30,'bumpyx',-100,'tipsy',-30,'flip',-0,'xmod'}
-	ease{601,1,outQuad,0,'drunk',0,'bumpyx',-0,'tipsy',0,'flip',2,'xmod'}
 	
+	--oranger eva
+	--defines
+	damn:xy(scx,scy-200)
+	quack:stretchto(0,0,sw,sh)
+	quack:diffuse(0,0,0,1)
+    definemod {'notx', function(a,pn)
+		P[pn]:x(scx+a)
+	end}
+	definemod {'comboz', function(a)
+		PC[1]:zoom(a)
+		PC[2]:zoom(a)
+	end}
+	setdefault {1, 'comboz'}
+	definemod {'fov', function(a)
+		for pn = 1, #PP do
+			P[pn]:fov(a)
+		end
+	end}
+	setdefault {45, 'fov'}
+	local function confOff(deg)
+		return math.rad(deg) * 100
+	end
+	mojo = {}
+    mojo.reverse_rotation = function(angleX, angleY, angleZ)
+        local sinX,cosX,sinY,cosY,sinZ,cosZ = math.sin(angleX),math.cos(angleX),math.sin(angleY),math.cos(angleY),math.sin(angleZ),math.cos(angleZ)
+        return { math.atan2(-cosX*sinY*sinZ-sinX*cosZ,cosX*cosY), math.asin(-cosX*sinY*cosZ+sinX*sinZ), math.atan2(-sinX*sinY*cosZ-cosX*sinZ,cosY*cosZ) }
+    end
 
-	set{603,100,'arrowpath',200,'tandigital',200,'tandrunky'}set{604,0,'arrowpath',00,'tandigital',0000000,'tandrunky'}
+    mojo.rotate_and_counter = function(xDegrees, yDegrees, zDegrees, player_or_object)
+        local DEG_TO_RAD = math.pi / 180
+        local angles = mojo.reverse_rotation(xDegrees * DEG_TO_RAD, yDegrees * DEG_TO_RAD, zDegrees * DEG_TO_RAD)
+        local str = ''
+        if type(player_or_object) == 'number' then
+            str = '*-1 '..xDegrees..' rotationx, *-1 '..
+            yDegrees..' rotationy, *-1 '..
+            zDegrees..' rotationz, '
+        else
+            if player_or_object then
+                player_or_object:rotationx(xDegrees)
+                player_or_object:rotationy(yDegrees)
+                player_or_object:rotationz(zDegrees)
+            end
+        end
+        str = str..'*-1 '..(angles[1]*100)..' confusionxoffset, *-1 '..
+        (angles[2]*100)..' confusionyoffset, *-1 '..
+        (angles[3]*100)..' confusionzoffset'
 
-	set{605,100,'dizzy',20,'tornado',20,'pulse'}
+        return str
+    end
 
-	 for penis = 609.5, 610.75, 0.25 do
-		add{penis,0,instant,-500,'tiny',100,'dizzy',50,'dark',100,'hidenoteflashes'}
-     end
+    mojo.getCounterRotation = function(xDegrees, yDegrees, zDegrees)
+        local DEG_TO_RAD = math.pi / 180
+        local angles = mojo.reverse_rotation(xDegrees * DEG_TO_RAD, yDegrees * DEG_TO_RAD, zDegrees * DEG_TO_RAD)
+        return {angles[1]*100, angles[2]*100, angles[3]*100}
+    end
 
+    mojo.axisRot = function(x,y,z,rad)
+        local st = math.sin(rad*.5)
+        local qx = x * st
+        local qy = y * st
+        local qz = z * st
+        local qw = math.cos(rad*.5)
+        local r2d = 180/math.pi
+        
+        return math.atan2(2 * (qy*qz + qw*qx), qw*qw - qx*qx - qy*qy + qz*qz) * r2d,
+               math.asin(-2*(qx*qz - qw*qy)) * r2d,
+               math.atan2(2*(qx*qy + qw*qz), qw*qw + qx*qx - qy*qy - qz*qz) * r2d
+    end
 
-	set{609.5,0,'mini'}
-	 for penis = 606.5, 608.25, 0.5 do
-		add{penis,0.5,outQuart,25,'mini'}
-     end
-
-	--Hi taro
-	--gonna make a crusty tribute to your eva stuff
-	--why? its funny
-	--Wait I dont think taro would read this
-	
-	--I could probably do this better but like
-	--its my code and I get to decide where the crust goes
-	func{595,function() mitsubishi:hidden(0)  end}
-	func{595.5,function() mitsubishi:hidden(1)  end}
-	func{596,function() mitsubishi:hidden(0)  end}
-	func{596.5,function() mitsubishi:hidden(1)  end}
-	func{597,function() mitsubishi:hidden(0)  end}
-	func{597.5,function() mitsubishi:hidden(1)  end}
-	--And I have decided the crust is going everywhere
-	set{595,100,'invert'}
-	set{596,0,'invert'}
-	swap {596, 0, instant, 'lrdu'}
-	swap {597, 0, instant, 'ldur'}
-
-	func{603,function() mitsubishi:hidden(0)  end}
-	func{603.5,function() mitsubishi:hidden(1)  end}
-	func{604,function() mitsubishi:hidden(0)  end}
-	func{604.5,function() mitsubishi:hidden(1)  end}
-
-	func{605,function() mitsubishi:hidden(0)  end}
-	func{606,function() mitsubishi:hidden(1)  end}
-
+    -- thanks mang :)
+    
+    definemod {'coolskewx','coolskewy', function(x, y)
+            return x, -x, y, -y
+        end,
+        'skewx','noteskew','skewy','noteskewy'
+    }
+    
+    aux{'rotx','roty','rotz'}
+    node {'rotx','roty','rotz',
+            'confusionxoffset','confusionyoffset','confusionoffset',function(xd, yd, zd, acx,acy,acz, plr)
+        local d2r = math.pi / 180
+        local ang = mojo.reverse_rotation (xd * d2r, yd * d2r, zd * d2r)
+        local rx, ry, rz = xd, yd, zd
+        local cx, cy, cz = ang[1] * 100, ang[2] * 100, ang[3] * 100
+            return rx, ry, rz, acx+cx, acy+cy, acz+cz
+        end,
+        'rotationx','rotationy','rotationz','confusionxoffset','confusionyoffset','confusionoffset'
+    }
+	--sexy mods oooooo look at this wowow owab ai aw opseex hauieihahuaha 
+	func{590,function() orang:hidden(0) quack:hidden(0) end}
+	ease{2-1.5+591, 3, inOutExpo, 0, 'y'}
+	ease{2-0.75+591, 1.5, inOutCirc, 25, 'coolskewx', 105, 'tipsy'}
+	ease{2.75-0.75+591, 1.5, inOutCirc, -25, 'coolskewx', -110, 'tipsy'}
+	ease{3.5-0.75+591, 1.5, inOutCirc, 60, 'coolskewx', 115, 'tipsy', confOff(360), 'confusionoffset', 50, 'flip'}
+	ease{4-1+591, 2, inOutCubic, 0, 'coolskewx', 0, 'tipsy', -25, 'noteskewx0', -35, 'noteskewx1', 25, 'noteskewx2', 35, 'noteskewx3', -360, 'rotz'}
+	ease{4+591, 1.25, pop, -325, 'rotz', 100, 'pulse'}
+	ease{5+591, 1.25, pop, -395, 'rotz', 100, 'pulse'}
+	ease{6+591, 1.25, pop, -325, 'rotz', 110, 'pulse'}
+	ease{6.75+591, 1, pop, -410, 'rotz', 135, 'pulse', 40, 'flip'}
+	ease{7.5-1+591, 2, inOutCubic, 475, 'zigzag'}
+	ease{8-1+591, 2, inOutCubic, -475, 'zigzag'}
+	ease{8.5-1+591, 2, inOutCubic, 475, 'zigzag'}
+	ease{9-1+591, 2, inOutCubic, -475, 'zigzag'}
+	ease{9.5-1+591, 2, inOutCubic, 475, 'zigzag'}
+	ease{10-1+591, 2, inOutCubic, 0, 'zigzag'}
+	ease{10.75-1+591, 2, inOutExpo, 100, 'reverse', 0, 'confusionoffset'}
+	ease{10.75-1+591, 2, spike, -225, 'tinyx'}
+	ease{12+591, 1.25, pop, -395, 'rotz', 100, 'pulse'}
+	ease{13+591, 1.25, pop, -325, 'rotz', 100, 'pulse'}
+	ease{14+591, 1.25, pop, -395, 'rotz', 110, 'pulse'}
+	ease{14.75+591, 1, pop, -300, 'rotz', 135, 'pulse', 40, 'flip'}
+	ease{15.5-1+591, 2, inOutCubic, -575, 'zigzag'}
+	ease{16-1+591, 2, inOutCubic, 575, 'zigzag'}
+	ease{16.5-1+591, 2, inOutCubic, -575, 'zigzag'}
+	ease{17-1+591, 2, inOutCubic, 575, 'zigzag'}
+	ease{17.5-1+591, 2, inOutCubic, -575, 'zigzag'}
+	ease{18-1+591, 2, inOutCubic, 0, 'zigzag'}
+	ease{19.25-1.5+591, 3, inOutCubic, confOff(720), 'confusionoffset', 50, 'reverse', 500, 'zoom', 0, 'noteskewx0', 0, 'noteskewx1', 0, 'noteskewx2', 0, 'noteskewx3'}
+	func{0.5-1+591, 2, inOutExpo, 0, 1, 'quack:croptop'}
+	func{0.5-1+591, 2, inOutExpo, scy-200, scy, 'orang:y'}
+	func{19.25-1.5+591, 3, inOutCubic, 1, 0, 'quack:croptop'}
 
 
 	reset{611}
-
+	
 
 ---------------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------------
@@ -1664,7 +1720,7 @@ func{256, function() twr_bg:hidden(1) end}
 
 
 	set{611, 2.5, 'xmod', 100, 'drawsize', 200, 'modtimer', 100, 'centerPlayfields', 25, 'orient', 100, 'centered',0,'dark'}
-	func{611,function() bg:hidden(0) end}
+	func{611,function() bg:hidden(0) orang:hidden(1) quack:hidden(1) end}
 
 	-- P1:x(scx)
 	-- P2:x(scx)
@@ -2152,6 +2208,9 @@ end}
 reset{791}
 plr = {1, 2}
 
+func{837,function() ethan:hidden(0) end}
+func {837.5, 0.5, outQuart,0,1, 'ethan:diffusealpha'}
+
 
 -- the playfield can now die (in a basic fashion)
 -- truly amazing what age we live in
@@ -2219,11 +2278,11 @@ func {454+8,function() credits_Rya:hidden(1) Text_Rya:hidden(1) credits_CERiNG:h
 
 func {555.5, 2, outQuad, -140, 0, 'credits:x'}
 func {555.5+5, 2, outQuad, -0, -140, 'credits:x'}
-func {555.5+8,function() credits_CERiNG:hidden(1) Text_CERiNG:hidden(1) credits_mayflower:hidden(0) Text_Mayflower:hidden(0) end}
+func {555.5+8,function() credits_CERiNG:hidden(1) Text_CERiNG:hidden(1) credits_oranger:hidden(0) Text_Oranger:hidden(0) end}
 
 func {595, 2, outQuad, -140, 0, 'credits:x'}
 func {595+5, 2, outQuad, -0, -140, 'credits:x'}
-func {595+8,function() credits_mayflower:hidden(1) Text_Mayflower:hidden(1) credits_Jolly:hidden(0) Text_Jolly:hidden(0) end}
+func {595+8,function() credits_oranger:hidden(1) Text_Oranger:hidden(1) credits_Jolly:hidden(0) Text_Jolly:hidden(0) end}
 
 func {612, 2, outQuad, -140, 0, 'credits:x'}
 func {612+5, 2, outQuad, -0, -140, 'credits:x'}
@@ -2310,6 +2369,8 @@ end)"Name=af Type="ActorFrame"><children>
 	<Layer Type="ActorFrame" Name="window"><children>
 	<Layer File="text/letters.xml" Name = "textbox[1]" />
 	</children></Layer>
+	<Layer File = "damg.png" Name = "orang" InitCommand="stretchto,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y" />
+	<Layer Type = "Quad" Name = "quack" InitCommand="hidden,1" />
 	<Layer Type = "ActorProxy" Name = "PC[1]" />
 	<Layer Type = "ActorProxy" Name = "PC[2]" />
 	<Layer Type = "ActorProxy" Name = "PJ[1]" />
@@ -2384,6 +2445,10 @@ end)"Name=af Type="ActorFrame"><children>
 			<Layer File = "intro/icons/sheepy.png" InitCommand="xy,17,SCREEN_CENTER_Y*0.2;diffusealpha,1;zoom,0.5;hidden,1;" Name = "credits_Sheepy"/>
 			<Layer Type="BitmapText" File="default" OnCommand="zoom,0.5;xy,80,SCREEN_CENTER_Y*0.175;hidden,1;" Name="Text_moj" Text="nITG mojs team" />
 			<Layer File = "intro/icons/moj.png" InitCommand="xy,17,SCREEN_CENTER_Y*0.2;diffusealpha,1;zoom,0.5;hidden,1;" Name = "credits_moj"/>
+			<Layer Type="BitmapText" File="default" OnCommand="zoom,0.5;xy,80,SCREEN_CENTER_Y*0.175;hidden,1;" Name="Text_Oranger" Text="Oranger" />
+			<Layer File = "intro/icons/oranger.png" InitCommand="xy,17,SCREEN_CENTER_Y*0.2;diffusealpha,1;zoom,0.5;hidden,1;" Name = "credits_oranger"/>
 	</children></Layer>
+
+	<Layer File = "ethan.png" InitCommand="stretchto,SCREEN_CENTER_X*0.3,0,SCREEN_CENTER_X*1.7,SCREEN_HEIGHT;diffusealpha,0;hidden,1;" Name = "ethan" />
 
 </children></Mods>
