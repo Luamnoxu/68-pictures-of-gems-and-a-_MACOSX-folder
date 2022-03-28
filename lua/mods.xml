@@ -1581,13 +1581,14 @@ func{256, function() twr_bg:hidden(1) end}
     
 	reset{588}
 	
-
-	set{591,2,'xmod',0,'cmod',-999999999,'cover',100,'dizzyholds'}
 	func{548,function() rya38:hidden(1) rya39:hidden(0) end}
+	func{590,function() rya39:hidden(1) end}
+	-- set{591,2,'xmod',0,'cmod',-999999999,'cover',100,'dizzyholds'}
+
 	
 	--oranger eva
 	--defines
-	damn:xy(scx,scy-200)
+	damn:xy(scx,scy-500)
 	quack:stretchto(0,0,sw,sh)
 	quack:diffuse(0,0,0,1)
     definemod {'notx', function(a,pn)
@@ -1674,7 +1675,7 @@ func{256, function() twr_bg:hidden(1) end}
         'rotationx','rotationy','rotationz','confusionxoffset','confusionyoffset','confusionoffset'
     }
 	--sexy mods oooooo look at this wowow owab ai aw opseex hauieihahuaha 
-	func{590,function() orang:hidden(0) quack:hidden(0) end}
+	func{590.5,function() orang:hidden(0) quack:hidden(1) end}
 	ease{2-1.5+591, 3, inOutExpo, 0, 'y'}
 	ease{2-0.75+591, 1.5, inOutCirc, 25, 'coolskewx', 105, 'tipsy'}
 	ease{2.75-0.75+591, 1.5, inOutCirc, -25, 'coolskewx', -110, 'tipsy'}
@@ -1703,10 +1704,10 @@ func{256, function() twr_bg:hidden(1) end}
 	ease{17.5-1+591, 2, inOutCubic, -575, 'zigzag'}
 	ease{18-1+591, 2, inOutCubic, 0, 'zigzag'}
 	ease{19.25-1.5+591, 3, inOutCubic, confOff(720), 'confusionoffset', 50, 'reverse', 500, 'zoom', 0, 'noteskewx0', 0, 'noteskewx1', 0, 'noteskewx2', 0, 'noteskewx3'}
-	func{0.5-1+591, 2, inOutExpo, 0, 1, 'quack:croptop'}
-	func{0.5-1+591, 2, inOutExpo, scy-200, scy, 'orang:y'}
-	func{19.25-1.5+591, 3, inOutCubic, 1, 0, 'quack:croptop'}
-
+	-- func{0.5-1+591, 2, inOutExpo, 0, 1, 'quack:croptop'}
+	func{0.5-1+591, 2, inOutExpo, scy-500, scy, 'orang:y'}
+	-- func{19.25-1.5+591, 3, inOutCubic, 1, 0, 'quack:croptop'}
+	-- func{19.25-1.5+591, 3, inOutCubic, 0, 1, 'orang:cropbottom'}
 
 	reset{611}
 	
@@ -2216,8 +2217,6 @@ func {837.5, 0.5, outQuart,0,1, 'ethan:diffusealpha'}
 -- truly amazing what age we live in
 set{823, 100, 'centerPlayfields'}
 set{827.125, 100, 'centered', -140, 'y', 25, 'rotationz'}
-
-local lol = 1.5
 add{830, 1.5, bounce, -100, 'y'}
 add{830 + 1.5, 5 - 1.5, linear, 250*5, 'y'}
 
