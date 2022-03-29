@@ -1160,14 +1160,15 @@ func{256, function() twr_bg:hidden(1) end}
 	-- why is it feeling like doubling the invert of blacksphere????
 	-- it's not an blacksphere issue, works fine in cerings part
 	-- apparently, it ONLY works fine in cerings part??? what the fuck
+	-- now that's what I call a bandaid fix
 	ease {12.5+279.67, 2, outExpo, 30, 'rotationx'}
-	ease {12.5+279.67, 2, outExpo, 180, 'blacksphere'}
+	ease {12.5+279.67, 2, outExpo, 180, 'blacksphere', -100, 'invert'}
 	ease {14.5+279.67, 2, outExpo, 60, 'rotationx', 10, 'rotationy'}
-	ease {14.5+279.67, 2, outExpo, 360, 'blacksphere'}
+	ease {14.5+279.67, 2, outExpo, 360, 'blacksphere', 0, 'invert'}
 	ease {16.5+279.67, 2, outExpo, 20, 'rotationx', 30, 'rotationy'}
-	ease {16.5+279.67, 2, outExpo, 180, 'blacksphere'}
+	ease {16.5+279.67, 2, outExpo, 180, 'blacksphere', -100, 'invert'}
 	ease {18.5+279.67, 2, outExpo, -30, 'rotationx', 40, 'rotationy', 10, 'skewx'}
-	ease {18.5+279.67, 1, outExpo, 0, 'blacksphere'}
+	ease {18.5+279.67, 1, outExpo, 0, 'blacksphere', 0, 'invert'}
 	
 	for i = 12.5+279.67, 19.5+279.67, 1 do
 		func{i, function()
