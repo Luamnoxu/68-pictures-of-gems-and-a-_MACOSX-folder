@@ -1833,7 +1833,7 @@ func{256, function() twr_bg:hidden(1) end}
 	
 	--oranger eva
 	--defines
-	damn:xy(scx,scy-500)
+	orang:xy(scx,scy-500)
 	quack:stretchto(0,0,sw,sh)
 	quack:diffuse(0,0,0,1)
     definemod {'notx', function(a,pn)
@@ -2562,7 +2562,7 @@ end)"Name=af Type="ActorFrame"><children>
 	<Layer File = "char/spam/bg.png" Name = "spammy_bg" OnCommand="customtexturerect,0,0,10,10;texcoordvelocity,0.1,0.1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y;blend,add;"/>
 	<Layer File = "char/spam/box.png" InitCommand="zoom,SCREEN_HEIGHT*0.001;hidden,0;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y*1.2" Name = "spambox" />
 	<Layer File = "timber.png" InitCommand="stretchto,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y" Name = "damn" />
-		<Layer File = "edward.png" InitCommand="stretchto,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y" Name = "daniel" />
+	<Layer File = "edward.png" InitCommand="stretchto,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y" Name = "daniel" />
 	<Layer File = "rya.png" InitCommand = "xy,SCREEN_CENTER_X,SCREEN_CENTER_Y;hidden,1" Name="rya38" />
 	<Layer File = "rya2.png" InitCommand = "xy,SCREEN_CENTER_X,SCREEN_CENTER_Y;hidden,1" Name="rya39" />
 	<Layer File = "toriel.png" InitCommand = "stretchto,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y" Name="toriel" />
