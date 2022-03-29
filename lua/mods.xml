@@ -3,7 +3,7 @@
 		backToSongWheel('Two Player Mode Required')
 		return
 	end
-
+	func{0,function() PP[3]:hidden(1) PP[4]:hidden(1) end}
 	-- judgment / combo proxies
 	for pn = 1, 2 do
 		setupJudgeProxy(PJ[pn], P[pn]:GetChild('Judgment'), pn)
@@ -149,6 +149,12 @@
 	sprite(mysprite) -- set up the sprite
 	aft(myaft) -- set up the aft
 	mysprite:SetTexture(myaft:GetTexture()) -- set up the texture
+	aft(bglitchaft)
+	sprite(bglitchsprite)
+	aftsprite(bglitchaft, bglitchsprite)
+	aft(bgfishaft)
+	sprite(bgfishsprite)
+	aftsprite(bgfishaft, bgfishsprite)
 
 	function shake(i)
 		return math.sin(math.pi*i*8)*(i)
@@ -2454,8 +2460,6 @@ end}
 reset{791}
 plr = {1, 2}
 
-func{837,function() ethan:hidden(0) end}
-func {837.5, 0.5, outQuart,0,1, 'ethan:diffusealpha'}
 
 
 -- the playfield can now die (in a basic fashion)
@@ -2466,6 +2470,42 @@ add{830, 1.5, bounce, -100, 'y'}
 add{830 + 1.5, 5 - 1.5, linear, 250*5, 'y'}
 
 
+reset{838}
+	
+--apollo funny
+--oranger said its ok to steal his code
+	definemod {'bgweesh', function(w)
+    	bglitchsprite:GetShader():uniform1f('amount',w)
+
+    end}
+	set{838,100,'minestealth',100,'stealthpastreceptors',100,'centerPlayfields',20,'arrowpath'}
+	
+	func{838,function() P3:SetAwake(true) P3:hidden(0) P4:SetAwake(true) P4:hidden(0) end}
+	add{838, 20, linear, -720, 'rotationz',plr=3}
+	add{838, 20, linear, -800, 'rotationz',plr=4}
+	set{838,0.01,'bgweesh', 100, 'centered', 20, 'arrowpath', 90, 'fov', 0, 'flip', 100, 'reverse1', 50, 'reverse0', 50, 'reverse3', 100, 'drawsizeback', 50, 'drawsize',  100, 'dark', 100, 'hidenoteflash', plr = {3, 4}}
+	set{838, 2000, 'bumpy', -700, 'bumpyperiod', 265, 'cmod', 300, 'drunky', 150, 'drunkyperiod', 0, 'incoming', 300, 'bumpyx', -800, 'bumpyxperiod', 250, 'zigzag', 300, 'zigzagperiod', 200, 'drunk', -250, 'drunkperiod', 100, 'attenuate', plr = {3, 4}}
+	set{838, 100, 'wireframe', 85, 'stealth', 115, 'zoom', plr = {3, 4}}
+	set{838, 90, 'rotz', plr = 4}
+	set{838, 0, 'arrowpath', 100, 'boost', -1125, 'bumpyx0', 1150, 'bumpyxperiod0', -800, 'bumpyx1', 1150, 'bumpyxperiod1', 800, 'bumpyx2', 1150, 'bumpyxperiod2', 1125, 'bumpyx3', 1150, 'bumpyxperiod3', plr = 2}
+	set{838, 0, 'arrowpath', 100, 'wave', -400, 'bumpyx0', 500, 'bumpyxperiod0', -400, 'bumpyx1', 500, 'bumpyxperiod1', 400, 'bumpyx2', 500, 'bumpyxperiod2', 400, 'bumpyx3', 500, 'bumpyxperiod3', plr = 1}
+	set{838, 0, 'dark', 30, 'reverse', 300, 'arrowpathdrawsize', 300, 'arrowpathdrawsizeback', 30, 'fov'}
+	set{838, 100, 'zoom', plr = {3, 4}}
+	for i = 838, 888, 1 do
+    ease{i, 1, pop, 75, 'pulse', plr = 1}
+    ease{i+0.5, 1, pop, 75, 'pulse', plr = 2}
+    ease{i, 1, tap, 135, 'zoomy', plr = {1, 2}}
+    end
+	ease{838, 4, inOutQuad, 30, 'rotationy', 40, 'movex', -25, 'movey'}
+	ease{840, 5, inOutQuad, -20, 'rotationy', -20, 'movex', 50, 'movey'}
+	ease{844.5, 3.5, inOutQuad, 25, 'rotationy', 35, 'rotationx', -35, 'movey', 35, 'movex'}
+	ease{847, 4.5, inOutQuad, -30, 'rotationy', 0, 'rotationx', 25, 'rotationz', 40, 'movey', -10, 'movex'}
+	ease{851, 4, inOutQuad, 20, 'rotationy', -40, 'rotationx', -10, 'rotationz', -65, 'movey', 25, 'movex'}
+	ease{854, 4, inOutQuad, -25, 'rotationy', 0, 'rotationx', 15, 'rotationz', 50, 'movey', -20, 'movex'}
+
+
+	func{848,function() GAMESTATE:FinishSong() end}
+	func{838,function() bgfishaft:hidden(0) bgfishsprite:hidden(0) bglitchaft:hidden(0) bglitchsprite:hidden(0) hooohbg:hidden(0) end}
 --this could probably be made better and quicker but like
 
 --its my code 
@@ -2545,6 +2585,7 @@ func {727+7.5, 3, outQuad, -0, -140, 'credits:x'}
 func {727+12,function() credits_moj:hidden(1) Text_moj:hidden(1) credits_moj:hidden(0) Text_moj:hidden(0) end}
 
 end)"Name=af Type="ActorFrame"><children>
+	<Layer File = "earthbound.sprite" Name = "hooohbg" InitCommand="stretchto,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;diffusealpha,1;hidden,1;" />
 	<Layer Type = "Sprite" Name = "mysprite" InitCommand="hidden,1" Frag="fisheye.frag"/>
 	<!--  Funny c2l shit  !-->
 	<Layer File = "c2l/spamton.xml"/>
@@ -2622,7 +2663,18 @@ end)"Name=af Type="ActorFrame"><children>
 			self:zoom(0.25)
 			self:hidden(1)		
 		end "/>
+		
+		<Layer Type = "ActorFrameTexture" InitCommand = "%xero.aft" OnCommand="hidden,1;" Name = "bglitchaft" />
+	<Layer Type = "Sprite" Shader = "glitch-lines.frag" InitCommand = "%xero.sprite" OnCommand="hidden,1;" Name = "bglitchsprite" />
+	<Layer Type = "ActorFrameTexture" InitCommand = "%xero.aft" OnCommand="hidden,1;" Name = "bgfishaft" />
+	<Layer Type = "Sprite" Shader = "woah.frag" InitCommand = "%xero.sprite" OnCommand="hidden,1;" Name = "bgfishsprite" />
 	<Layer File = "char/spam/spamton.png" InitCommand="zoom,SCREEN_HEIGHT*0.0005;hidden,0;xy,SCREEN_CENTER_X*1.2,SCREEN_CENTER_Y*0.5" Name = "spammy" />
+	<Layer Type = "ActorProxy" Name = "PC[3]" />
+	<Layer Type = "ActorProxy" Name = "PJ[3]" />
+	<Layer Type = "ActorProxy" Name = "PP[3]" />
+	<Layer Type = "ActorProxy" Name = "PC[4]" />	
+	<Layer Type = "ActorProxy" Name = "PJ[4]" />	
+	<Layer Type = "ActorProxy" Name = "PP[4]" />
 	<Layer Type = "ActorProxy" Name = "PC[1]" />
 	<Layer Type = "ActorProxy" Name = "PC[2]" />
 	<Layer Type = "ActorProxy" Name = "PJ[1]" />
@@ -2703,6 +2755,5 @@ end)"Name=af Type="ActorFrame"><children>
 			<Layer File = "intro/icons/Hyper.png" InitCommand="xy,17,SCREEN_CENTER_Y*0.2;diffusealpha,1;zoom,0.5;hidden,1;" Name = "credits_Hyper"/>
 	</children></Layer>
 
-	<Layer File = "ethan.png" InitCommand="stretchto,SCREEN_CENTER_X*0.3,0,SCREEN_CENTER_X*1.7,SCREEN_HEIGHT;diffusealpha,0;hidden,1;" Name = "ethan" />
 
 </children></Mods>
