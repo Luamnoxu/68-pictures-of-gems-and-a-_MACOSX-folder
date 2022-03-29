@@ -7,7 +7,7 @@
 #GENRE:;
 #CREDIT:oofmie owie!!;
 #BANNER:bn2.png;
-#BACKGROUND:neon.jpg;
+#BACKGROUND:classic.png;
 #LYRICSPATH:;
 #CDTITLE:;
 #MUSIC:test3.ogg;
@@ -42,7 +42,7 @@
 ,828.000=-0.730
 ,836.000=0.078
 ;
-#TIMESIGNATURES:;
+#TIMESIGNATURES:0.000=4=4;
 #BGCHANGES:;
 
 //The majority of simfile scripts and visual effects are stored here.

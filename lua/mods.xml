@@ -1230,7 +1230,8 @@ func{256, function() twr_bg:hidden(1) end}
 	--idk!!!
 	ease {302, 17, linear,200,'Drunk',200,'Tipsy',plr=1}
 	ease {302, 17, linear,-200,'Drunk',-200,'Tipsy',plr=2}
-	func{302,function() earthbound:hidden(0) hyper:hidden(1) ar:hidden(1) end}
+	func{300,function() hyper:hidden(1) ar:hidden(1) end}
+	func{302,function() earthbound:hidden(0)end}
 	func{319,function() earthbound:hidden(1) end}
 
 	for i,v in ipairs(mother) do
