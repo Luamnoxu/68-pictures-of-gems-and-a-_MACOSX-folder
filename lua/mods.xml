@@ -29,6 +29,13 @@
 		end,
 		'skewx','noteskew','skewy','noteskewy'
 	}
+	
+	definemod{'blacksphere', function(x)
+        local invert = 50 - 50 * math.cos(x * math.pi / 180)
+        local alternate = 25 * math.sin(x * math.pi / 180)
+        local reverse = -12.5 * math.sin(x * math.pi / 180)
+        return invert, alternate, reverse
+    end, 'invert', 'alternate', 'reverse'}
 
 	function inCubicT (t, b, c, d)
 	  t = t / d
@@ -244,36 +251,250 @@
 	
 	
 	func{30,function() black:hidden(1) MyMovie:hidden(1) MyMovie:animate(0) bg_bg:hidden(1) bg_bg:animate(0) credit[12]:hidden(1) credits:hidden(0) end}
-
 	
 	func{35,29,function() spammy:x(scx*1.3+(math.sin(GAMESTATE:GetSongBeat()*0.7))*10) end}
 	func {35, 1, outQuad, 0, 0.5, 'spammy_bg:diffusealpha'}
 	func {35, 1, outQuad, 0, 1, 'spammy_bg2:diffusealpha'}
-	func {39, 1, outQuad, 0, 1, 'spambox:diffusealpha'}
-	func {43, 1, outQuad, 0, 1, 'spammy:diffusealpha'}
+	func {39, 1, outQuad, 0, 1, 'spammy:diffusealpha'}
 
-	ease{39,1,linear,100,'centerPlayfields',130,'mini',1.5,'xmod',-60,'drawsize',100,'y'}
-	set{40, 100, 'Sudden', -50, 'SuddenOffset'}
+
+	-- guys new spamton has just dropped!!
+	-- he just arrived!! woo!!
+	definemod{'p1x', function(percent)
+		P[1]:x(percent)
+	end}
+	definemod{'p2x', function(percent)
+		P[2]:x(percent)
+	end}
+	definemod{'p1y', function(percent)
+		P[1]:y(percent)
+	end}
+	definemod{'p2y', function(percent)
+		P[2]:y(percent)
+	end}
+
+	aux{'doorstopx'}
+	aux{'cooltimer'}
+	node{
+		'doorstopx','cooltimer',
+		function(doorstopx,cooltimer, plr)
+			local movex = doorstopx
+			movex = movex * _flickermult
+			return movex
+		end,
+		'movex'
+	}
+	ease{0+33,36+33, linear,
+		36, 'cooltimer'
+	}
+	_flicker = true
+	_flickermult = 1
+	func {0+33, 36+33, function() 
+		_flicker = not _flicker
+		_flickermult = _flickermult * -1
+		
+	end}
 	
-	ease{42,2,inQuad,200,'mini',10,'rotationz',0,'rotationy',300,'drunk',30,'wave',100,'parabolaz'}
-	ease{42,2,linear,40,'rotationy'}
-	set{44,0,'rotationz',130,'mini',0,'rotationy',0,'drunk',0,'wave',0,'parabolaz'}
+	-- this whole scenario with the position defines and this 'fix' seems like it Will Cause Problems
+	-- let's just hope it doesn't : )
+	setdefault{sw*0.25,'p1x', sw*0.75,'p2x', sh/2,'p1y', sh/2,'p2y'}
+	set {30, 
+		3, 'xmod',
+		sw*0.25,'p1x',
+		sw*0.25,'p2x',
+		sh*1.5,'p1y', 
+		sh*1.5,'p2y',
+		0,'doorstopx',
+		150,'bumpyxperiod'
+	}
 
-	local ubetcha = 0	
-	for beating=46,47.25,0.25 do
-		ubetcha = ubetcha+5
-		add{beating,0.25,outBack,ubetcha,'flip',-1*ubetcha,'invert'}
+	function bump(i,size,dur,skew)
+		set {i,size,'bumpyx'}
+		set {i,size*-0.5,'movex'}
+		if skew then
+			set {i,size*0.1,'skewy'}
+		end
+		ease {i,dur,outSine,0,'movex'}
+		ease {i,dur,outSine,0,'bumpyx'}
+		if skew then
+			ease {i,dur,outSine,0,'skewy'}
+		end
 	end
-	ease{48,0.5,outBack,-40,'rotationy',25,'flip',-75,'invert'}
-	ease{51,0.5,outBack,-40,'rotationy',0,'flip',0,'invert'}
-
-	func {56, 1, inCirc, 190, 130, function(p) spambox:zoomto(190,p) end}
-	ease{56,1,inCirc,-75,'drawsize',150,'y',100,'drunk',10,'wave'}
-	set{57, 100, 'Sudden', -65, 'SuddenOffset'}
 
 
-	ease{59,1,inCirc,10,'spiralx',40,'flip'}
-	set{60,100,'flip'}
+	function spinout(b,dir)
+		local spinoutmult = 1
+		if dir == 'right' then
+			ease {b, 1,inSine,
+				sw*0.75,'p1x',
+				sw*0.75,'p2x'
+			}
+			
+		else
+			ease {b, 1,inSine,
+				sw*0.25,'p1x',
+				sw*0.25,'p2x'
+			}
+			spinoutmult = -1
+		end
+		
+		
+		ease {b, 0.5,outSine,
+			20*spinoutmult,'skewx',
+			-15*spinoutmult,'noteskewx'
+		}
+			
+
+
+		ease {b,0.5,inOutSine,
+			300,'movex0',
+			100,'movex1',	
+			-100,'movex2',
+			-300,'movex3',
+		}
+		ease {b,0.25,outSine,
+			-150*spinoutmult,'movey0',
+			75*spinoutmult,'movey1',	
+			-75*spinoutmult, 'movey2',
+			150*spinoutmult,'movey3'
+		}
+		ease {b+0.25,0.25,inSine,
+			0,'movey0',
+			0,'movey1',
+			0,'movey2',
+			0,'movey3'
+		}
+		ease {b+0.5,0.5,inOutSine,
+			0,'movex0',
+			0,'movex1',
+			0,'movex2',
+			0,'movex3',
+		}
+		ease {b+0.5,0.25,outSine,
+			150*spinoutmult,'movey0',
+			-75*spinoutmult, 'movey1',
+			75*spinoutmult, 'movey2',
+			-150*spinoutmult,'movey3'
+		}
+		ease {b+0.75,0.25,inSine,
+			0,'movey0',
+			0,'movey1',
+			0,'movey2',
+			0,'movey3'
+		}
+
+		ease {b+1,0.5,outSine,
+			-30*spinoutmult,'skewx',
+			20*spinoutmult,'noteskewx'
+		}
+
+		ease {b+1.5,0.5,inSine,
+			0,'skewx',
+			0,'noteskewx'
+		}
+	end
+
+	function center(beat)
+		ease {beat-0.5,0.5,inSine,
+			sw*0.5,'p1x',
+			sw*0.5,'p2x'
+		}
+		ease {beat,1,outExpo,
+			sw*0.3,'p1x',
+			sw*0.7,'p2x'
+		}
+		
+		for i=0,3 do
+			ease {beat -0.125 + i*0.25,0.25,linear,
+				50-100*(i%2),('movey'..i),
+			plr = 1}
+			ease {beat + 0.875 + i*0.25,0.25,linear,
+				50-100*(i%2),('movey'..i),
+			plr = 2}
+			
+			ease {beat+1.875,0.25,linear,
+				0,('movey'..i)
+			}
+		end
+		
+		if beat == 13+33 then
+			ease {beat+1,1,inExpo,
+				sw*0.20,'p1x',
+				sw*0.20,'p2x'
+			}
+			ease {beat+2,0.3,linear,
+				sw*0.25,'p1x',
+				sw*0.25,'p2x'
+			}
+		else
+			ease {beat+1,1,inExpo,
+				sw*0.5,'p1x',
+				sw*0.5,'p2x'
+			}
+		end
+	end
+
+
+	-------------------------------------------------------------------------------------------
+	---------------------------------------mods start here-------------------------------------
+	-------------------------------------------------------------------------------------------
+
+	ease {-1+33,1,outExpo,
+		sh*0.5, 'p1y',
+		sh*0.5, 'p2y',
+	}
+
+	for i=0+33,16+33,16 do
+		bump(i+-0.5,75,1)
+		bump(i+0.25,-75,1)
+		spinout(i+1,'right')
+
+		bump(i+3.5,75,1)
+		bump(i+4.25,-75,1)
+		spinout(i+5,'left')
+
+		bump(i+7.5,75,1)
+		bump(i+8.25,-75,1)
+		spinout(i+9,'right')
+
+		bump(i+11.5,75,1)
+		bump(i+12.25,-75,1)
+
+		center(i+13)
+	end
+
+	set{29+33,
+		25,'doorstopx',
+	}
+	ease{29+33,1,outSine,
+		0,'doorstopx'
+	}
+	set{30+33,
+		25,'doorstopx',
+	}
+	ease{30+33,1,outSine,
+		0,'doorstopx'
+	}
+
+
+	ease{28.75+33,0.5,inSine,
+		50,'skewy',
+		-25,'noteskewy'
+	}
+	ease{29.5+33,0.75,outExpo,
+		0,'skewy',
+		0,'noteskewy'
+	}
+	ease{29.75+33,0.5,inSine,
+		-50,'skewy',
+		25,'noteskewy'
+	}
+	ease{30.5+33,1,outExpo,
+		0,'skewy',
+		0,'noteskewy'
+	}
+	
+	
 
 	reset{64}
 	func{64,function()
@@ -913,51 +1134,42 @@ func{256, function() twr_bg:hidden(1) end}
 	set{272,360,'rotationy',100,'tipsy',confOff(-360),'confusionyoffset'}
 	ease {272, 1, outSine, 0,'rotationy',0,'tipsy',0,'confusionyoffset',30,'rotationx'}
 
-	func{283.5,function() toriel:hidden(1) toriel:diffusealpha(1) end}
-	reset{283.5}
+	func{283.67,function() toriel:hidden(1) toriel:diffusealpha(1) end}
+	reset{283.67}
 
 	--cod thing
-	func{284,function() hyper:hidden(0) ar:hidden(0) end}
-	
-	aux {'blacksphere'}
-	node {
-    'blacksphere',
-    function(blacksphere)
-        local invert = 50 - 50 * math.cos(blacksphere * math.pi / 180)
-        local alternate = 25 * math.sin(blacksphere * math.pi / 180)
-        local reverse = -12.5 * math.sin(blacksphere * math.pi / 180)
-        return invert, alternate, reverse
-    end,
-    'invert', 'alternate', 'reverse',
-	}
+	func{283.67,function() hyper:hidden(0) ar:hidden(1) end}
 
-		ease {0, 0.1, outExpo, 50, 'zoom', 500, 'movex'}
-	ease {0, 0.1, outExpo, SCREEN_CENTER_X-250, 'x', plr = {1}}
-	ease {0, 0.1, outExpo, SCREEN_CENTER_X+250, 'x', plr = {2}}
+	ease {0+279.67+4, 0.1, outExpo, 50, 'zoom', 500, 'movex'}
+	ease {0+279.67+4, 0.1, outExpo, SCREEN_CENTER_X-250, 'x', plr = {1}}
+	ease {0+279.67+4, 0.1, outExpo, SCREEN_CENTER_X+250, 'x', plr = {2}}
 	
-	ease {4+279.75, 1, outExpo, 100, 'bumpy', 100, 'beat', 0.5, 'beatmult'}
-	ease {5+279.75, 2, outExpo, 100, 'reverse'}
-	ease {5+279.75, 0.5, bounce, 50, 'skewx'}
-	ease {5.5+279.75, 0.5, bounce, -50, 'skewx'}
+	ease {4+279.67, 1, outExpo, 100, 'bumpy', 100, 'beat', 0.5, 'beatmult'}
+	ease {5+279.67, 2, outExpo, 100, 'reverse'}
+	ease {5+279.67, 0.5, bounce, 50, 'skewx'}
+	ease {5.5+279.67, 0.5, bounce, -50, 'skewx'}
 
-	ease {7.5+279.75, 0.5, bounce, 10, 'skewy'}
-	ease {8+279.75, 0.5, bounce, -10, 'skewy'}
-	ease {9+279.75, 0.5, bounce, 1, 'xmod'}
-	ease {9.5+279.75, 0.5, outExpo, 50, 'flip'}
-	ease {10.5+279.75, 0.5, outExpo, 0, 'flip'}
-	ease {11+279.75, 0.5, bounce, 50, 'confusion'}
-	ease {12+279.75, 0.5, outExpo, 0, 'reverse'}
+	ease {7.5+279.67, 0.5, bounce, 10, 'skewy'}
+	ease {8+279.67, 0.5, bounce, -10, 'skewy'}
+	ease {9+279.67, 0.5, bounce, 1, 'xmod'}
+	ease {9.5+279.67, 0.5, outExpo, 50, 'flip'}
+	ease {10.5+279.67, 0.5, outExpo, 0, 'flip'}
+	ease {11+279.67, 0.5, bounce, 50, 'confusion'}
+	ease {12+279.67, 0.5, outExpo, 0, 'reverse'}
 	
-	ease {12.5+279.75, 2, outExpo, 30, 'rotationx'}
-	ease {12.5+279.75, 2, outExpo, 180, 'blacksphere'}
-	ease {14.5+279.75, 2, outExpo, 60, 'rotationx', 10, 'rotationy'}
-	ease {14.5+279.75, 2, outExpo, 360, 'blacksphere'}
-	ease {16.5+279.75, 2, outExpo, 20, 'rotationx', 30, 'rotationy'}
-	ease {16.5+279.75, 2, outExpo, 180, 'blacksphere'}
-	ease {18.5+279.75, 2, outExpo, -30, 'rotationx', 40, 'rotationy', 10, 'skewx'}
-	ease {18.5+279.75, 1, outExpo, 0, 'blacksphere'}
+	-- why is it feeling like doubling the invert of blacksphere????
+	-- it's not an blacksphere issue, works fine in cerings part
+	-- apparently, it ONLY works fine in cerings part??? what the fuck
+	ease {12.5+279.67, 2, outExpo, 30, 'rotationx'}
+	ease {12.5+279.67, 2, outExpo, 180, 'blacksphere'}
+	ease {14.5+279.67, 2, outExpo, 60, 'rotationx', 10, 'rotationy'}
+	ease {14.5+279.67, 2, outExpo, 360, 'blacksphere'}
+	ease {16.5+279.67, 2, outExpo, 20, 'rotationx', 30, 'rotationy'}
+	ease {16.5+279.67, 2, outExpo, 180, 'blacksphere'}
+	ease {18.5+279.67, 2, outExpo, -30, 'rotationx', 40, 'rotationy', 10, 'skewx'}
+	ease {18.5+279.67, 1, outExpo, 0, 'blacksphere'}
 	
-	for i = 12.5+279.75, 19.5+279.75, 1 do
+	for i = 12.5+279.67, 19.5+279.67, 1 do
 		func{i, function()
 			ar:hidden(0)
 		end}
@@ -966,36 +1178,36 @@ func{256, function() twr_bg:hidden(1) end}
 		end}
 	end
 	
-	func{13.5+279.75, function()
+	func{13.5+279.67, function()
 		ar:zoom(0.3)
 		ar:x(100)
 		end}
-	func{14.5+279.75, function()
+	func{14.5+279.67, function()
 		ar:zoom(0.35)
 		ar:x(600)
 		ar:y(200)
 		end}
-	func{15.5+279.75, function()
+	func{15.5+279.67, function()
 		ar:zoom(0.4)
 		ar:x(250)
 		ar:y(100)
 		end}
-	func{16.5+279.75, function()
+	func{16.5+279.67, function()
 		ar:zoom(0.45)
 		ar:x(200)
 		ar:y(500)
 		end}
-	func{17.5+279.75, function()
+	func{17.5+279.67, function()
 		ar:zoom(0.5)
 		ar:x(250)
 		ar:y(250)
 		end}
-	func{18.5+279.75, function()
+	func{18.5+279.67, function()
 		ar:zoom(0.55)
 		ar:x(500)
 		ar:y(400)
 		end}
-	func{19.5+279.75, function()
+	func{19.5+279.67, function()
 		ar:zoom(0.6)
 		ar:x(SCREEN_CENTER_X)
 		ar:y(SCREEN_CENTER_Y)
@@ -1497,13 +1709,6 @@ func{256, function() twr_bg:hidden(1) end}
     ease{CERING_OFFSET, 7.5, quarti, 320, 'cmod', 0, 'twirl', 0, 'dizzy'}
     ease{CERING_OFFSET, 8, expos, 0, 'stealth'}
     ease{CERING_OFFSET, 8, lin, 0, 'wave'}
-
-    definemod{'blacksphere', function(x)
-        local invert = 50 - 50 * cos(x * pi / 180)
-        local alternate = 25 * sin(x * pi / 180)
-        local reverse = -12.5 * sin(x * pi / 180)
-        return invert, alternate, reverse
-    end, 'invert', 'alternate', 'reverse'}
 
     --:yass: 🎉
 	--CERiNG if the image wasnt specifically about the abject horror of my code you wouldve made it onto it
@@ -2408,7 +2613,6 @@ end)"Name=af Type="ActorFrame"><children>
 	</children></Layer>
 	<Layer File = "damg.png" Name = "orang" InitCommand="stretchto,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y" />
 	<Layer Type = "Quad" Name = "quack" InitCommand="hidden,1" />
-
 	<Layer File="cod.png" OnCommand="scaletofit,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;hidden,1" Name="hyper" />
 	<Layer File="ar.png" Var = "ar" OnCommand="%
 		function(self)
@@ -2416,6 +2620,7 @@ end)"Name=af Type="ActorFrame"><children>
 			self:zoom(0.25)
 			self:hidden(1)		
 		end "/>
+	<Layer File = "char/spam/spamton.png" InitCommand="zoom,SCREEN_HEIGHT*0.0005;hidden,0;xy,SCREEN_CENTER_X*1.2,SCREEN_CENTER_Y*0.5" Name = "spammy" />
 	<Layer Type = "ActorProxy" Name = "PC[1]" />
 	<Layer Type = "ActorProxy" Name = "PC[2]" />
 	<Layer Type = "ActorProxy" Name = "PJ[1]" />
@@ -2435,7 +2640,7 @@ end)"Name=af Type="ActorFrame"><children>
 	<Layer File = "among.gif" InitCommand="stretchto,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y" Name = "among" />
 	<Layer File = "fof.gif" InitCommand="stretchto,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y" Name = "fof" />
 
-	<Layer File = "char/spam/spamton.png" InitCommand="zoom,SCREEN_HEIGHT*0.0005;hidden,0;xy,SCREEN_CENTER_X*1.2,SCREEN_CENTER_Y*0.5" Name = "spammy" />
+	
 	<Layer Type = "Quad" InitCommand="stretchto,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;diffuse,0,0,0,1;hidden,1;" Name = "black" />
 	<Layer Type = "ActorFrameTexture" Name = "myaft"  />
 	<Layer File = "disclaimer.png" InitCommand="stretchto,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;diffusealpha,1;hidden,1;" Name = "michealwave_help" />
