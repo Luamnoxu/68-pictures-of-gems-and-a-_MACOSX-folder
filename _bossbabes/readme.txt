@@ -10,6 +10,9 @@ so I can get my imaginary crown of most collaborators back :^)
 All that needs to be done now is to get DPS and Ky to finish their parts and then
 I (the clearly rightful owner) will claim my crown once more!!!
 
+29th March Mayflower here:
+:D
+
 mayflower's joyride of fun files and friends 
 -tetaes, having no clue what I asked them to mod
 
@@ -22,7 +25,7 @@ There is probably fucky shit like charting errors or a few sync funnies Im not s
 
 
 
-Sega from the Waffle House (unaffiliated with Sonic)
+Sega from the not sega
 
 FEATURING:
 oat
@@ -32,7 +35,7 @@ rya
 Snowy
 CERiNG
 -tac?????????????????????????
--DPS
+DPS
 yasmyn "yas queen" yasmyn??????
 Jollysivie
 -Ky

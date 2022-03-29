@@ -245,25 +245,7 @@
 	
 	func{30,function() black:hidden(1) MyMovie:hidden(1) MyMovie:animate(0) bg_bg:hidden(1) bg_bg:animate(0) credit[12]:hidden(1) credits:hidden(0) end}
 
-	ease{34,2,inQuad,150,'mini',10,'rotationz',0,'rotationy',300,'drunk',30,'wave',100,'parabolaz',}
-	ease{34,2,linear,40,'rotationy'}
-	set{36,0,'rotationz',0,'mini',0,'rotationy',0,'drunk',0,'wave',0,'parabolaz'}
-	--spamton things
-	for i,v in ipairs(spamton) do
-  if v[2] == 0 then
-    ease{v[1],0.25,outQuad,10,'tandrunky',-100,'zoomz',-20,'rotationx',-30,'tinyy'}
-	set{v[1],0,'tandrunky',0,'zoomz',0,'rotationx',0,'flip',0,'tinyy'}
-  elseif v[2] == 1 then
-    ease{v[1],0.25,linear,10,'tandrunk',-30,'tinyx'}
-	set{v[1],0,'tandrunk',0,'tinyx'}
-  elseif v[2] == 2 then
-    ease{v[1],0.25,linear,0,'flip'}
-	set{v[1],0,'flip'}
-  elseif v[2] == 3 then
-    --for all columns!
-  end
-  --code run before or after these if statements will run every time there is an entry.
-end
+	
 	func{35,29,function() spammy:x(scx*1.3+(math.sin(GAMESTATE:GetSongBeat()*0.7))*10) end}
 	func {35, 1, outQuad, 0, 0.5, 'spammy_bg:diffusealpha'}
 	func {35, 1, outQuad, 0, 1, 'spammy_bg2:diffusealpha'}
@@ -935,41 +917,95 @@ func{256, function() twr_bg:hidden(1) end}
 	reset{283.5}
 
 	--cod thing
-	set{283.5,100,'Arrowpath',50,'reverse',50,'flip',100,'centerplayfields',100,'wave'}
-	ease {283.5, 16, linear,720,'rotationz',confOff(-720),'confusionzoffset',30,'tornado',30,'drunk',50,'tipsy',plr=1}
-	ease {283.5, 16, linear,-360,'rotationz',confOff(360),'confusionzoffset',-70,'tornado',plr=2}
-	func{283.5,function() 
-		P1:SetYSpline(0,-1,-0,000,-1)
-		P1:SetXSpline(0,-1,-0,000,-1)
-		P1:SetZSpline(0,-1,-0,000,-1)
-		P1:SetZSpline(1,-1,1000,1000,-1)
-
-		P1:SetYSpline(1,1,1000,1000,-1)
-		P1:SetXSpline(1,0,-1000,1000,-1)
-		P1:SetXSpline(1,3,1000,1000,-1)
-		P1:SetYSpline(1,2,-1000,1000,-1)
-		
-		P2:SetYSpline(0,-1,-0,000,-1)
-		P2:SetXSpline(0,-1,-0,000,-1)
-		P1:SetZSpline(0,-1,-0,000,-1)
-		P1:SetZSpline(1,-1,-1000,1000,-1)
-
-		P2:SetYSpline(1,1,1000,1000,-1)
-		P2:SetXSpline(1,0,-1000,1000,-1)
-		P2:SetXSpline(1,3,1000,1000,-1)
-		P2:SetYSpline(1,2,-1000,1000,-1)
-		end}	
+	func{284,function() hyper:hidden(0) ar:hidden(0) end}
 	
-	func{300,function() P1:ResetXSplines(0) P1:ResetXSplines(1) P1:ResetXSplines(2) P1:ResetXSplines(3)
-	--this makes no fucking sense
-								P1:ResetYSplines(0) P1:ResetYSplines(1) P1:ResetYSplines(2) P1:ResetYSplines(3)
-								P1:ResetZSplines(0) P1:ResetZSplines(1) P1:ResetZSplines(2) P1:ResetZSplines(3)
-								P1:ResetStealthSplines(0) P1:ResetStealthSplines(1) P1:ResetStealthSplines(2) P1:ResetStealthSplines(3) 
-						P2:ResetXSplines(0) P2:ResetXSplines(1) P2:ResetXSplines(2) P2:ResetXSplines(3)
-								P2:ResetYSplines(0) P2:ResetYSplines(1) P2:ResetYSplines(2) P2:ResetYSplines(3)
-								P2:ResetZSplines(0) P2:ResetZSplines(1) P2:ResetZSplines(2) P2:ResetZSplines(3)
-								P2:ResetStealthSplines(0) P2:ResetStealthSplines(1) P2:ResetStealthSplines(2) P2:ResetStealthSplines(3) 
-								end}
+	aux {'blacksphere'}
+	node {
+    'blacksphere',
+    function(blacksphere)
+        local invert = 50 - 50 * math.cos(blacksphere * math.pi / 180)
+        local alternate = 25 * math.sin(blacksphere * math.pi / 180)
+        local reverse = -12.5 * math.sin(blacksphere * math.pi / 180)
+        return invert, alternate, reverse
+    end,
+    'invert', 'alternate', 'reverse',
+	}
+
+		ease {0, 0.1, outExpo, 50, 'zoom', 500, 'movex'}
+	ease {0, 0.1, outExpo, SCREEN_CENTER_X-250, 'x', plr = {1}}
+	ease {0, 0.1, outExpo, SCREEN_CENTER_X+250, 'x', plr = {2}}
+	
+	ease {4+279.75, 1, outExpo, 100, 'bumpy', 100, 'beat', 0.5, 'beatmult'}
+	ease {5+279.75, 2, outExpo, 100, 'reverse'}
+	ease {5+279.75, 0.5, bounce, 50, 'skewx'}
+	ease {5.5+279.75, 0.5, bounce, -50, 'skewx'}
+
+	ease {7.5+279.75, 0.5, bounce, 10, 'skewy'}
+	ease {8+279.75, 0.5, bounce, -10, 'skewy'}
+	ease {9+279.75, 0.5, bounce, 1, 'xmod'}
+	ease {9.5+279.75, 0.5, outExpo, 50, 'flip'}
+	ease {10.5+279.75, 0.5, outExpo, 0, 'flip'}
+	ease {11+279.75, 0.5, bounce, 50, 'confusion'}
+	ease {12+279.75, 0.5, outExpo, 0, 'reverse'}
+	
+	ease {12.5+279.75, 2, outExpo, 30, 'rotationx'}
+	ease {12.5+279.75, 2, outExpo, 180, 'blacksphere'}
+	ease {14.5+279.75, 2, outExpo, 60, 'rotationx', 10, 'rotationy'}
+	ease {14.5+279.75, 2, outExpo, 360, 'blacksphere'}
+	ease {16.5+279.75, 2, outExpo, 20, 'rotationx', 30, 'rotationy'}
+	ease {16.5+279.75, 2, outExpo, 180, 'blacksphere'}
+	ease {18.5+279.75, 2, outExpo, -30, 'rotationx', 40, 'rotationy', 10, 'skewx'}
+	ease {18.5+279.75, 1, outExpo, 0, 'blacksphere'}
+	
+	for i = 12.5+279.75, 19.5+279.75, 1 do
+		func{i, function()
+			ar:hidden(0)
+		end}
+		func {i + 0.5, function()
+			ar:hidden(1)
+		end}
+	end
+	
+	func{13.5+279.75, function()
+		ar:zoom(0.3)
+		ar:x(100)
+		end}
+	func{14.5+279.75, function()
+		ar:zoom(0.35)
+		ar:x(600)
+		ar:y(200)
+		end}
+	func{15.5+279.75, function()
+		ar:zoom(0.4)
+		ar:x(250)
+		ar:y(100)
+		end}
+	func{16.5+279.75, function()
+		ar:zoom(0.45)
+		ar:x(200)
+		ar:y(500)
+		end}
+	func{17.5+279.75, function()
+		ar:zoom(0.5)
+		ar:x(250)
+		ar:y(250)
+		end}
+	func{18.5+279.75, function()
+		ar:zoom(0.55)
+		ar:x(500)
+		ar:y(400)
+		end}
+	func{19.5+279.75, function()
+		ar:zoom(0.6)
+		ar:x(SCREEN_CENTER_X)
+		ar:y(SCREEN_CENTER_Y)
+		end}
+		
+
+
+
+
+
 	reset{300}
 	set{300,100,'centerPlayfields'}
 	set{300,100000000,'movex2',100000000,'movex3',plr=1}
@@ -981,7 +1017,7 @@ func{256, function() twr_bg:hidden(1) end}
 	--idk!!!
 	ease {302, 17, linear,200,'Drunk',200,'Tipsy',plr=1}
 	ease {302, 17, linear,-200,'Drunk',-200,'Tipsy',plr=2}
-	func{302,function() earthbound:hidden(0) end}
+	func{302,function() earthbound:hidden(0) hyper:hidden(1) ar:hidden(1) end}
 	func{319,function() earthbound:hidden(1) end}
 
 	for i,v in ipairs(mother) do
@@ -1099,6 +1135,8 @@ func{256, function() twr_bg:hidden(1) end}
 	--saw the french damn daniel in here again
 	--half tempted to go up to sora hey theres french music in this can i put an image of you there
 	--in hindsight this feels mean, do not do this mayflower
+	--dont worry mayflower that part is no longer part of the file
+	--swag right
 	func{397,function() micheal:hidden(0) michealwave_help:hidden(0) micheal:rotationx(5) micheal:rotationz(180)  end}
 	func {405, 35, linear, 0, 1800, 'micheal:rotationy'}
 
@@ -2249,11 +2287,11 @@ func{224+8,function() credits_mayflower:hidden(0) Text_Mayflower:hidden(0) credi
 
 func {260, 2, outQuad, -140, 0, 'credits:x'}
 func {260+5, 2, outQuad, -0, -140, 'credits:x'}
-func {260+8,function() credits_mayflower:hidden(0) Text_Mayflower:hidden(0) credits_yasmyn:hidden(1) Text_yasmyn:hidden(1) end}
+func {260+8,function() credits_Hyper:hidden(0) Text_Hyper:hidden(0) credits_mayflower:hidden(1) Text_Mayflower:hidden(1) end}
 
 func {292, 2, outQuad, -140, 0, 'credits:x'}
 func {292+5, 2, outQuad, -0, -140, 'credits:x'}
-func {292+8,function() credits_mayflower:hidden(0) Text_Mayflower:hidden(0) credits_yasmyn:hidden(1) Text_yasmyn:hidden(1) end}
+func {292+8,function() credits_mayflower:hidden(0) Text_Mayflower:hidden(0) credits_Hyper:hidden(1) Text_Hyper:hidden(1) end}
 
 func {302, 2, outQuad, -140, 0, 'credits:x'}
 func {302+5, 2, outQuad, -0, -140, 'credits:x'}
@@ -2370,6 +2408,14 @@ end)"Name=af Type="ActorFrame"><children>
 	</children></Layer>
 	<Layer File = "damg.png" Name = "orang" InitCommand="stretchto,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y" />
 	<Layer Type = "Quad" Name = "quack" InitCommand="hidden,1" />
+
+	<Layer File="cod.png" OnCommand="scaletofit,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;hidden,1" Name="hyper" />
+	<Layer File="ar.png" Var = "ar" OnCommand="%
+		function(self)
+			self:xy(SCREEN_CENTER_X,SCREEN_CENTER_Y)
+			self:zoom(0.25)
+			self:hidden(1)		
+		end "/>
 	<Layer Type = "ActorProxy" Name = "PC[1]" />
 	<Layer Type = "ActorProxy" Name = "PC[2]" />
 	<Layer Type = "ActorProxy" Name = "PJ[1]" />
@@ -2446,6 +2492,8 @@ end)"Name=af Type="ActorFrame"><children>
 			<Layer File = "intro/icons/moj.png" InitCommand="xy,17,SCREEN_CENTER_Y*0.2;diffusealpha,1;zoom,0.5;hidden,1;" Name = "credits_moj"/>
 			<Layer Type="BitmapText" File="default" OnCommand="zoom,0.5;xy,80,SCREEN_CENTER_Y*0.175;hidden,1;" Name="Text_Oranger" Text="Oranger" />
 			<Layer File = "intro/icons/oranger.png" InitCommand="xy,17,SCREEN_CENTER_Y*0.2;diffusealpha,1;zoom,0.5;hidden,1;" Name = "credits_oranger"/>
+			<Layer Type="BitmapText" File="default" OnCommand="zoom,0.5;xy,80,SCREEN_CENTER_Y*0.175;hidden,1;" Name="Text_Hyper" Text="Hyperhero" />
+			<Layer File = "intro/icons/Hyper.png" InitCommand="xy,17,SCREEN_CENTER_Y*0.2;diffusealpha,1;zoom,0.5;hidden,1;" Name = "credits_Hyper"/>
 	</children></Layer>
 
 	<Layer File = "ethan.png" InitCommand="stretchto,SCREEN_CENTER_X*0.3,0,SCREEN_CENTER_X*1.7,SCREEN_HEIGHT;diffusealpha,0;hidden,1;" Name = "ethan" />
