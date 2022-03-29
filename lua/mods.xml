@@ -2456,6 +2456,8 @@ func {791, function()
 	yosh:hidden(1)
 	ghoul:hidden(1)
 	green_bg:hidden(1)
+	bg_bg:hidden(1)
+	batman:hidden(1)
 end}
 reset{791}
 plr = {1, 2}
@@ -2480,7 +2482,7 @@ reset{838}
     end}
 	set{838,100,'minestealth',100,'stealthpastreceptors',100,'centerPlayfields',20,'arrowpath'}
 	
-	func{838,function() P3:SetAwake(true) P3:hidden(0) P4:SetAwake(true) P4:hidden(0) end}
+	func{838,function() P3:SetAwake(true) P3:hidden(0) P4:SetAwake(true) P4:hidden(0) PP[3]:hidden(0) PP[4]:hidden(0) end}
 	add{838, 20, linear, -720, 'rotationz',plr=3}
 	add{838, 20, linear, -800, 'rotationz',plr=4}
 	set{838,0.01,'bgweesh', 100, 'centered', 20, 'arrowpath', 90, 'fov', 0, 'flip', 100, 'reverse1', 50, 'reverse0', 50, 'reverse3', 100, 'drawsizeback', 50, 'drawsize',  100, 'dark', 100, 'hidenoteflash', plr = {3, 4}}
@@ -2505,7 +2507,7 @@ reset{838}
 
 
 	func{848,function() GAMESTATE:FinishSong() end}
-	func{838,function() bgfishaft:hidden(0) bgfishsprite:hidden(0) bglitchaft:hidden(0) bglitchsprite:hidden(0) hooohbg:hidden(0) end}
+	func{838,function() bgfishaft:hidden(0) bgfishsprite:hidden(0) bglitchaft:hidden(0) bglitchsprite:hidden(0) hooohbg:hidden(0)end}
 --this could probably be made better and quicker but like
 
 --its my code 
@@ -2585,7 +2587,7 @@ func {727+7.5, 3, outQuad, -0, -140, 'credits:x'}
 func {727+12,function() credits_moj:hidden(1) Text_moj:hidden(1) credits_moj:hidden(0) Text_moj:hidden(0) end}
 
 end)"Name=af Type="ActorFrame"><children>
-	<Layer File = "earthbound.sprite" Name = "hooohbg" InitCommand="stretchto,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;diffusealpha,1;hidden,1;" />
+	
 	<Layer Type = "Sprite" Name = "mysprite" InitCommand="hidden,1" Frag="fisheye.frag"/>
 	<!--  Funny c2l shit  !-->
 	<Layer File = "c2l/spamton.xml"/>
@@ -2630,7 +2632,7 @@ end)"Name=af Type="ActorFrame"><children>
 		</children></Layer>
 	</children></Layer>
 	<Layer Type = "Quad" Name = "bg" InitCommand="hidden,1" />
-	
+			<Layer File = "earthbound.sprite" Name = "hooohbg" InitCommand="stretchto,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;diffusealpha,1;hidden,1;" />
 	<Layer File = "yosh.png" InitCommand="xy,SCREEN_CENTER_X*0.3,SCREEN_CENTER_Y*0.41;zoom,0.09;diffusealpha,0" Name = "yosh"/>
 	<Layer Type="ActorFrame" Name="ghoul" ><children>
 		<Layer File = "char/fuck/tuscan.png" InitCommand = "fadebottom,0;xy,SCREEN_CENTER_X*0.7,SCREEN_CENTER_Y*12;zoom,SCREEN_HEIGHT*0.0006;diffusealpha,0;hidden,1;" Name="tuscanL[1]" />
@@ -2663,7 +2665,7 @@ end)"Name=af Type="ActorFrame"><children>
 			self:zoom(0.25)
 			self:hidden(1)		
 		end "/>
-		
+
 		<Layer Type = "ActorFrameTexture" InitCommand = "%xero.aft" OnCommand="hidden,1;" Name = "bglitchaft" />
 	<Layer Type = "Sprite" Shader = "glitch-lines.frag" InitCommand = "%xero.sprite" OnCommand="hidden,1;" Name = "bglitchsprite" />
 	<Layer Type = "ActorFrameTexture" InitCommand = "%xero.aft" OnCommand="hidden,1;" Name = "bgfishaft" />
