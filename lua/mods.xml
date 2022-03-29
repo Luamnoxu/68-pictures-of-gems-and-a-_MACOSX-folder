@@ -2504,9 +2504,12 @@ reset{838}
 	ease{847, 4.5, inOutQuad, -30, 'rotationy', 0, 'rotationx', 25, 'rotationz', 40, 'movey', -10, 'movex'}
 	ease{851, 4, inOutQuad, 20, 'rotationy', -40, 'rotationx', -10, 'rotationz', -65, 'movey', 25, 'movex'}
 	ease{854, 4, inOutQuad, -25, 'rotationy', 0, 'rotationx', 15, 'rotationz', 50, 'movey', -20, 'movex'}
-
-
-	func{848,function() GAMESTATE:FinishSong() end}
+	
+	set{846, 0, 'xmod', 100, 'stealth', 100, 'drawsize', plr = {1,2}}
+	ease{846, 8, linear, 2, 'xmod', plr = {1,2}}
+	{846, 8, outQuad, 0, 'stealth', plr = {1,2}}
+	
+	func{853.875,function() GAMESTATE:FinishSong() end}
 	func{838,function() bgfishaft:hidden(0) bgfishsprite:hidden(0) bglitchaft:hidden(0) bglitchsprite:hidden(0) hooohbg:hidden(0)end}
 --this could probably be made better and quicker but like
 
