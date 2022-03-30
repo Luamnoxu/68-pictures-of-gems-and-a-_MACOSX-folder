@@ -2762,7 +2762,7 @@ reset{838+2}
     	bglitchsprite:GetShader():uniform1f('amount',w)
 
     end}
-	set{838+2,100,'minestealth',100,'stealthpastreceptors',100,'centerPlayfields',20,'arrowpath'}
+	set{838+2,100,'minestealth',100,'stealthpastreceptors',0,'centerPlayfields',20,'arrowpath'}
 	
 	func{838+2,function() P3:SetAwake(true) P3:hidden(0) P4:SetAwake(true) P4:hidden(0) PP[3]:hidden(0) PP[4]:hidden(0) end}
 	add{838+2, 20, linear, -720, 'rotationz',plr=3}
