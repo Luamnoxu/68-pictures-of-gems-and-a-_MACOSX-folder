@@ -2735,23 +2735,20 @@ plr = {1, 2}
 	end	
 
 	func {31+790, function() for pn = 3, 4 do PP[pn]:hidden(1) end end}
-
+	
+	plr = {1,2}
 	reset{822}
-	set{822, -0, 'rotationz', 0, 'rotationx', -0, 'tiny', 0, 'flip', 0, 'centered', 0, 'invert', -0, 'drawsizeback'}
-	set {822, 0, 'wheelsize', 0, 'hidenoteflash', 0, 'dark', 0, 'stealth', 0, 'noholdjudge'}
-	func{822,function() P1:ResetXSplines(-1) P1:ResetXSplines(-1) P1:ResetXSplines(-1) P1:ResetXSplines(3)
-								P1:ResetYSplines(0) P1:ResetYSplines(1) P1:ResetYSplines(2) P1:ResetYSplines(3)
-								P1:ResetZSplines(0) P1:ResetZSplines(1) P1:ResetZSplines(2) P1:ResetZSplines(3)
-								P1:ResetStealthSplines(0) P1:ResetStealthSplines(1) P1:ResetStealthSplines(2) P1:ResetStealthSplines(3) 
-				--hate me wife, hate me splines
-								end}
+	func {822, function() 
+		PP[1]:GetParent():SetDrawFunction(nil)
+		for pn = 1, 2 do PP[pn]:hidden(0) end 
+	end}
 
 
 
 
 -- the playfield can now die (in a basic fashion)
 -- truly amazing what age we live in
-set{823, 100, 'centerPlayfields'}
+set{822, 100, 'centerPlayfields'}
 set{827.125, 100, 'centered', -140, 'y', 25, 'rotationz'}
 add{830, 1.5, bounce, -100, 'y'}
 add{830 + 1.5, 5 - 1.5, linear, 250*5, 'y'}
