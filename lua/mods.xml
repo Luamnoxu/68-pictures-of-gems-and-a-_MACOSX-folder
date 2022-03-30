@@ -234,21 +234,21 @@
 	
 	
 --^^^funny defines^^^
-
-	func{9.13,function() credit[1]:hidden(0) end}
-	func{9.88,function() credit[1]:hidden(1) credit[2]:hidden(0) end}
-	func{10.52,function() credit[2]:hidden(1) credit[3]:hidden(0) end}
-	func{11.33,function() credit[3]:hidden(1) credit[4]:hidden(0) end}
-	func{12.04,function() credit[4]:hidden(1) credit[5]:hidden(0) end}
-	func{12.79,function() credit[5]:hidden(1) credit[6]:hidden(0) end}
-	func{13.63,function() credit[6]:hidden(1) credit[7]:hidden(0) end}
-	func{14.25,function() credit[7]:hidden(1) credit[8]:hidden(0) end}
-	func{15,function() credit[8]:hidden(1) credit[9]:hidden(0) end}
-	func{15.71,function() credit[9]:hidden(1) credit[10]:hidden(0) end}
-	func{16.46,function() credit[10]:hidden(1) credit[11]:hidden(0) end}
-	func{17.21,function() credit[11]:hidden(1) credit[12]:hidden(0) end}
-	func{17.96,function() credit[12]:hidden(1) credit[13]:hidden(0) end}
-	func{18.67,function() credit[13]:hidden(1) credit[14]:hidden(0) end}
+	local cr = {0.4,outQuad,1.5} -- len, ease, zoom
+	func{9.13,function() credit[1]:hidden(0) end}{9.13,cr[1],cr[2],cr[3],1,'credit[1]:zoom'}
+	func{9.88,function() credit[1]:hidden(1) credit[2]:hidden(0) end}{9.88,cr[1],cr[2],cr[3],1,'credit[2]:zoom'}
+	func{10.52,function() credit[2]:hidden(1) credit[3]:hidden(0) end}{10.52,cr[1],cr[2],cr[3],1,'credit[3]:zoom'}
+	func{11.33,function() credit[3]:hidden(1) credit[4]:hidden(0) end}{11.33,cr[1],cr[2],cr[3],1,'credit[4]:zoom'}
+	func{12.04,function() credit[4]:hidden(1) credit[5]:hidden(0) end}{12.04,cr[1],cr[2],cr[3],1,'credit[5]:zoom'}
+	func{12.79,function() credit[5]:hidden(1) credit[6]:hidden(0) end}{12.79,cr[1],cr[2],cr[3],1,'credit[6]:zoom'}
+	func{13.63,function() credit[6]:hidden(1) credit[7]:hidden(0) end}{13.63,cr[1],cr[2],cr[3],1,'credit[7]:zoom'}
+	func{14.25,function() credit[7]:hidden(1) credit[8]:hidden(0) end}{14.25,cr[1],cr[2],cr[3],1,'credit[8]:zoom'}
+	func{15,function() credit[8]:hidden(1) credit[9]:hidden(0) end}{15,cr[1],cr[2],cr[3],1,'credit[9]:zoom'}
+	func{15.71,function() credit[9]:hidden(1) credit[10]:hidden(0) end}{15.71,cr[1],cr[2],cr[3],1,'credit[10]:zoom'}
+	func{16.46,function() credit[10]:hidden(1) credit[11]:hidden(0) end}{16.46,cr[1],cr[2],cr[3],1,'credit[11]:zoom'}
+	func{17.21,function() credit[11]:hidden(1) credit[12]:hidden(0) end}{17.21,cr[1],cr[2],cr[3],1,'credit[12]:zoom'}
+	func{17.96,function() credit[12]:hidden(1) credit[13]:hidden(0) end}{17.96,cr[1],cr[2],cr[3],1,'credit[13]:zoom'}
+	func{18.67,function() credit[13]:hidden(1) credit[14]:hidden(0) end}{18.67,cr[1],cr[2],cr[3],1,'credit[14]:zoom'}
 	func{18.67, 0.41, outBack, scy*-0.3, scy*0.1, 'banner:y'}
 	func{19.08, 0.41, outBack, scy*0.1, scy*0.2, 'banner:y'}
 	func{19.42, 0.41, outBack, scy*0.2, scy*0.3, 'banner:y'}
@@ -259,7 +259,10 @@
 	func{20.55, 0.15, outBack, scy*0.7, scy*0.8, 'banner:y'}
 	func{20.70, 0.15, outBack, scy*0.8, scy*0.9, 'banner:y'}
 	func{20.85, 0.15, outBack, scy*0.9, scy, 'banner:y'}
-
+	
+	for i = 21.6-0.75,31,0.75 do
+		func{i, 0.35, outQuad, sh*0.001, sh*0.00105, 'banner:zoom'}
+	end
 
 	func{0,function() black:hidden(1) spammy_bg:diffusealpha(0)  spammy_bg:stretchto(0,0,sw,sh) spammy_bg2:diffusealpha(0)  spammy_bg2:stretchto(0,0,sw,sh) 
 		spammy:diffusealpha(0) spambox:diffusealpha(0)
@@ -269,7 +272,7 @@
 	func{1.5,function() MyMovie:animate(1)
 		MyMovie:hidden(0) end}
 	
-	func{30,function() black:hidden(1) MyMovie:hidden(1) MyMovie:animate(0) bg_bg:hidden(1) bg_bg:animate(0) credit[12]:hidden(1) credits:hidden(0) end}
+	func{31.5,function() black:hidden(1) MyMovie:hidden(1) MyMovie:animate(0) bg_bg:hidden(1) bg_bg:animate(0) credit[14]:hidden(1) credits:hidden(0) banner:hidden(1) end}
 	
 	func{35,29,function() spammy:x(scx*1.3+(math.sin(GAMESTATE:GetSongBeat()*0.7))*10) end}
 	func {35, 1, outQuad, 0, 0.5, 'spammy_bg:diffusealpha'}
@@ -3002,20 +3005,20 @@ end)"Name=af Type="ActorFrame"><children>
 	<Layer File = "8I9-YPDYn2hiXUA2.mp4" InitCommand="stretchto,SCREEN_CENTER_X*0.5,SCREEN_CENTER_Y*0.5,SCREEN_CENTER_X*1.5,SCREEN_CENTER_Y*1.5;Animate,0;hidden,1;" Name = "bg_bg" />
 	<Layer File = "live reaction.png" InitCommand="xy,SCREEN_WIDTH-100,SCREEN_CENTER_Y+160;zoom,0.4;diffusealpha,0" Name = "livereaction"/>
 	<Layer File = "1499814477809733632.mp4" InitCommand="stretchto,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;Animate,0" Name = "MyMovie" />
-	<Layer File = "intro/1.png" InitCommand="hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y*1.3" Name = "credit[1]" />
-	<Layer File = "intro/2.png" InitCommand="hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y*1.3" Name = "credit[2]" />
-	<Layer File = "intro/3.png" InitCommand="hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y*1.3" Name = "credit[3]" />
-	<Layer File = "intro/4.png" InitCommand="hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y*1.3" Name = "credit[4]" />
-	<Layer File = "intro/5.png" InitCommand="hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y*1.3" Name = "credit[5]" />
-	<Layer File = "intro/6.png" InitCommand="hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y*1.3" Name = "credit[6]" />
-	<Layer File = "intro/7.png" InitCommand="hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y*1.3" Name = "credit[7]" />
-	<Layer File = "intro/8.png" InitCommand="hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y*1.3" Name = "credit[8]" />
-	<Layer File = "intro/9.png" InitCommand="hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y*1.3" Name = "credit[9]" />
-	<Layer File = "intro/10.png" InitCommand="hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y*1.3" Name = "credit[10]" />
-	<Layer File = "intro/11.png" InitCommand="hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y*1.3" Name = "credit[11]" />
-	<Layer File = "intro/12.png" InitCommand="hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y*1.3" Name = "credit[12]" />
-	<Layer File = "intro/13.png" InitCommand="hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y*1.3" Name = "credit[13]" />
-	<Layer File = "intro/14.png" InitCommand="hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y*1.3" Name = "credit[14]" />
+	<Layer File = "intro/1.png" InitCommand="hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y*1.25" Name = "credit[1]" />
+	<Layer File = "intro/2.png" InitCommand="hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y*1.25" Name = "credit[2]" />
+	<Layer File = "intro/3.png" InitCommand="hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y*1.25" Name = "credit[3]" />
+	<Layer File = "intro/4.png" InitCommand="hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y*1.25" Name = "credit[4]" />
+	<Layer File = "intro/5.png" InitCommand="hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y*1.25" Name = "credit[5]" />
+	<Layer File = "intro/6.png" InitCommand="hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y*1.25" Name = "credit[6]" />
+	<Layer File = "intro/7.png" InitCommand="hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y*1.25" Name = "credit[7]" />
+	<Layer File = "intro/8.png" InitCommand="hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y*1.25" Name = "credit[8]" />
+	<Layer File = "intro/9.png" InitCommand="hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y*1.25" Name = "credit[9]" />
+	<Layer File = "intro/10.png" InitCommand="hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y*1.25" Name = "credit[10]" />
+	<Layer File = "intro/11.png" InitCommand="hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y*1.25" Name = "credit[11]" />
+	<Layer File = "intro/12.png" InitCommand="hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y*1.25" Name = "credit[12]" />
+	<Layer File = "intro/13.png" InitCommand="hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y*1.25" Name = "credit[13]" />
+	<Layer File = "intro/14.png" InitCommand="hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y*1.25" Name = "credit[14]" />
 	<Layer File = "../bn1.png" InitCommand="hidden,0;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y*11037;zoom,SCREEN_HEIGHT*0.001" Name = "banner" />
 
 	<Layer Type="ActorFrame" Name="credits" InitCommand="hidden,1;x,-10000;"><children>
