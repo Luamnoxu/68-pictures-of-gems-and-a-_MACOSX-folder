@@ -25,7 +25,6 @@ There is probably fucky shit like charting errors or a few sync funnies Im not s
 
 
 
-Sega from the not sega
 
 FEATURING:
 oat
@@ -38,7 +37,7 @@ CERiNG
 DPS
 yasmyn "yas queen" yasmyn??????
 Jollysivie
--Ky
+Ky
 Oranger
 Hyperhero
 
@@ -53,3 +52,4 @@ teri????
 Puuro????
 Ky???? thatd be funny
 (Hi mayflower here, Just asked Ky and they said yes. And indeed it is funny)
+Sega from the not sega
