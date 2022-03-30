@@ -17,6 +17,7 @@
 	-- your code goes here here:
 	local p1DefaultX = P1:GetX()
     local p2DefaultX = P2:GetX()
+	
     local defaultZ = P1:GetZ()
     definemod { 'centerPlayfields', function(percent) 
         local scale = percent / 100
@@ -2277,6 +2278,8 @@ reset{724}
 	end, 'invert', 'alternate', 'reverse', 'movey'}
 	--stealing taros code was a dumb idea so ill be remaking it by hand
 	--pray for me
+
+	--ok it wasnt that bad
 		func{727,791-727,function() 
 			yib_all:y2(0.01*scy*math.sin(GAMESTATE:GetSongBeat()*0.7))
 			yibm_all:y2(-0.01*scy*math.sin(GAMESTATE:GetSongBeat()*0.7))
@@ -2322,7 +2325,7 @@ reset{724}
 		end}
 		
 		-- flipped playfields are mean >:(
-		for b=727, 791, 12.8 do
+		for b=727, 790, 12.8 do
 			ease{b+3.2,1.6,outCubic,100,'flip'}
 			ease{b+9.6,1.6,outCubic,0,'flip'}
 			--why does this nnot work???????????
@@ -2450,8 +2453,7 @@ func {791, function()
 	ghoulproxies:hidden(1)
 	PP[1]:hidden(0)
 	PP[2]:hidden(0)
-	P3:SetAwake(false)
-	P4:SetAwake(false)
+
 	livereaction:hidden(1)
 	yosh:hidden(1)
 	ghoul:hidden(1)
@@ -2461,6 +2463,261 @@ func {791, function()
 end}
 reset{791}
 plr = {1, 2}
+
+
+	
+
+
+
+
+
+--Ky section
+	aux 'splinedrop'
+	node {'splinedrop', 'drawsizepixels', function(p, dp, pn)
+		P[pn]:SetYSpline(0, -1, 0, 0, -1)
+		P[pn]:SetYSpline(1, -1, p, 0.01, -1)
+
+		return dp - p / 100 * 64
+	end, 'drawsizepixels'}
+
+	aux 'fov' -- for scaling fov to remain consistent in any aspect ratio
+	node {'fov', function(p, pn)
+		if P[pn] then
+			P[pn]:fov(360 / math.pi * math.atan(math.tan(math.pi * (1 / (360 / p))) * SCREEN_WIDTH / SCREEN_HEIGHT * 0.75))
+		end
+	end}
+	do
+		-- define custom drawing behavior so we draw playfields furthest away from us first, then closest last, looks a bit cleaner over weird overlapping receptors
+		local draworder = {{}, {}, {}, {}}
+		local sort = function(a, b) return a[1] < b[1] end
+		func {0+790, 32+790, function(beat, poptions)
+			for pn = 1, 4 do
+				local poption = poptions[pn]
+				local pz = P[pn]:GetZ()
+				local z = poption.z
+
+				local mz = poption.movez
+				local mz0 = poption.movez0
+				local mz1 = poption.movez1
+				local mz2 = poption.movez2
+				local mz3 = poption.movez3
+
+				-- node runs after func node runs after func node runs after func node runs after func node runs after func NODE RUNS AF
+				local lin = poption.wheelin
+				local radius = poption.wheelradius
+				local offset = poption.wheeloffset
+				local size = poption.wheelsize
+				local radiusx = poption.wheelradiusx
+				local radiusz = poption.wheelradiusz
+				local c0 = pi / size + offset
+				local c1 = 1 / size * pi * 2 + pi / size + offset
+				local c2 = 2 / size * pi * 2 + pi / size + offset
+				local c3 = 3 / size * pi * 2 + pi / size + offset
+				radiusx = radius + radiusx
+				radiusz = radius + radiusz
+				mz0 = cos(c0) * radiusz + mz0
+				mz1 = cos(c1) * radiusz + mz1
+				mz2 = cos(c2) * radiusz + mz2
+				mz3 = cos(c3) * radiusz + mz3
+
+				mz = mz / 100 * 64
+				mz0 = mz0 / 100 * 64
+				mz1 = mz1 / 100 * 64
+				mz2 = mz2 / 100 * 64
+				mz3 = mz3 / 100 * 64
+				local avg = (mz0 + mz1 + mz2 + mz3) / 4
+
+				local f = z + pz + mz + avg
+				draworder[pn][1] = f
+				draworder[pn][2] = PP[pn]
+				draworder[pn][3] = pn
+			end
+			stable_sort(draworder, sort)
+		end}
+		{0+790, function()
+			for pn = 1, 2 do P[pn]:x(scx) end
+			PP[1]:GetParent():SetDrawFunction(function()
+				PC[1]:Draw()
+				PC[2]:Draw()
+				PJ[1]:Draw()
+				PJ[2]:Draw()
+				for i, v in ipairs(draworder) do
+					v[2]:Draw()
+				end
+			end)
+		end}
+	end
+
+	do
+		aux 'wheelin' 'wheelradius' 'wheeloffset' 'wheelsize' 'wheelradiusx' 'wheelradiusz'
+		node {'wheelin', 'wheelradius', 'wheeloffset', 'wheelsize', 'wheelradiusx', 'wheelradiusz', 'movex0', 'movex1', 'movex2', 'movex3', 'movez0', 'movez1', 'movez2', 'movez3', 'flip', function(lin, radius, offset, size, radiusx, radiusz, mx0, mx1, mx2, mx3, mz0, mz1, mz2, mz3, flip)
+			local c0 = pi / size + offset
+			local c1 = 1 / size * pi * 2 + pi / size + offset
+			local c2 = 2 / size * pi * 2 + pi / size + offset
+			local c3 = 3 / size * pi * 2 + pi / size + offset
+			radiusx = radius + radiusx
+			radiusz = radius + radiusz
+			mx0 = sin(c0) * radiusx + mx0
+			mx1 = sin(c1) * radiusx + mx1
+			mx2 = sin(c2) * radiusx + mx2
+			mx3 = sin(c3) * radiusx + mx3
+			mz0 = cos(c0) * radiusz + mz0
+			mz1 = cos(c1) * radiusz + mz1
+			mz2 = cos(c2) * radiusz + mz2
+			mz3 = cos(c3) * radiusz + mz3
+			flip = math.min(math.max(lin, 0), 100) / 2 + flip
+			return mx0, mx1, mx2, mx3, mz0, mz1, mz2, mz3, flip
+		end, 'movex0', 'movex1', 'movex2', 'movex3', 'movez0', 'movez1', 'movez2', 'movez3', 'flip'}
+	end
+
+	do
+		-- doing drawsize by percentages drive me insane
+		local renderdistancefront = THEME:GetMetric('Player', 'StopDrawingAtPixels')
+		aux 'drawsizepixels'
+		node {'drawsizepixels', 'drawsize', function(p, d)
+			return (p / renderdistancefront - 1) * 100 + d
+		end, 'drawsize'}
+	end
+
+	local function tibble(beat, mod, p)
+		mod, p = mod or 'tipsy', p or 50
+		local parity = 1
+		for b = 0, 0.5, 1 / 6 do
+			ease {beat + b, 0.333, pop, p * parity, mod}
+			parity = -parity
+		end
+		return tibble
+	end
+	
+	plr = {1, 2, 3, 4}
+	for i, v in ipairs((P[1] or P[2]):GetNoteData(0+790, 16+790)) do
+		add {v[1], 0.5, pop, -50, 'movey' .. v[2]}
+	end
+	setdefault {45, 'fov', 1, 'wheelsize', 410, 'drawsizepixels'}
+	set {791, 2, 'xmod', 100, 'receptorzbuffer', 100, 'zbuffer'}
+
+
+	func{15+790, function() for pn = 3, 4 do PP[pn]:hidden(0) end end}
+	ease {17+790, 2, outQuad, 10, 'rotationz'}
+	{21+790, 2, outQuad, -10, 'rotationz', 20, 'rotationx'}
+	{25+790, 2, outQuad, 10, 'rotationz', -20, 'rotationx'}
+	{28+790, 2, inOutCubic, -30, 'rotationz'}
+
+	plr = {1, 2}
+	do
+		local triq = function(a) return outQuad(tri(a)) end
+		local tric = function(a) return outCubic(tri(a)) end
+		set{791.01,100,'centerPlayfields'}
+		ease {0+790, 1, tric, -5, 'y'}
+		{8+790, 1, tric, -5, 'y'}
+		{16+790, 1, tric, -5, 'y'}
+		{17+790, 0.5, tric, -100, 'drunk'}
+		{17.5+790, 0.5, tric, 100, 'drunk'}
+		{18+790, 1, pop, -100, 'drunk'}
+		{20+790, 1, tap, 100, 'drunk'}
+		{21+790, 0.5, triq, -100, 'drunk'}
+		{21.5+790, 0.5, triq, 100, 'drunk'}
+		{22+790, 1, pop, -100, 'drunk'}
+		{23+790, 1, triq, 200, 'drunk'}
+		{24+790, 1, triq, -200, 'drunk'}
+		{26+790, 1, tap, 100, 'drunk'}
+		{27+790, 0.5, triq, -100, 'drunk'}
+		{27.5+790, 0.5, triq, 100, 'drunk'}
+		{28+790, 1, pop, -100, 'drunk'}
+		{29+790, 2, tric, -200, 'drunk'}
+		for _, v in ipairs{{1+790, 6+790}, {9+790, 14+790}, {17+790, 30+790}} do
+			for i = v[1], v[2] do
+				ease {i, 1, triq, -20, 'y'}
+			end
+		end
+	end
+
+	tibble(1.5+790)(13.5+790)(25.5+790, 'drunk', 100)
+
+	ease {0+790, 2, outExpo, 0, 'flip'}
+	{7+790, 2, linear, 400, 'splinedrop'}
+	{7.5+790, 1.5, inQuart, 0, 'splinedrop'}
+	{8+790, 0, instant, -50, 'tiny'}
+	{8+790, 0.5, outQuad, 0, 'tiny'}
+	{8.25+790, 0, instant, -50, 'tiny'}
+	{8.25+790, 0.5, outQuad, 0, 'tiny'}
+	{8.5+790, 0, instant, -50, 'tiny'}
+	{8.5+790, 0.5, outQuad, 0, 'tiny'}
+
+	{15+790, 2, linear, 400, 'splinedrop'}
+	{15.333+790, 1.666, inCubic, 50, 'splinedrop'}
+
+	{15.333+790, 0, instant, -150, 'tiny'}
+	{15.333+790, 1, outExpo, 25, 'flip', -75, 'invert'}
+	{15.333+790, 0.5, outQuad, 0, 'tiny'}
+	{18.5+790, 1, inOutQuint, 100, 'flip', 0, 'invert'}
+	{19+790, 1, inOutQuint, 75, 'flip', 75, 'invert'}
+	{19.5+790, 1, inOutQuint, 0, 'flip', 0, 'invert'}
+	{21.5+790, 1, inOutQuint, 25, 'flip', -75, 'invert'}
+	{22+790, 1, inOutQuint, 0, 'flip', 100, 'invert'}
+	{22.5+790, 1, inOutQuint, 75, 'flip', 75, 'invert'}
+	{23+790, 1, inQuint, 0, 'invert'}
+	{24+790, 1, outQuint, 25, 'flip', -75, 'invert'}
+	{26.5+790, 1, inOutQuint, 75, 'flip', 75, 'invert'}
+	{27+790, 1, inOutQuint, 0, 'flip', 0, 'invert'}
+	{27.5+790, 1, inOutQuint, 25, 'flip', -75, 'invert'}
+	{28+790, 1.5, inOutQuint, 75, 'flip', 75, 'invert'}
+
+	add {8+790, 0.5, pop, -50, 'splinedrop'}
+	{8.25+790, 0.5, pop, -50, 'splinedrop'}
+	{8.5+790, 0.5, pop, -50, 'splinedrop'}
+
+	{15.333+790, 0.25, outExpo, -300, 'splinedrop'}
+	{16+790, 0.25, outExpo, 50, 'splinedrop'}
+	{16.25+790, 0.25, outExpo, 75, 'splinedrop'}
+	{16.5+790, 0.25, outExpo, 100, 'splinedrop'}
+
+	{17+790, 0, instant, 64, 'drawsizepixels'}
+	{25+790, 1, pop, 200, 'drunk'}
+
+
+	set {0+790, 0, 'flip',100,'centerPlayfields'}
+	{17+790, 0, 'splinedrop'}
+	{29+790, 500, 'drunkspeed', 500, 'drunkspacing'}
+	{31+790, -30, 'rotationz', 0, 'rotationx', -1000, 'tiny', 50, 'flip', 100, 'centered', 0, 'invert', -100, 'drawsizeback'}
+	{30.9+790, 100, 'hidenoteflash', 100, 'noholdjudge'}
+	{31.1+790, 0, 'hidenoteflash'}
+
+	func {31.5+790, function() for pn = 1, 2 do PP[pn]:hidden(1) end end}
+
+	plr = {3, 4}
+	set {14+790, 8, 'wheelsize', 100, 'hidenoteflash', 100, 'dark', 100, 'stealth', 100, 'noholdjudge'}
+	{15, pi, 'wheeloffset', plr = 4}
+
+	add {15+790, 0, instant, pi * 0.5, 'wheeloffset', -25, 'dark'}
+	{15.333+790, 1, outBack, 300, 'wheelradius', 100, 'wheelin'}
+	{16+790, 1, inQuad, -1.5, 'wheeloffset'}
+	{17+790, 14, linear, -pi * 9.2, 'wheeloffset'}
+	{17+790, 0, instant, 196, 'drawsizepixels'}
+
+	local thingy = {{791+17,0,1}, {791+17.25,2,1}, {791+17.5,1,1}, {791+17.75,3,1}, {791+18,0,1}, {791+18.25,2,1}, {791+18.5,1,1}, {791+18.75,3,1}, {791+19,0,1}, {791+19.25,2,1}, {791+19.5,1,1}, {791+19.75,3,1}, {791+20,0,1}, {791+20.25,2,1}, {791+20.5,1,1}, {791+20.75,3,1}, {791+21,0,1}, {791+21.25,1,1}, {791+21.5,2,1}, {791+21.75,3,1}, {791+22,0,1}, {791+22.25,1,1}, {791+22.5,2,1}, {791+22.75,3,1}, {791+23,0,1}, {791+23.25,1,1}, {791+23.5,2,1}, {791+23.75,3,1}, {791+24,0,1}, {791+24.25,1,1}, {791+24.5,2,1}, {791+24.75,3,1}, {791+25,0,1}, {791+25.25,3,1}, {791+25.5,1,1}, {791+25.75,2,1}, {791+26,0,1}, {791+26.25,3,1}, {791+26.5,1,1}, {791+26.75,2,1}, {791+27,0,1}, {791+27.25,3,1}, {791+27.5,1,1}, {791+27.75,2,1}, {791+28,0,1}, {791+28.25,3,1}, {791+28.5,1,1}, {791+28.75,2,1}, {791+29,0,1}, {791+29.25,3,1}, {791+29.5,2,1}, {791+29.75,1,1}, {791+30,0,1}, {791+30.25,3,1}, {791+30.5,2,1}, {791+30.75,1,1}, {791+31,0,1}, {791+31.5,2,1}}
+
+	func {791, function()
+		for pn = 3, 4 do P[pn]:SetNoteDataFromLua(thingy) end
+	end}
+
+	set {16+790, -25, 'stealth3'}
+	{16.25+790, -25, 'stealth2'}
+	{16.5+790, -25, 'stealth1'}
+	{16 + 0.25+790, 0, 'stealth3'}
+	{16.25 + 0.25+790, 0, 'stealth2'}
+	ease {16.5 + 0.25+790, 0.25, inQuad, 0, 'stealth1'}
+
+	for i = 17+790, 31+790, 0.125 do
+		local c = i * 8 % 4
+		-- plr = floor(i * 8 % 8 / 4) + 3
+		set {i, -25, 'stealth' .. c}
+		-- set {i + 0.25, 0, 'stealth' .. c}
+		ease {i, 0.25, inQuad, 0, 'stealth' .. c}
+	end	
+
+	func {31+790, function() for pn = 3, 4 do PP[pn]:hidden(1) end end}
+
 
 
 
