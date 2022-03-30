@@ -249,6 +249,7 @@
 	func{17.21,function() credit[11]:hidden(1) credit[12]:hidden(0) end}{17.21,cr[1],cr[2],cr[3],1,'credit[12]:zoom'}
 	func{17.96,function() credit[12]:hidden(1) credit[13]:hidden(0) end}{17.96,cr[1],cr[2],cr[3],1,'credit[13]:zoom'}
 	func{18.67,function() credit[13]:hidden(1) credit[14]:hidden(0) end}{18.67,cr[1],cr[2],cr[3],1,'credit[14]:zoom'}
+	func{21,function() credit[14]:hidden(1) end}
 	func{18.67, 0.41, outBack, scy*-0.3, scy*0.1, 'banner:y'}
 	func{19.08, 0.41, outBack, scy*0.1, scy*0.2, 'banner:y'}
 	func{19.42, 0.41, outBack, scy*0.2, scy*0.3, 'banner:y'}
@@ -271,6 +272,12 @@
 	set{0,2,'xmod',100,'stealthpastreceptors',0,'cmod'}
 	func{1.5,function() MyMovie:animate(1)
 		MyMovie:hidden(0) end}
+	local j = 7
+	for i=21.6,31,0.75 do
+		func {i, 0.35, outCirc, SCREEN_HEIGHT*0.001, SCREEN_HEIGHT*0.0011, 'banner:zoom'}
+		func {i, 0.75, outQuad, j, 0, 'banner:rotationz'}
+		j = j*-1
+	end
 	
 	func{31.5,function() black:hidden(1) MyMovie:hidden(1) MyMovie:animate(0) bg_bg:hidden(1) bg_bg:animate(0) credit[14]:hidden(1) credits:hidden(0) banner:hidden(1) end}
 	
@@ -3004,7 +3011,7 @@ end)"Name=af Type="ActorFrame"><children>
 	<Layer Type = "Sprite" Name = "fisheyesprite" Frag = "fisheye.frag" InitCommand = "%xero.sprite"/>
 	<Layer File = "8I9-YPDYn2hiXUA2.mp4" InitCommand="stretchto,SCREEN_CENTER_X*0.5,SCREEN_CENTER_Y*0.5,SCREEN_CENTER_X*1.5,SCREEN_CENTER_Y*1.5;Animate,0;hidden,1;" Name = "bg_bg" />
 	<Layer File = "live reaction.png" InitCommand="xy,SCREEN_WIDTH-100,SCREEN_CENTER_Y+160;zoom,0.4;diffusealpha,0" Name = "livereaction"/>
-	<Layer File = "1499814477809733632.mp4" InitCommand="stretchto,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;Animate,0" Name = "MyMovie" />
+	<Layer File = "1499814477809733632.mp4" InitCommand="stretchto,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;Animate,0;" Name = "MyMovie" />
 	<Layer File = "intro/1.png" InitCommand="hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y*1.25" Name = "credit[1]" />
 	<Layer File = "intro/2.png" InitCommand="hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y*1.25" Name = "credit[2]" />
 	<Layer File = "intro/3.png" InitCommand="hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y*1.25" Name = "credit[3]" />
@@ -3019,7 +3026,7 @@ end)"Name=af Type="ActorFrame"><children>
 	<Layer File = "intro/12.png" InitCommand="hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y*1.25" Name = "credit[12]" />
 	<Layer File = "intro/13.png" InitCommand="hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y*1.25" Name = "credit[13]" />
 	<Layer File = "intro/14.png" InitCommand="hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y*1.25" Name = "credit[14]" />
-	<Layer File = "../bn1.png" InitCommand="hidden,0;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y*11037;zoom,SCREEN_HEIGHT*0.001" Name = "banner" />
+	<Layer File = "bn1.png" InitCommand="hidden,0;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y*11037;zoom,SCREEN_HEIGHT*0.001" Name = "banner" />
 
 	<Layer Type="ActorFrame" Name="credits" InitCommand="hidden,1;x,-10000;"><children>
 	<!-- images are 70px -->
