@@ -2477,7 +2477,7 @@ func{256, function() twr_bg:hidden(1) end}
 	func{628+63,function() cover1:hidden(1) cover2:hidden(1) livingroom[3]:hidden(1) margarine:hidden(1) taberu:hidden(1) end}
 
 	reset{692}
-	func{692,function() kasane[1]:hidden(1) kasane[2]:hidden(1) end}
+	func{692,function() kasane[1]:hidden(1) kasane[2]:hidden(1) blackbg:hidden(1) end}
 
 
 
@@ -3311,10 +3311,11 @@ func {727, 2, outQuad, -140, 0, 'credits:x'}
 func {727+7.5, 3, outQuad, -0, -140, 'credits:x'}
 func {727+12,function() credits_moj:hidden(1) Text_moj:hidden(1) credits_moj:hidden(0) Text_moj:hidden(0) end}
 
+--func{838,function() batman:hidden(1) greenbgbg:hidden(0) bg_bg:hidden(0) end}
 
 end)"Name=af Type="ActorFrame"><children>
 	
-	<Layer Type = "Sprite" Name = "mysprite" InitCommand="hidden,1" Frag="fisheye.frag"/>
+	
 	<!--  Funny c2l shit  !-->
 	<Layer File = "c2l/spamton.xml"/>
 	<Layer File = "c2l/penis.xml"/>
@@ -3325,6 +3326,7 @@ end)"Name=af Type="ActorFrame"><children>
 	<Layer File = "c2l/timber.xml"/>
 	<!--  Funny c2l shit  !-->
 	<Layer File="sprite.jpg" Name="earthbound" InitCommand="stretchto,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y" Frag="stolen.frag" />
+	<Layer Type = "Sprite" Name = "mysprite" InitCommand="hidden,1" Frag="fisheye.frag"/>
 	<Layer File = "eva.png" InitCommand="stretchto,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y" Name = "eva_bg" />
 	<Layer Type="Quad" Name="batman" InitCommand="zoom,10000;diffuse,0,0,0,0" />
 	<Layer File = "char/spam/bg.png" Name = "spammy_bg2" OnCommand="customtexturerect,0,0,10,10;texcoordvelocity,-0.12,-0.1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y;"/>
