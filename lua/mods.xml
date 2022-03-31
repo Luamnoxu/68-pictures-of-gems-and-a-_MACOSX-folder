@@ -3153,9 +3153,7 @@ plr = {1, 2}
 
 	local thingy = {{791+17,0,1}, {791+17.25,2,1}, {791+17.5,1,1}, {791+17.75,3,1}, {791+18,0,1}, {791+18.25,2,1}, {791+18.5,1,1}, {791+18.75,3,1}, {791+19,0,1}, {791+19.25,2,1}, {791+19.5,1,1}, {791+19.75,3,1}, {791+20,0,1}, {791+20.25,2,1}, {791+20.5,1,1}, {791+20.75,3,1}, {791+21,0,1}, {791+21.25,1,1}, {791+21.5,2,1}, {791+21.75,3,1}, {791+22,0,1}, {791+22.25,1,1}, {791+22.5,2,1}, {791+22.75,3,1}, {791+23,0,1}, {791+23.25,1,1}, {791+23.5,2,1}, {791+23.75,3,1}, {791+24,0,1}, {791+24.25,1,1}, {791+24.5,2,1}, {791+24.75,3,1}, {791+25,0,1}, {791+25.25,3,1}, {791+25.5,1,1}, {791+25.75,2,1}, {791+26,0,1}, {791+26.25,3,1}, {791+26.5,1,1}, {791+26.75,2,1}, {791+27,0,1}, {791+27.25,3,1}, {791+27.5,1,1}, {791+27.75,2,1}, {791+28,0,1}, {791+28.25,3,1}, {791+28.5,1,1}, {791+28.75,2,1}, {791+29,0,1}, {791+29.25,3,1}, {791+29.5,2,1}, {791+29.75,1,1}, {791+30,0,1}, {791+30.25,3,1}, {791+30.5,2,1}, {791+30.75,1,1}, {791+31,0,1}, {791+31.5,2,1}}
 
-	func {791, function()
-		for pn = 3, 4 do P[pn]:SetNoteDataFromLua(thingy) end
-	end}
+	
 
 	set {16+790, -25, 'stealth3'}
 	{16.25+790, -25, 'stealth2'}
@@ -3536,7 +3534,7 @@ end)"Name=af Type="ActorFrame"><children>
 			<Layer Type="BitmapText" File="default" OnCommand="zoom,0.5;xy,80,SCREEN_CENTER_Y*0.175;hidden,1;" Name="Text_Jolly" Text="Jollysivie" />
 			<Layer File = "intro/icons/Jollysivie.png" InitCommand="xy,17,SCREEN_CENTER_Y*0.2;diffusealpha,1;zoom,0.5;hidden,1;" Name = "credits_Jolly"/>
 			<Layer Type="BitmapText" File="default" OnCommand="zoom,0.5;xy,80,SCREEN_CENTER_Y*0.175;hidden,1;" Name="Text_Aura" Text="Aura" />
-			<Layer File = "intro/icons/output.mp4" InitCommand="xy,17,SCREEN_CENTER_Y*0.2;diffusealpha,1;zoom,0.5;hidden,1;" Name = "credits_Aura"/>
+			<Layer File = "intro/icons/aura.png" InitCommand="xy,17,SCREEN_CENTER_Y*0.2;diffusealpha,1;zoom,0.5;hidden,1;" Name = "credits_Aura"/>
 			<Layer Type="BitmapText" File="default" OnCommand="zoom,0.5;xy,80,SCREEN_CENTER_Y*0.175;hidden,1;" Name="Text_Rya" Text="Rya" />
 			<Layer File = "intro/icons/Rya.png" InitCommand="xy,17,SCREEN_CENTER_Y*0.2;diffusealpha,1;zoom,0.5;hidden,1;" Name = "credits_Rya"/>
 			<Layer Type="BitmapText" File="default" OnCommand="zoom,0.5;xy,80,SCREEN_CENTER_Y*0.175;hidden,1;" Name="Text_CERiNG" Text="CERiNG" />
