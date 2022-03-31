@@ -777,7 +777,70 @@
 	ease{q+0.5,0.25,pop,-10,'tinyx',-5,'tipsy'}
     end
 
-	for i,v in ipairs(penis) do
+set{100.001, 100, 'centerPlayfields'}
+    set{100.001, 500, 'zoom', -100, 'flip', plr = 2}
+	ease{103-0.4, 0.8, inOutQuart, 55, 'skewx', 50, 'skewy'}
+	ease{103.750-0.4, 0.8, inOutQuart, -55, 'skewx', -50, 'skewy'}
+	ease{104.5-0.4, 0.8, inOutQuart, 55, 'skewx', 50, 'skewy'}
+	ease{105.25-0.4, 0.8, inOutQuart, -55, 'skewx', -50, 'skewy'}
+	ease{106-1, 2, inOutQuint, 360, 'rotx', 0, 'skewx', 0, 'skewy'}
+	timbturn=1
+	for i = 107, 112.75, 0.25 do
+	ease{i-0.2, 0.4, inOutExpo, 135*timbturn, 'square'}
+	timbturn=timbturn*-1
+	end
+	ease{113-0.2, 0.4, inOutExpo, 0, 'square'}
+	ease{113-0.3, 0.6, inOutQuint, 80, 'tipsy', confOff(360), 'confusionoffset'}
+	ease{113.75-0.3, 0.6, inOutQuint, -85, 'tipsy', 0, 'confusionoffset'}
+	ease{114.5-0.3, 0.6, inOutQuint, 90, 'tipsy', confOff(360), 'confusionoffset'}
+	ease{115-0.3, 0.6, inOutQuint, 0, 'tipsy'}
+	for b = 115, 131, 4 do
+	for i = b, b+2, 1.5 do
+	ease{i-0.35, 0.7, inOutQuart, 100, 'zoom', 0, 'flip', 40, 'skewx', 30, 'skewy', plr = 2}
+	ease{i-0.35, 0.7, inOutQuart, 0, 'zoom', 40, 'skewx', 30, 'skewy', plr = 1}
+	add{i-0.35, 0.7, inOutQuart, 100, 'reverse3'}
+	add{i+.25-0.35, 0.7, inOutQuart, 100, 'reverse2'}
+	set{i+0.4, 500, 'zoom', -100, 'flip', plr = 1}
+	ease{i+0.75-0.35, 0.7, inOutQuart, 0, 'zoom', -40, 'skewx', -30, 'skewy', plr = 2}
+	ease{i+0.75-0.35, 0.7, inOutQuart, 100, 'zoom', 0, 'flip', -40, 'skewx', -30, 'skewy', plr = 1}
+	add{i+0.75-0.35, 0.7, inOutQuart, 100, 'reverse1'}
+	add{i+0.75+.25-0.35, 0.7, inOutQuart, 100, 'reverse0'}
+	set{i+0.8, 500, 'zoom', -100, 'flip', plr = 2}
+	end
+	add{b+3-0.5, 1, inOutCubic, confOff(720), 'confusionzoffset'}
+    end
+	for b = 131, 144, 4 do
+	for i = b, b+2, 1.5 do
+	ease{i-0.35, 0.7, inOutQuart, 100, 'zoom', 0, 'flip', 60, 'skewx', 50, 'skewy', plr = 2}
+	ease{i-0.35, 0.7, inOutQuart, 0, 'zoom', 60, 'skewx', 50, 'skewy', plr = 1}
+	add{i-0.35, 0.7, inOutQuart, 100, 'reverse3'}
+	add{i+.25-0.35, 0.7, inOutQuart, 100, 'reverse2'}
+	set{i+0.4, 500, 'zoom', -100, 'flip', plr = 1}
+	ease{i+0.75-0.35, 0.7, inOutQuart, 0, 'zoom', -60, 'skewx', -50, 'skewy', plr = 2}
+	ease{i+0.75-0.35, 0.7, inOutQuart, 100, 'zoom', 0, 'flip', -60, 'skewx', -50, 'skewy', plr = 1}
+	add{i+0.75-0.35, 0.7, inOutQuart, 100, 'reverse1'}
+	add{i+0.75+.25-0.35, 0.7, inOutQuart, 100, 'reverse0'}
+	set{i+0.8, 500, 'zoom', -100, 'flip', plr = 2}
+	end
+	add{b+3-0.5, 1, inOutCubic, confOff(-720), 'confusionzoffset'}
+    end
+	--[[for q=103,147,2 do
+    ease{q,0.25,outQuad,99,'stealth',10,'spiralx'}
+	ease{q+1,0.25,outQuad,0,'stealth',0,'spiralx'}
+    end]]
+
+	
+
+	func{103,function() mysprite:hidden(0) mysprite:zoom(0.9999) end}
+	func{103,function()  mysprite:zoom(0.999) mysprite:rotationz(0.01) end}
+
+	--bass accent
+	for q=103,147,1 do
+    ease{q,0.25,pop,-10,'tinyx',-5,'drunk'}
+	ease{q+0.5,0.25,pop,-10,'tinyx',-5,'tipsy'}
+    end
+
+	--[[for i,v in ipairs(penis) do
   if v[2] == 0 then
     ease{v[1],0.25,inverse,-1,'flip'}
 	set{v[1],0,'flip'}
@@ -792,7 +855,7 @@
 	set{v[1],0,'tandrunk',0,'drunk',0,'tinyx',0,'fisheye'}
   end
   --code run before or after these if statements will run every time there is an entry.
-end
+end]]
 
 for i,v in ipairs(timber) do
   if v[2] == 2 then
@@ -3242,11 +3305,11 @@ func{32+8,function() credits_mayflower:hidden(1) Text_Mayflower:hidden(1) credit
 func {65, 2, outQuad, -140, 0, 'credits:x'}
 func {65+5, 2, outQuad, -0, -140, 'credits:x'}
 
-func{102,function() credits_mayflower:hidden(0) Text_Mayflower:hidden(0) credits_snowy:hidden(1) Text_Snowy:hidden(1) end}
+func{102,function() credits_oranger:hidden(0) Text_Oranger:hidden(0) credits_snowy:hidden(1) Text_Snowy:hidden(1) end}
 func {103, 2, outQuad, -140, 0, 'credits:x'}
 func {103+5, 2, outQuad, -0, -140, 'credits:x'}
 
-func{150,function() credits_mayflower:hidden(1) Text_Mayflower:hidden(1) credits_oatmealine:hidden(0) Text_oatmealine:hidden(0) end}
+func{150,function() credits_oranger:hidden(1) Text_Oranger:hidden(1) credits_oatmealine:hidden(0) Text_oatmealine:hidden(0) end}
 func {151, 2, outQuad, -140, 0, 'credits:x'}
 func {151+5, 2, outQuad, -0, -140, 'credits:x'}
 func{151+8,function() credits_mayflower:hidden(0) Text_Mayflower:hidden(0) credits_oatmealine:hidden(1) Text_oatmealine:hidden(1) end}
