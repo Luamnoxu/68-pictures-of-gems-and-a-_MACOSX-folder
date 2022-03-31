@@ -2300,19 +2300,21 @@ func{256, function() twr_bg:hidden(1) end}
 	--ease{628+7,1,outQuad,100,'stealth', 1000, 'confusionoffset', 100, 'dark'}
 	--func{628+8,function() P[1]:stopeffect() P[2]:stopeffect() end}
 	
-	func{628+6-0.5,0.75,outExpo,scy*3,scy,function(i) sensei:y(i) end}
-	func{628+7-0.5,0.75,inExpo,scy,scy*3,function(i) sensei:y(i) end}
-	func{628,function() kasane[1]:y(13243212) kasane[2]:y(11037) end}
 	func{628+7.5,function() kasane[1]:hidden(0) kasane[2]:hidden(0) kasane[1]:x(scx*0.8) kasane[2]:x(scx*1.4) P[1]:x(scx*0.8) end}
-	func{628+8.75,function() P[2]:x(scx*1.4) end}
-	func{628+7.75,1.5,bounce,sh*1.2,scy,function(i) kasane[1]:y(i) P[1]:y(i) end}
-	func{628+8.75,1.5,bounce,sh*1.2,scy*0.8,function(i) kasane[2]:y(i) P[2]:y(i) end}
-	func{628+9.75,function() kasane[1]:x(scx*1.1) P[1]:x(scx*1.1) end}
-	func{628+10.75,function() kasane[2]:x(scx*0.7) P[2]:x(scx*0.7) end}
-	func{628+9.75,1.5,bounce,sh*1.2,scy*0.8,function(i) kasane[1]:y(i) P[1]:y(i) end}
-	func{628+10.75,1.5,bounce,sh*1.2,scy*0.8,function(i) kasane[2]:y(i) P[2]:y(i) end}
-	func{628+11.75,function() kasane[1]:x(scx*1) P[1]:x(scx*1) end}
-	func{628+11.75,1.5,bounce,sh*1.2,scy*0.8,function(i) kasane[1]:y(i) P[1]:y(i) end}
+    func{628+8.5,function() P[2]:x(scx*1.4) end}
+    func{628+7.75,0.75,outQuad,sh*1.2,scy,function(i) kasane[1]:y(i) P[1]:y(i) end}
+    func{628+8.5,0.75,inQuad,scy,sh*1.2,function(i) kasane[1]:y(i) P[1]:y(i) end}
+    func{628+8.75,0.75,outQuad,sh*1.2,scy*0.8,function(i) kasane[2]:y(i) P[2]:y(i) end}
+    func{628+9.5,0.75,inQuad,scy*0.8,sh*1.2,function(i) kasane[2]:y(i) P[2]:y(i) end}
+    func{628+9.5,function() kasane[1]:x(scx*1.1) P[1]:x(scx*1.1) end}
+    func{628+10.5,function() kasane[2]:x(scx*0.7) P[2]:x(scx*0.7) end}
+    func{628+9.75,0.75,outQuad,sh*1.2,scy*0.8,function(i) kasane[1]:y(i) P[1]:y(i) end}
+    func{628+10.5,0.75,inQuad,scy*0.8,sh*1.2,function(i) kasane[1]:y(i) P[1]:y(i) end}
+    func{628+10.75,0.75,outQuad,sh*1.2,scy*0.8,function(i) kasane[2]:y(i) P[2]:y(i) end}
+    func{628+11.5,0.75,inQuad,scy*0.8,sh*1.2,function(i) kasane[2]:y(i) P[2]:y(i) end}
+    func{628+11.5,function() kasane[1]:x(scx*1) P[1]:x(scx*1) end}
+    func{628+11.75,0.75,outQuad,sh*1.2,scy*0.8,function(i) kasane[1]:y(i) P[1]:y(i) end}
+    func{628+12.5,0.75,inQuad,scy*0.8,sh*1.2,function(i) kasane[1]:y(i) P[1]:y(i) end}
 		
 	func{628+13,function() vocaloid:hidden(0) end}
 	func{628+13,2,linear,1,0,function(i) vocaloid:cropright(i) vocaloid:faderight(i/2) end}
