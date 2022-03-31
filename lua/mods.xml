@@ -2098,9 +2098,445 @@ func{256, function() twr_bg:hidden(1) end}
 
 ---------------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------------
-----------------------Jolly code!!!----------------------------------------------------------
+----------------------tetaes code!!!----------------------------------------------------------
 ---------------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------------
+
+	set{627,
+		2,'xmod',
+		100,'modtimer',
+		100,'dizzyholds',
+		100,'stealthpastreceptors',
+		100,'halgun',
+		100,'zbuffer',
+		100,'zoomz',
+		100,'approachtype',
+		100,'stealthtype',
+		-97,'drawsizeback',
+		1,'blurhidden',
+		1,'scrollhidden',
+	}
+	function sequenceEase(a, b)
+        return function(x) return b(a(x)) end
+    end
+	
+	function modulo(a, b)
+        return a - math.floor(a/b)*b;
+    end
+	
+	function RealFov(fov)
+        return 360 / math.pi * math.atan(math.tan(math.pi * fov / 360) * DISPLAY:GetDisplayWidth() / DISPLAY:GetDisplayHeight() * 0.75)
+    end
+	
+	definemod {'blur','blurangle','blurhidden','bluralpha', function(a,b,c,d)
+		sprite2:GetShader():uniform1f('strength',a)
+		sprite2:GetShader():uniform1f('angle',b)
+		tacaft2:hidden(c)
+		sprite2:hidden(c)
+		sprite2:diffusealpha(d)
+	end}
+	
+	definemod {'scrollx','scrolly','scrollhidden', function(a,b,c)
+		sprite1:GetShader():uniform1f('scrollx',a)
+		sprite1:GetShader():uniform1f('scrolly',b)
+		tacaft1:hidden(c)
+		sprite1:hidden(c)
+	end}
+
+	tacaft2:hidden(1)
+	sprite2:SetTexture(tacaft2:GetTexture())
+	sprite2:hidden(1)
+	
+	tacaft1:hidden(1)
+	sprite1:SetTexture(tacaft1:GetTexture())
+	sprite1:hidden(1)
+	
+	blackbg:xy(scx,scy)
+	blackbg:zoomto(sw,sh)
+	blackbg:diffuse(0,0,0,1)
+	blackbg:hidden(1)
+	
+	cover1:xy(scx,0)
+	cover1:zoomto(sw,sh/3.6)
+	cover1:diffuse(0,0,0,1)
+	cover1:hidden(1)
+	cover2:xy(scx,sh)
+	cover2:zoomto(sw,sh/3.6)
+	cover2:diffuse(0,0,0,1)
+	cover2:hidden(1)
+	
+	anime:xy(scx,scy)
+	anime:zoomto(sw,sh)
+	anime:diffusealpha(0.2)
+	anime:blend('add')
+	anime:hidden(1)
+	
+	sensei:xy(scx,scy*3)
+	sensei:zoomto(sw,sh)
+	sensei:hidden(1)
+	sensei:vibrate()
+	
+	vocaloid:xy(scx-15,scy-65)
+	vocaloid:hidden(1)
+	vocaloid:diffusealpha(0.8)
+	
+	tacto:xy(scx+10,scy-72)
+	tacto:zoom(0.6)
+	tacto:hidden(1)
+
+	
+	for i = 1, #teto do
+		teto[i]:customtexturerect(0,0,12,4)
+		teto[i]:zoomto(sw,sh/3)
+		teto[i]:hidden(1)
+		--teto[i]:diffusealpha(0.5)
+	end
+	teto[1]:xy(scx,scy*0.13)
+	teto[2]:xy(scx,scy*1.87)
+	teto[1]:texcoordvelocity(3,0)
+	teto[2]:texcoordvelocity(-3,0)
+	
+	for i = 1, #classroom do
+		classroom[i]:xy(scx,scy)
+		classroom[i]:zoomto(sw,sh)
+		classroom[i]:hidden(1)
+	end
+	
+	for i = 1, #livingroom do
+		livingroom[i]:xy(scx,scy)
+		livingroom[i]:zoomto(sw,sh)
+		livingroom[i]:hidden(1)
+	end
+	
+	for i = 1, #kasane do
+		kasane[i]:xy(scx,scy*3)
+		kasane[i]:zoom(1)
+		kasane[i]:hidden(1)
+	end
+	
+	sugoobreak:xy(scx,scy)
+	sugoobreak:hidden(1)
+	
+	sugoo:xy(scx,scy)
+	sugoo:hidden(1)
+	
+	sugoo2:xy(scx,scy)
+	sugoo2:hidden(1)
+	
+	watashi:xy(scx,scy)
+	watashi:hidden(1)
+	
+	projanai:xy(scx,scy)
+	projanai:hidden(1)
+	
+	francebreak:xy(scx,scy)
+	francebreak:hidden(1)
+	
+	francetext:xy(scx,scy)
+	francetext:hidden(1)
+	
+	baguette:xy(scx,scy)
+	baguette:hidden(1)
+	
+	mabreak:xy(scx,scy)
+	mabreak:hidden(1)
+	
+	matext:xy(scx,scy)
+	matext:hidden(1)
+	
+	margarine:xy(scx,scy)
+	margarine:hidden(1)
+	
+	taberu:xy(scx,scy)
+	taberu:hidden(1)
+
+	for i = 628+0, 628+31 do
+		add{i,1,flip(outCubic),-100,'tiny'}
+		add{i,1,flip(outCubic),-50,'tinyx'}
+	end
+	
+	local mult = 1
+	for i = 628+32, 628+62 do
+		add{i,1,flip(outCubic),-100,'tiny'}
+		add{i,1,flip(outCubic),-100,'tinyx'}
+		add{i,1,flip(outCubic),30*mult,'skewx'}
+		add{i,1,flip(outCubic),-30*mult,'noteskew'}
+		add{i,1,flip(outCubic),100*mult,'parabolax'}
+		mult = mult * -1
+	end
+	add{628+32, 1, flip(outCubic) , -75, 'tiny', 200, 'dizzy0',-200, 'dizzy1',200, 'dizzy2',-200, 'dizzy3', 10, 'tornado'}
+	add{628+48, 1, flip(outCubic) , -75, 'tiny', 200, 'dizzy0',-200, 'dizzy1',200, 'dizzy2',-200, 'dizzy3', 10, 'tornado'}
+	
+	set {628+0, 30, 'mini', -15, 'movey'}
+	
+	func{628+0,function() blackbg:hidden(0) cover1:hidden(0) cover2:hidden(0) anime:hidden(0) classroom[1]:hidden(0) sensei:hidden(0) end}
+	func{628+0,function() P[1]:x(scx) P[2]:x(scx) end}
+	
+	func{628+0,2,linear,2,1,function(i) classroom[1]:zoom(i) end}
+	ease{628+0,2,flip(linear),200,'zoom'}
+	set {628+0, -100, 'movex', 40, 'drunk', 100, 'orient'}
+	func{628+2,function() classroom[1]:hidden(1) classroom[2]:hidden(0) end}
+	
+	func{628+2,2,linear,2,1,function(i) classroom[2]:zoom(i) end}
+	ease{628+2,2,flip(linear),200,'zoom'}
+	set {628+2, 100, 'movex', 40, 'drunk', 100, 'orient', -60, 'rotationx'}
+	func{628+4,function() classroom[2]:hidden(1) classroom[3]:hidden(0) end}
+	
+	func{628+4,2,linear,2,1,function(i) classroom[3]:zoom(i) end}
+	ease{628+4,2,flip(linear),200,'zoom'}
+	set {628+4, -100, 'movex', 100, 'reverse', 100, 'orient', -40, 'rotationz', 0, 'rotationx'}
+	func{628+6,function() classroom[3]:hidden(1) classroom[4]:hidden(0) tacto:hidden(0) end}
+	
+	func{628+6,2,linear,scy-140,scy-72,function(i) tacto:y(i) end}
+	func{628+6,2,linear,1.2,0.6,function(i) tacto:zoom(i) end}
+	func{628+6,2,linear,2,1,function(i) classroom[4]:zoom(i) end}
+	set {628+6, 0, 'movex', 0, 'reverse', 0, 'orient', 0, 'rotationz'}
+	ease{628+6,2,flip(linear),200,'zoom'}
+	ease{628+6,2,inCubic,100,'stealth', 200, 'confusionoffset',100, 'dark', 100, 'hidenoteflashes', plr = 2}
+	set {628+8.75, 0, 'stealth', 0, 'confusionoffset', 0, 'dark', 0, 'hidenoteflashes', plr = 2}
+	
+	func{628+6,function() P[1]:y(sh*2) end}
+	--func{628+6,2,outCubic,70,0,function(i) P[1]:effectmagnitude(i,i,i) P[1]:effectmagnitude(i,i,i) P[2]:effectmagnitude(i,i,i) end}
+	--ease{628+7,1,outQuad,100,'stealth', 1000, 'confusionoffset', 100, 'dark'}
+	--func{628+8,function() P[1]:stopeffect() P[2]:stopeffect() end}
+	
+	func{628+6-0.5,0.75,outExpo,scy*3,scy,function(i) sensei:y(i) end}
+	func{628+7-0.5,0.75,inExpo,scy,scy*3,function(i) sensei:y(i) end}
+	func{628,function() kasane[1]:y(13243212) kasane[2]:y(11037) end}
+	func{628+7.5,function() kasane[1]:hidden(0) kasane[2]:hidden(0) kasane[1]:x(scx*0.8) kasane[2]:x(scx*1.4) P[1]:x(scx*0.8) end}
+	func{628+8.75,function() P[2]:x(scx*1.4) end}
+	func{628+7.75,1.5,bounce,sh*1.2,scy,function(i) kasane[1]:y(i) P[1]:y(i) end}
+	func{628+8.75,1.5,bounce,sh*1.2,scy*0.8,function(i) kasane[2]:y(i) P[2]:y(i) end}
+	func{628+9.75,function() kasane[1]:x(scx*1.1) P[1]:x(scx*1.1) end}
+	func{628+10.75,function() kasane[2]:x(scx*0.7) P[2]:x(scx*0.7) end}
+	func{628+9.75,1.5,bounce,sh*1.2,scy*0.8,function(i) kasane[1]:y(i) P[1]:y(i) end}
+	func{628+10.75,1.5,bounce,sh*1.2,scy*0.8,function(i) kasane[2]:y(i) P[2]:y(i) end}
+	func{628+11.75,function() kasane[1]:x(scx*1) P[1]:x(scx*1) end}
+	func{628+11.75,1.5,bounce,sh*1.2,scy*0.8,function(i) kasane[1]:y(i) P[1]:y(i) end}
+		
+	func{628+13,function() vocaloid:hidden(0) end}
+	func{628+13,2,linear,1,0,function(i) vocaloid:cropright(i) vocaloid:faderight(i/2) end}
+	
+	func{628+13,function() P[2]:xy(scx,scy) end}
+	set {628+13, -100, 'flip', 100, 'wave', plr = 2}
+	for i = 0,3 do
+		set {628+13, 100, 'stealth'..i, plr = 2}
+		set {628+13, 100, 'dark'..i, plr = 2}
+		ease{628+13+i*0.25,1,linear,0,'stealth'..i, 0, 'dark'..i}
+	end
+	
+	func{628+14,function() P[1]:xy(scx,scy) end}
+	set {628+13.5, -100, 'flip', 100, 'wave'}
+	
+	ease{628+15.5,1,mixEase(inCirc, outBack),100,'reverse'}
+	add{628+16,1,flip(outCubic),-300,'tiny', 20, 'stealth'}
+	add{628+16,8,linear,120,'bumpyx', 60, 'wave', 150, 'dark'}
+	
+	ease{628+23.5,1,mixEase(inCirc, outBack),0,'reverse'}
+	add{628+24,1,flip(outCubic),-300,'tiny', 20, 'stealth'}
+	add{628+24,4,linear,100,'hidden'}
+	
+	func{628+16,16,linear,0.2,0.5,function(i) anime:diffusealpha(i) end}
+
+	func{628+16,function() teto[1]:hidden(0) teto[2]:hidden(0) end}
+	func{628+16,8,outQuad,0,0.6,function(i) teto[1]:diffusealpha(i) teto[2]:diffusealpha(i) end}
+	func{628+24,8,linear,scy*0.13,scy*0.65,function(i) teto[1]:y(i) end}
+	func{628+24,8,linear,scy*1.87,scy*1.35,function(i) teto[2]:y(i) end}
+	func{628+24,8,inQuad,0.6,0.8,function(i) teto[1]:diffusealpha(i) teto[2]:diffusealpha(i) end}
+	
+	func{628+31.5,function() sugoobreak:hidden(0) sugoo:hidden(0) anime:hidden(1) end}
+	func{628+31.5,function() teto[1]:hidden(1) teto[2]:hidden(1) classroom[4]:hidden(1) tacto:hidden(1) vocaloid:hidden(1) end}
+	func{628+33.5,function() sugoobreak:hidden(1) sugoo:hidden(1) classroom[5]:hidden(0) sugoo2:hidden(0) end}
+	
+	set {628+31.25, 0, 'blurhidden'}
+	set {628+31.25, 90, 'blurangle'}
+	ease{628+31.25,0.5,bounce,0.5,'blur'}
+	ease{628+31.25,0.5,bounce,1,'bluralpha'}
+	set {628+31.75, 1, 'blurhidden'}
+	
+	set {628+31.25, 0, 'scrollhidden'}
+	ease{628+31.25, 0.5,inOutCirc,2,'scrollx'}
+	set {628+31.75, 1, 'scrollhidden'}
+	
+	set {628+33.25, 0, 'blurhidden'}
+	set {628+33.25, 90, 'blurangle'}
+	ease{628+33.25,0.5,bounce,0.5,'blur'}
+	ease{628+33.25,0.5,bounce,1,'bluralpha'}
+	set {628+33.75, 1, 'blurhidden'}
+	
+	set {628+33.25, 0, 'scrollhidden'}
+	ease{628+33.25, 0.5,inOutCirc,4,'scrollx'}
+	set {628+33.75, 1, 'scrollhidden'}
+	
+	func{628+31.5,2,linear,scx-10,scx,function(i) sugoo:x(i) end}
+	
+	reset {628+31.5, exclude = {'blurhidden', 'blur', 'bluralpha', 'blurangle', 'scrollhidden', 'scrollx', 'movey'}}
+	set {628+31.5, -220, 'movex', 30, 'mini', 90, 'stealth', 90, 'dark', -30, 'flip', 100, 'drunk', 700, 'drunkspeed'}
+	
+	func{628+33.5,5,linear,0,-20,function(i) sugoo2:y(scy+i+10) classroom[5]:y(scy+i/1.4) P[1]:y(scy+i) P[2]:y(scy+i) end}
+	
+	set {628+33.5, 0, 'movex', 0, 'stealth', 0, 'dark', -80, 'flip', 30, 'brake', 1, 'xmod', 100, 'sudden', 50, 'shrinklinear', 100, 'orient'}
+	
+	set {628+38.25, 0, 'blurhidden'}
+	set {628+38.25, 90, 'blurangle'}
+	ease{628+38.25,0.5,bounce,0.5,'blur'}
+	ease{628+38.25,0.5,bounce,1,'bluralpha'}
+	set {628+38.75, 1, 'blurhidden'}
+	
+	set {628+38.25, 0, 'scrollhidden'}
+	ease{628+38.25, 0.5,inOutCirc,6,'scrollx'}
+	set {628+38.75, 1, 'scrollhidden'}
+	
+	func{628+38.5,function() classroom[5]:hidden(1) classroom[6]:hidden(0) sugoo2:hidden(1) P[1]:y(scy) P[2]:y(scy) watashi:hidden(0) end}
+	func{628+38,2,linear,1,0,function(i) watashi:cropright(i) watashi:faderight(i/2) end}
+	
+	func{628+40.5,function() projanai:hidden(0) end}
+	func{628+40.5,2,linear,1,0,function(i) projanai:cropright(i) projanai:faderight(i/2) end}
+	
+	func{628+38.5,8.5,linear,-20,20,function(i) roomframe:y(i/1.4) P[1]:y(scy+i) P[2]:y(scy+i) end}
+	set {628+38.5, 100, 'reverse', 50, 'flip', 0, 'brake', 1.8, 'xmod', 0, 'sudden', 0, 'shrinklinear', -100, 'tornado', -200, 'movex', -100, 'skewx', 100, 'noteskew', 0, 'orient'}
+	
+	set {628+46.75, 0, 'blurhidden'}
+	set {628+46.75, 90, 'blurangle'}
+	ease{628+46.75,0.5,bounce,0.5,'blur'}
+	ease{628+46.75,0.5,bounce,1,'bluralpha'}
+	set {628+47.25, 1, 'blurhidden'}
+	
+	set {628+46.75, 0, 'scrollhidden'}
+	ease{628+46.75, 0.5,inOutCirc,8,'scrollx'}
+	set {628+47.25, 1, 'scrollhidden'}
+	
+	func{628+47,function() classroom[6]:hidden(1) watashi:hidden(1) projanai:hidden(1) francebreak:hidden(0) francetext:hidden(0) P[1]:y(scy) P[2]:y(scy) end}
+	func{628+47,2,linear,scx+10,scx,function(i) francetext:x(i) end}
+	set {628+47, 220, 'movex', 30, 'mini', 90, 'stealth', 90, 'dark', -30, 'flip', 700, 'drunkspeed', 0, 'tornado', 100, 'reverse', 0, 'skewx', 0, 'noteskew', 2, 'xmod'}
+	
+	set {628+49.25, 0, 'blurhidden'}
+	set {628+49.25, 90, 'blurangle'}
+	ease{628+49.25,0.5,bounce,0.5,'blur'}
+	ease{628+49.25,0.5,bounce,1,'bluralpha'}
+	set {628+49.75, 1, 'blurhidden'}
+	
+	set {628+49.25, 0, 'scrollhidden'}
+	ease{628+49.25, 0.5,inOutCirc,10,'scrollx'}
+	set {628+49.75, 1, 'scrollhidden'}
+	
+	func{628+49.5,function() francebreak:hidden(1) francetext:hidden(1) livingroom[1]:hidden(0) baguette:hidden(0) end}
+	func{628+49.5,6.5,linear,15,-15,function(i) livingroomframe:y(i/1.4) baguette:y(scy+i+20) P[1]:y(scy+i) P[2]:y(scy+i) end}
+	
+	for i = 628+50, 628+54, 2 do
+		func{i,function() livingroom[2]:hidden(0) livingroom[1]:hidden(1) end}
+		func{i+1,function() livingroom[2]:hidden(1) livingroom[1]:hidden(0) end}
+	end
+	
+	set {628+49.5, 0, 'movex', 0, 'stealth', 0, 'dark', 0, 'flip', -300, 'movex0', -300, 'movex1', 330, 'movex2', 330, 'movex3', 120, 'wave'}
+	
+	set {628+55.75, 0, 'blurhidden'}
+	set {628+55.75, 90, 'blurangle'}
+	ease{628+55.75,0.5,bounce,0.5,'blur'}
+	ease{628+55.75,0.5,bounce,1,'bluralpha'}
+	set {628+56.25, 1, 'blurhidden'}
+	
+	set {628+55.75, 0, 'scrollhidden'}
+	ease{628+55.75, 0.5,inOutCirc,12,'scrollx'}
+	set {628+56.25, 1, 'scrollhidden'}
+	
+	func{628+56,function() livingroom[1]:hidden(1) baguette:hidden(1) mabreak:hidden(0) matext:hidden(0) end}
+	func{628+56,1,linear,-3,3,function(i) matext:rotationz(i) end}
+	
+	set {628+56.75, 0, 'blurhidden'}
+	set {628+56.75, 90, 'blurangle'}
+	ease{628+56.75,0.5,bounce,0.5,'blur'}
+	ease{628+56.75,0.5,bounce,1,'bluralpha'}
+	set {628+57.25, 1, 'blurhidden'}
+	
+	set {628+56.75, 0, 'scrollhidden'}
+	ease{628+56.75, 0.5,inOutCirc,14,'scrollx'}
+	set {628+57.25, 1, 'scrollhidden'}
+	
+	func{628+57,function() mabreak:hidden(1) matext:hidden(1) livingroom[3]:hidden(0) margarine:hidden(0) end}
+	
+	func{628+57,7,linear,-15,15,function(i) livingroom[3]:y(scy+i/1.4) P[1]:y(scy+i) P[2]:y(scy+i) margarine:y(scy+i) taberu:y(scy+i) end}
+	
+	set {628+57, 150, 'wave', 0, 'reverse', -70, 'flip', 0, 'brake', 1.4, 'xmod', 0, 'sudden', 0, 'shrinklinear', -200, 'attenuatex', 0, 'movex0', 0, 'movex1', 0, 'movex2', 0, 'movex3'}
+	set {628+57, -50*math.pi, 'confusionoffset0', 100*math.pi, 'confusionoffset2', 50*math.pi, 'confusionoffset3', -100, 'orient', 30, 'tipsy', 700, 'tipsyspeed'}
+	set {628+57, 100, 'stealth', 100, 'shrinklinear', 0, 'wave', 200, 'boost', 100, 'attenuatex', 100, 'dark', plr = 2}
+	ease{628+60, 1.7,linear,0,'stealth', 0, 'dark', plr = 2}
+	ease{628+60, 1.7,linear,100,'stealth', plr = 1}
+	
+	func{628+59.5,function() taberu:hidden(0) end}
+	func{628+59.5,2,linear,1,0,function(i) taberu:cropright(i) taberu:faderight(i/2) end}
+	
+	func{628+57,function()
+		P[1]:SetHiddenRegions{{63,64}}
+		P[2]:SetHiddenRegions{{57,63}}
+	end}
+	
+	ease{628+61.5,1,mixEase(inCirc, outBack),-40,'rotationz', 0, 'flip', 10, 'reverse', 0, 'tipsy'}
+	ease{628+63,1,outElastic.params(1,0.05),-3000, 'tiny', 0, 'drunk', 0, 'reverse', 0, 'drunkspeed', 0, 'tipsyspeed'}
+	
+	func{628+63,function() cover1:hidden(1) cover2:hidden(1) livingroom[3]:hidden(1) margarine:hidden(1) taberu:hidden(1) end}
+
+	reset{692}
+	func{692,function() kasane[1]:hidden(1) kasane[2]:hidden(1) end}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 fluc = 1
 fluc2 = 1
@@ -2912,7 +3348,7 @@ end)"Name=af Type="ActorFrame"><children>
 		<Layer File = "gd/struct.png" Name = "gd_struct"/>
 		<Layer File = "gd/plus.png" Name = "gd_plus"/>
 	</children></Layer>
-	<Layer Type="Sprite" Texture="fire.gif" OnCommand="xy,SCREEN_CENTER_X,SCREEN_CENTER_Y+40;zoomto,SCREEN_WIDTH,SCREEN_HEIGHT;diffuse,0.25,0.25,0.25,1;diffusealpha,0" Name="fire" />
+		<Layer Type="Sprite" Texture="fire.gif" OnCommand="xy,SCREEN_CENTER_X,SCREEN_CENTER_Y+40;zoomto,SCREEN_WIDTH,SCREEN_HEIGHT;diffuse,0.25,0.25,0.25,1;diffusealpha,0" Name="fire" />
 	<Layer Type="ActorFrame" Name="twr_bg" OnCommand="hidden,1" ><children>
 		<Layer File="carousel.png" Name="jevil_carousel" OnCommand="hidden,1" />
 		<Layer Type="Polygon" DrawMode="Quads" Name="jevil_bg" OnCommand="diffuse,1,1,1,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;z,0;spin;effectmagnitude,0,90,0" />
@@ -2961,6 +3397,40 @@ end)"Name=af Type="ActorFrame"><children>
 	<Layer Type = "ActorFrameTexture" InitCommand = "%xero.aft" OnCommand="hidden,1;" Name = "bgfishaft" />
 	<Layer Type = "Sprite" Shader = "woah.frag" InitCommand = "%xero.sprite" OnCommand="hidden,1;" Name = "bgfishsprite" />
 	<Layer File = "char/spam/spamton.png" InitCommand="zoom,SCREEN_HEIGHT*0.0005;hidden,0;xy,SCREEN_CENTER_X*1.2,SCREEN_CENTER_Y*0.5" Name = "spammy" />
+
+	
+	
+	<Layer Type = "Quad" Name="blackbg" />
+	
+	<Layer File = "classroom1" Name="classroom[1]" />
+	<Layer File = "classroom2" Name="classroom[2]" />
+	<Layer File = "classroom3" Name="classroom[3]" />
+	<Layer File = "classroom4" Name="classroom[4]" />
+	<Layer File = "classroom5" Name="classroom[5]" />
+	<Layer File = "lyrics/vocaloid" Name="vocaloid" />
+	<Layer File = "lyrics/teto" Name="teto[1]" />
+	<Layer File = "lyrics/teto" Name="teto[2]" />
+	
+	<Layer Type = "ActorFrame" Name="roomframe"><children>
+		<Layer File = "classroom6" Name="classroom[6]" />
+		<Layer File = "lyrics/watashi" Name="watashi" />
+		<Layer File = "lyrics/projanai" Name="projanai" />
+	</children></Layer>
+	
+	<Layer Type = "ActorFrame" Name="livingroomframe"><children>
+		<Layer File = "livingroom1" Name="livingroom[1]" />
+		<Layer File = "livingroom2" Name="livingroom[2]" />
+	</children></Layer>
+	
+	<Layer File = "livingroom3" Name="livingroom[3]" />
+	
+	<Layer File = "tacto.sprite" Name="tacto" />
+	
+	<Layer File = "break.png" Name="sugoobreak" />
+	<Layer File = "breakfrance.png" Name="francebreak" />
+
+
+
 	<Layer Type = "ActorProxy" Name = "PC[3]" />
 	<Layer Type = "ActorProxy" Name = "PJ[3]" />
 	<Layer Type = "ActorProxy" Name = "PP[3]" />
@@ -2976,6 +3446,33 @@ end)"Name=af Type="ActorFrame"><children>
 		<Layer File = "clock/hand1.png" InitCommand="zoom,SCREEN_HEIGHT*0.0004;hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y" Name = "cl_hand1" />
 		<Layer File = "clock/hand2.png" InitCommand="zoom,SCREEN_HEIGHT*0.0004;hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y" Name = "cl_hand2" />
 	<Layer Type = "ActorProxy" Name = "PP[1]" />
+
+
+	<Layer File = "lyrics/sugoo.png" Name="sugoo" />
+	<Layer File = "lyrics/sugoo2.png" Name="sugoo2" />
+	<Layer File = "lyrics/france.png" Name="francetext" />
+	<Layer File = "lyrics/baguette" Name="baguette" />
+	<Layer File = "lyrics/margarine" Name="margarine" />
+	<Layer File = "lyrics/taberu" Name="taberu" />
+	
+	<Layer File = "lyrics/sensei" Name="sensei" />
+	<Layer File = "lyrics/kasane" Name="kasane[1]" />
+	<Layer File = "lyrics/kasane" Name="kasane[2]" />
+	
+	<Layer File = "anime.mpg" Name="anime" />
+	
+	<Layer File = "breakma.png" Name="mabreak" />
+	<Layer File = "lyrics/ma.png" Name="matext" />
+	
+	<Layer Type = "Quad" Name="cover1" />
+	<Layer Type = "Quad" Name="cover2" />
+	
+	<Layer Type="ActorFrameTexture" InitCommand="%xero.aft" Name="tacaft1" />
+	<Layer Type = "Sprite" Name="sprite1" InitCommand="%xero.sprite" Frag="scroll.frag" />
+	
+	<Layer Type="ActorFrameTexture" InitCommand="%xero.aft" Name="tacaft2" />
+	<Layer Type = "Sprite" Name="sprite2" InitCommand="%xero.sprite" Frag="directionalblur.frag" />
+
 
 	<Layer Type="ActorFrame" Name="ghoulproxies"><children>
 		<Layer Type = "ActorProxy" Name = "ghoulproxy"/>
