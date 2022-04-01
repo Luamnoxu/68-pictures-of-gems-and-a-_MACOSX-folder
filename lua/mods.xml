@@ -2743,11 +2743,11 @@ reset{724}
 		--thinking and couldnt i have made this shorter with an actorframe? 
 		end}
 		func{732,function() DialogueBox:diffusealpha(0.7) end}
-		--func {732, 2, outBack, 0, 100, 'DialogueBox:zoomy'}
-		--func{734,function() textbox[1]:setTextBox(0,30,scx*0.3,scy*1.5,50) textbox[1]:sayThis('Not only did I steal Mods for this,',0.04,'donk.wav') end}
-		--func{742,function() textbox[1]:setTextBox(0,30,scx/2,scy*1.5,50) textbox[1]:sayThis('I also stole Yin-Baos look.',0.04,'donk.wav') end}
-		--func{749,function() textbox[1]:setTextBox(0,30,scx*0.3,scy*1.5,25) textbox[1]:sayThis('And you know what?',0.04,'donk.wav') end}
-		--func{754,function() textbox[1]:setTextBox(0,30,scx*0.6,scy*1.45,21) textbox[1]:sayThis('It looks much better on me than on Yibby.',0.04,'donk.wav') end}
+		func {732, 2, outBack, 0, 100, 'DialogueBox:zoomy'}
+		func{734,function() textbox[1]:setTextBox(0,30,scx*0.3,scy*1.5,50) textbox[1]:sayThis('Not only did I steal Mods for this,',0.04,'donk.wav') end}
+		func{742,function() textbox[1]:setTextBox(0,30,scx/2,scy*1.5,50) textbox[1]:sayThis('I also stole Yin-Baos look.',0.04,'donk.wav') end}
+		func{749,function() textbox[1]:setTextBox(0,30,scx*0.3,scy*1.5,25) textbox[1]:sayThis('And you know what?',0.04,'donk.wav') end}
+		func{754,function() textbox[1]:setTextBox(0,30,scx*0.6,scy*1.45,21) textbox[1]:sayThis('It looks much better on me than on Yibby.',0.04,'donk.wav') end}
 		func {763, 1, inCubic, 1, 0, 'window:diffusealpha'}
 		func {764, 2, outBack, 100, 0, 'DialogueBox:zoomy'}
 		func{767,function() DialogueBox:hidden(1) end}
@@ -3303,9 +3303,12 @@ reset{838+2}
 	
 
 --its my code 
-func {32, 2, outQuad, -140, 0, 'credits:x'}
-func {32+5, 2, outQuad, -0, -140, 'credits:x'}
-func{32+8,function() credits_mayflower:hidden(1) Text_Mayflower:hidden(1) credits_snowy:hidden(0) Text_Snowy:hidden(0) end}
+
+func{36,function() credits_DPS:hidden(0) Text_DPS:hidden(0) end}
+
+func {36, 2, outQuad, -140, 0, 'credits:x'}
+func {36+5, 2, outQuad, -0, -140, 'credits:x'}
+func{36+8,function() credits_DPS:hidden(1) Text_DPS:hidden(1) credits_snowy:hidden(0) Text_Snowy:hidden(0) credits_mayflower:hidden(1) Text_Mayflower:hidden(1) end}
 func {65, 2, outQuad, -140, 0, 'credits:x'}
 func {65+5, 2, outQuad, -0, -140, 'credits:x'}
 
@@ -3352,7 +3355,11 @@ func {350+8,function() credits_mayflower:hidden(1) Text_Mayflower:hidden(1) cred
 
 func {454, 2, outQuad, -140, 0, 'credits:x'}
 func {454+5, 2, outQuad, -0, -140, 'credits:x'}
-func {454+8,function() credits_Rya:hidden(1) Text_Rya:hidden(1) credits_CERiNG:hidden(0) Text_CERiNG:hidden(0) end}
+func {454+8,function() credits_Rya:hidden(1) Text_Rya:hidden(1) credits_mayflower:hidden(0) Text_Mayflower:hidden(0) end}
+
+func {493, 2, outQuad, -140, 0, 'credits:x'}
+func {493+5, 2, outQuad, -0, -140, 'credits:x'}
+func {493+8,function() credits_mayflower:hidden(1) Text_Mayflower:hidden(1) credits_CERiNG:hidden(0) Text_CERiNG:hidden(0) end}
 
 func {555.5, 2, outQuad, -140, 0, 'credits:x'}
 func {555.5+5, 2, outQuad, -0, -140, 'credits:x'}
@@ -3591,7 +3598,7 @@ end)"Name=af Type="ActorFrame"><children>
 	<Layer Type="ActorFrame" Name="credits" InitCommand="hidden,1;x,-10000;"><children>
 	<!-- images are 70px -->
 		<Layer File = "card.png" InitCommand="xy,67.5,SCREEN_CENTER_Y*0.2;diffusealpha,1;zoom,0.5" Name = "credits_bg"/>
-			<Layer Type="BitmapText" File="default" OnCommand="zoom,0.5;xy,80,SCREEN_CENTER_Y*0.175" Name="Text_Mayflower" Text="Mayflower" />
+			<Layer Type="BitmapText" File="default" OnCommand="zoom,0.5;xy,80,SCREEN_CENTER_Y*0.175;hidden,1" Name="Text_Mayflower" Text="Mayflower" />
 			<Layer File = "intro/icons/May.png" InitCommand="xy,17,SCREEN_CENTER_Y*0.2;diffusealpha,1;zoom,0.5;" Name = "credits_mayflower"/>
 			<Layer Type="BitmapText" File="default" OnCommand="zoom,0.5;xy,80,SCREEN_CENTER_Y*0.175;hidden,1;" Name="Text_Snowy" Text="Snowy" />
 			<Layer File = "intro/icons/Snowy.png" InitCommand="xy,17,SCREEN_CENTER_Y*0.2;diffusealpha,1;zoom,0.5;hidden,1;" Name = "credits_snowy"/>
@@ -3617,6 +3624,8 @@ end)"Name=af Type="ActorFrame"><children>
 			<Layer File = "intro/icons/oranger.png" InitCommand="xy,17,SCREEN_CENTER_Y*0.2;diffusealpha,1;zoom,0.5;hidden,1;" Name = "credits_oranger"/>
 			<Layer Type="BitmapText" File="default" OnCommand="zoom,0.5;xy,80,SCREEN_CENTER_Y*0.175;hidden,1;" Name="Text_Hyper" Text="Hyperhero" />
 			<Layer File = "intro/icons/Hyper.png" InitCommand="xy,17,SCREEN_CENTER_Y*0.2;diffusealpha,1;zoom,0.5;hidden,1;" Name = "credits_Hyper"/>
+			<Layer Type="BitmapText" File="default" OnCommand="zoom,0.5;xy,80,SCREEN_CENTER_Y*0.175;hidden,1;" Name="Text_DPS" Text="DPS2004" />
+			<Layer File = "intro/icons/DPS.png" InitCommand="xy,17,SCREEN_CENTER_Y*0.2;diffusealpha,1;zoom,0.5;hidden,1;" Name = "credits_DPS"/>
 	</children></Layer>
 
 
