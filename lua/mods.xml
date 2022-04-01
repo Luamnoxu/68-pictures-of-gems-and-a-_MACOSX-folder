@@ -1805,6 +1805,7 @@ func{256, function() twr_bg:hidden(1) end}
 	--I have no clue how to fix the alt() it is so crusty
 	--readable code not made to be read
 	--i'm surprised this is the only part plagued by random ass issues
+	--the mods and code are good, but the demons inhabiting this file have decided to make this very cursed to include it here. sorry cering, we tried our best
     for the = CERING_OFFSET, CERING_OFFSET+16, 16 do
         local s = -alt(the-CERING_OFFSET, 16)
         ease{the+7.5, 2.5, lin, 250*(320/144), 'centered2'}
@@ -2540,7 +2541,9 @@ func{256, function() twr_bg:hidden(1) end}
 	ease{628+63,1,outElastic.params(1,0.05),-3000, 'tiny', 0, 'drunk', 0, 'reverse', 0, 'drunkspeed', 0, 'tipsyspeed'}
 	
 	func{628+63,function() cover1:hidden(1) cover2:hidden(1) livingroom[3]:hidden(1) margarine:hidden(1) taberu:hidden(1) end}
-
+	
+	set{688, -40, 'drawsize'}
+	
 	reset{692}
 	func{692,function() kasane[1]:hidden(1) kasane[2]:hidden(1) blackbg:hidden(1) end}
 
@@ -2607,7 +2610,7 @@ fluc = 1
 fluc2 = 1
 pi = math.pi
 
-set{693,1, 'xmod', -100, 'spiralholds', 100, 'dizzyholds', 100, 'modtimer', 100, 'stealthpastreceptors', 100, 'stealthtype', 100, 'zbuffer'}
+set{692,1, 'xmod', -100, 'spiralholds', 100, 'dizzyholds', 100, 'modtimer', 100, 'stealthpastreceptors', 100, 'stealthtype', 100, 'zbuffer'}
 	definemod{'cover2', function(a)
 		batman:diffusealpha(a)
 	end}
@@ -2619,14 +2622,14 @@ set{693,1, 'xmod', -100, 'spiralholds', 100, 'dizzyholds', 100, 'modtimer', 100,
         return rx,ry,rz,cx,cy,cz
 	end,'rotationx','rotationy','rotationz','confusionxoffset','confusionyoffset','confusionzoffset'}
 
-	func{0, function()
-		for pn = 1, 2 do
-			P[pn]:x(scx)
-		end
-	end}
+	-- func{0, function()
+		-- for pn = 1, 2 do
+			-- P[pn]:x(scx)
+		-- end
+	-- end}
 
-	set{0+693, 100, 'dark', 1, 'cover2', 25, 'orient', -99, 'bumpyperiod', 10, 'drawsize', -100, 'drunkspeed', 600, 'drunkoffset', -50, 'drunkspacing', -75, 'drunkperiod', 200, 'drunkyspacing', -75, 'drunkyperiod', -100, 'drunkyspeed', 500, 'drunkyoffset', 300, 'zoomz'}
-	ease{0+694, 4, inCubic, 50, 'dark', 1.5, 'xmod'}
+	set{0+692, 50, 'dark', 1, 'cover2', 25, 'orient', -99, 'bumpyperiod', 10, 'drawsize', -100, 'drunkspeed', 600, 'drunkoffset', -50, 'drunkspacing', -75, 'drunkperiod', 200, 'drunkyspacing', -75, 'drunkyperiod', -100, 'drunkyspeed', 500, 'drunkyoffset', 300, 'zoomz', 100, 'centerPlayfields'}
+	ease{0+694, 4, inCubic, 0, 'dark', 1.5, 'xmod'}
 
 
 	local nums = {4+694, 10+694, 16+694, 22+694, 28+694}
@@ -2681,7 +2684,8 @@ set{693,1, 'xmod', -100, 'spiralholds', 100, 'dizzyholds', 100, 'modtimer', 100,
             P[pn]:x(scx*pn-(scx*.5))
         end
     end}
-
+	
+	ease{720.5, 0.5, linear, 50, 'dark'}
 	--reset{31+694}
 
 
@@ -3009,7 +3013,7 @@ plr = {1, 2}
 		-- define custom drawing behavior so we draw playfields furthest away from us first, then closest last, looks a bit cleaner over weird overlapping receptors
 		local draworder = {{}, {}, {}, {}}
 		local sort = function(a, b) return a[1] < b[1] end
-		func {0+790, 32+790, function(beat, poptions)
+		func {1+790, 32+790, function(beat, poptions)
 			for pn = 1, 4 do
 				local poption = poptions[pn]
 				local pz = P[pn]:GetZ()
@@ -3053,7 +3057,7 @@ plr = {1, 2}
 			end
 			stable_sort(draworder, sort)
 		end}
-		{0+790, function()
+		{1+790, function()
 			for pn = 1, 2 do P[pn]:x(scx) end
 			PP[1]:GetParent():SetDrawFunction(function()
 				PC[1]:Draw()
@@ -3215,7 +3219,7 @@ plr = {1, 2}
 	{17+790, 0, instant, 196, 'drawsizepixels'}
 
 	local thingy = {{791+17,0,1}, {791+17.25,2,1}, {791+17.5,1,1}, {791+17.75,3,1}, {791+18,0,1}, {791+18.25,2,1}, {791+18.5,1,1}, {791+18.75,3,1}, {791+19,0,1}, {791+19.25,2,1}, {791+19.5,1,1}, {791+19.75,3,1}, {791+20,0,1}, {791+20.25,2,1}, {791+20.5,1,1}, {791+20.75,3,1}, {791+21,0,1}, {791+21.25,1,1}, {791+21.5,2,1}, {791+21.75,3,1}, {791+22,0,1}, {791+22.25,1,1}, {791+22.5,2,1}, {791+22.75,3,1}, {791+23,0,1}, {791+23.25,1,1}, {791+23.5,2,1}, {791+23.75,3,1}, {791+24,0,1}, {791+24.25,1,1}, {791+24.5,2,1}, {791+24.75,3,1}, {791+25,0,1}, {791+25.25,3,1}, {791+25.5,1,1}, {791+25.75,2,1}, {791+26,0,1}, {791+26.25,3,1}, {791+26.5,1,1}, {791+26.75,2,1}, {791+27,0,1}, {791+27.25,3,1}, {791+27.5,1,1}, {791+27.75,2,1}, {791+28,0,1}, {791+28.25,3,1}, {791+28.5,1,1}, {791+28.75,2,1}, {791+29,0,1}, {791+29.25,3,1}, {791+29.5,2,1}, {791+29.75,1,1}, {791+30,0,1}, {791+30.25,3,1}, {791+30.5,2,1}, {791+30.75,1,1}, {791+31,0,1}, {791+31.5,2,1}}
-
+	-- for pn = 3, 4 do P[pn]:SetNoteDataFromLua(thingy) end -- test that could go horribly wrong :clueless: (it did go horribly wrong)
 	
 
 	set {16+790, -25, 'stealth3'}
@@ -3247,7 +3251,7 @@ plr = {1, 2}
 
 -- the playfield can now die (in a basic fashion)
 -- truly amazing what age we live in
-set{822, 100, 'centerPlayfields'}
+set{822.021, 100, 'centerPlayfields'}
 set{827.125, 100, 'centered', -140, 'y', 25, 'rotationz'}
 add{830, 1.5, bounce, -100, 'y'}
 add{830 + 1.5, 5 - 1.5, linear, 250*5, 'y'}
@@ -3263,7 +3267,7 @@ reset{838+2}
     end}
 	set{838+2,100,'minestealth',100,'stealthpastreceptors',0,'centerPlayfields',20,'arrowpath'}
 	
-	func{838+2,function() P3:SetAwake(true) P3:hidden(0) P4:SetAwake(true) P4:hidden(0) PP[3]:hidden(0) PP[4]:hidden(0) end}
+	func{838+2,function() P3:hidden(0) P4:hidden(0) PP[3]:hidden(0) PP[4]:hidden(0) end}
 	add{838+2, 20, linear, -720, 'rotationz',plr=3}
 	add{838+2, 20, linear, -800, 'rotationz',plr=4}
 	set{838+2,0.01,'bgweesh', 100, 'centered', 20, 'arrowpath', 90, 'fov', 0, 'flip', 100, 'reverse1', 50, 'reverse0', 50, 'reverse3', 100, 'drawsizeback', 50, 'drawsize',  100, 'dark', 100, 'hidenoteflash', plr = {3, 4}}
@@ -3290,7 +3294,7 @@ reset{838+2}
 	ease{846+2, 8, linear, 2, 'xmod', plr = {1,2}}
 	{846+2, 8, outQuad, 0, 'stealth', plr = {1,2}}
 	
-	func{853.875+2,function() GAMESTATE:FinishSong() end}
+	func{853.875+2,function() black:hidden(0) GAMESTATE:FinishSong() end}
 	func{838+2,function() bgfishaft:hidden(0) bgfishsprite:hidden(0) bglitchaft:hidden(0) bglitchsprite:hidden(0) hooohbg:hidden(0) game_over:hidden(1) game_over:x(3278437434*3278327893278932) end}
 --this could probably be made better and quicker but like
 
