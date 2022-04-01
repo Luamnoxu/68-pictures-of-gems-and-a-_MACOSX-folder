@@ -1345,7 +1345,7 @@ func{256, function() twr_bg:hidden(1) end}
 		-- P1:x(scx + 128)
 		-- P2:x(scx - 128)
 	-- end}
-	func{beat, function() fire:diffusealpha(1) end}
+	func{beat, function() fire:diffusealpha(1) sephiroth:hidden(0) end}
 	
 	-- oh god the playfields are approaching
 	ease{beat, 16, linear, -250, 'movez', 5, 'stealth', 10, 'dark'}
@@ -1384,7 +1384,7 @@ func{256, function() twr_bg:hidden(1) end}
 	set{beat+8, 200, 'beat'}
 	set{beat+16, 0, 'beat'}
 	
-	func{340, function() fire:diffusealpha(0) end}
+	func{340, function() fire:diffusealpha(0) sephiroth:hidden(1) end}
 	reset{340}
 	set{340, 100, 'Stealth'}
 	func{340.5,function() walter:hidden(0) walter:diffusealpha(1) end}
@@ -3407,6 +3407,7 @@ end)"Name=af Type="ActorFrame"><children>
 	<Layer File = "walt.png" InitCommand = "stretchto,SCREEN_WIDTH*0.25,SCREEN_HEIGHT*0.25,SCREEN_WIDTH*0.75,SCREEN_HEIGHT*0.75;hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y" Name="walter" />
 	<Layer File = "clock/bg.png" InitCommand="stretchto,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y" Name = "cl_bg" />
 	<Layer File = "damnbone.png" InitCommand = "stretchto,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y" Name="damnbone" />
+	<Layer File = "sephiroth.png" InitCommand = "stretchto,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y;diffuse,0.25,0.25,0.25,1" Name="sephiroth" />
 	<Layer Type = "Quad" Name = "greeenbgbg" InitCommand="hidden,1;stretchto,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y" />
 	<Layer File = "char/fuck/lowtiergod.png" InitCommand = "stretchto,0,0,SCREEN_WIDTH,SCREEN_HEIGHT;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y;hidden,1;diffusealpha,0;" Name="green_bg" />
 	<Layer Type = "ActorFrame" Name = "gd_af"><children>
