@@ -3301,7 +3301,6 @@ reset{838+2}
 	reset{822}
 	func{835, 1, outBack, scy*-1, scy, 'game_over:y'}
 	
-
 --its my code 
 
 func{36,function() credits_DPS:hidden(0) Text_DPS:hidden(0) end}
