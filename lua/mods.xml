@@ -3060,14 +3060,15 @@ plr = {1, 2}
 		{1+790, function()
 			for pn = 1, 2 do P[pn]:x(scx) end
 			PP[1]:GetParent():SetDrawFunction(function()
-				PC[1]:Draw()
-				PC[2]:Draw()
-				PJ[1]:Draw()
-				PJ[2]:Draw()
-				for i, v in ipairs(draworder) do
-					v[2]:Draw()
-				end
-			end)
+                PC[1]:Draw()
+                PC[2]:Draw()
+                PJ[1]:Draw()
+                PJ[2]:Draw()
+                for i, v in ipairs(draworder) do
+                    v[2]:Draw()
+                end
+				credits:Draw()
+            end)
 		end}
 	end
 
@@ -3382,7 +3383,12 @@ func {698+8,function() credits_Sheepy:hidden(1) Text_Sheepy:hidden(1) credits_mo
 
 func {727, 2, outQuad, -140, 0, 'credits:x'}
 func {727+7.5, 3, outQuad, -0, -140, 'credits:x'}
-func {727+12,function() credits_moj:hidden(1) Text_moj:hidden(1) credits_moj:hidden(0) Text_moj:hidden(0) end}
+func {727+12,function() credits_moj:hidden(1) Text_moj:hidden(1) credits_Ky:hidden(0) Text_Ky:hidden(0) end}
+
+func{791,function() credits:diffusealpha(0) credits:hidden(0) end}
+func {791, 2, outQuad, -140, 0, 'credits:x'}
+func {791+7.5, 3, outQuad, -0, -140, 'credits:x'}
+func{0,9999,function() print(credits:GetX()) end}
 
 --func{838,function() batman:hidden(1) greenbgbg:hidden(0) bg_bg:hidden(0) end}
 
@@ -3625,6 +3631,8 @@ end)"Name=af Type="ActorFrame"><children>
 			<Layer File = "intro/icons/Hyper.png" InitCommand="xy,17,SCREEN_CENTER_Y*0.2;diffusealpha,1;zoom,0.5;hidden,1;" Name = "credits_Hyper"/>
 			<Layer Type="BitmapText" File="default" OnCommand="zoom,0.5;xy,80,SCREEN_CENTER_Y*0.175;hidden,1;" Name="Text_DPS" Text="DPS2004" />
 			<Layer File = "intro/icons/DPS.png" InitCommand="xy,17,SCREEN_CENTER_Y*0.2;diffusealpha,1;zoom,0.5;hidden,1;" Name = "credits_DPS"/>
+			<Layer Type="BitmapText" File="default" OnCommand="zoom,0.5;xy,80,SCREEN_CENTER_Y*0.175;hidden,1;" Name="Text_Ky" Text="Ky" />
+			<Layer File = "intro/icons/Ky.png" InitCommand="xy,17,SCREEN_CENTER_Y*0.2;diffusealpha,1;zoom,0.5;hidden,1;" Name = "credits_Ky"/>
 	</children></Layer>
 
 
