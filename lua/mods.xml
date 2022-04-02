@@ -1722,7 +1722,10 @@ func{256, function() twr_bg:hidden(1) end}
         P[pn]:SetFarDist(9999)
         P[pn]:hidden(1)
         PC[pn]:hidden(1)
-        PJ[pn]:hidden(1)
+		-- PJ[pn]:hidden(1)
+
+		PJ[pn]:zoom(0.5)
+		PJ[pn]:y(sh*0.05)
     end
 
 
@@ -3515,8 +3518,6 @@ end)"Name=af Type="ActorFrame"><children>
 	<Layer Type = "ActorProxy" Name = "PP[4]" />
 	<Layer Type = "ActorProxy" Name = "PC[1]" />
 	<Layer Type = "ActorProxy" Name = "PC[2]" />
-	<Layer Type = "ActorProxy" Name = "PJ[1]" />
-	<Layer Type = "ActorProxy" Name = "PJ[2]" />
 	<Layer Type = "ActorProxy" Name = "PP[2]" />
 		<Layer File = "clock/clock3.png" InitCommand="zoom,SCREEN_HEIGHT*0.0007;hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y" Name = "cl_face" />
 		<Layer File = "clock/hand1.png" InitCommand="zoom,SCREEN_HEIGHT*0.0004;hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y" Name = "cl_hand1" />
@@ -3593,7 +3594,10 @@ end)"Name=af Type="ActorFrame"><children>
 	<Layer File = "intro/13.png" InitCommand="hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y*1.25" Name = "credit[13]" />
 	<Layer File = "intro/14.png" InitCommand="hidden,1;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y*1.25" Name = "credit[14]" />
 	<Layer File = "bn1.png" InitCommand="hidden,0;xy,SCREEN_CENTER_X,SCREEN_CENTER_Y*11037;zoom,SCREEN_HEIGHT*0.001" Name = "banner" />
-
+	
+	<Layer Type = "ActorProxy" Name = "PJ[1]" />
+	<Layer Type = "ActorProxy" Name = "PJ[2]" />
+	
 	<Layer Type="ActorFrame" Name="credits" InitCommand="hidden,1;x,-10000;"><children>
 	<!-- images are 70px -->
 		<Layer File = "card.png" InitCommand="xy,67.5,SCREEN_CENTER_Y*0.2;diffusealpha,1;zoom,0.5" Name = "credits_bg"/>
