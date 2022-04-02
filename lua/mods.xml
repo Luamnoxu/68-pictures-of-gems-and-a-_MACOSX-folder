@@ -3388,10 +3388,9 @@ func {727, 2, outQuad, -140, 0, 'credits:x'}
 func {727+7.5, 3, outQuad, -0, -140, 'credits:x'}
 func {727+12,function() credits_moj:hidden(1) Text_moj:hidden(1) credits_Ky:hidden(0) Text_Ky:hidden(0) end}
 
-func{791,function() credits:diffusealpha(0) credits:hidden(0) end}
+func{791,function() credits:diffusealpha(1) credits:hidden(0) end}
 func {791, 2, outQuad, -140, 0, 'credits:x'}
 func {791+7.5, 3, outQuad, -0, -140, 'credits:x'}
-func{0,9999,function() print(credits:GetX()) end}
 
 --func{838,function() batman:hidden(1) greenbgbg:hidden(0) bg_bg:hidden(0) end}
 
