@@ -45,6 +45,8 @@ and Me (mayflower!!!)
 (ignore this list this was my list for scheming from the start)
 POTENTIAL GUESTS/HITLIST
 mrcool
+samario is willing
+mallow wants to fuck about too
 star
 sorae??
 pulll??
